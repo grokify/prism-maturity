@@ -185,3 +185,589 @@ func TestLevelProgress(t *testing.T) {
 		t.Errorf("Expected ~66.67%% progress, got %.2f%%", progress.ProgressPercent)
 	}
 }
+
+func TestXLSXGenerator_NilAssessments(t *testing.T) {
+	// Test that XLSX generation works when assessments are nil
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       1,
+						Name:        "Reactive",
+						Description: "Basic security",
+						Criteria: []Criterion{
+							{
+								ID:         "SEC-001",
+								Name:       "Asset Inventory",
+								MetricName: "asset_coverage",
+								Operator:   "gte",
+								Target:     80,
+							},
+						},
+					},
+				},
+			},
+		},
+		Assessments: nil, // Explicitly nil
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with nil assessments: %v", err)
+	}
+}
+
+func TestXLSXGenerator_EmptyAssessments(t *testing.T) {
+	// Test that XLSX generation works when assessments map is empty
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Operations": {
+				Name: "Operations",
+				Levels: []Level{
+					{
+						Level:       1,
+						Name:        "Reactive",
+						Description: "Basic operations",
+					},
+				},
+			},
+		},
+		Assessments: map[string]*DomainAssessment{}, // Empty map
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with empty assessments: %v", err)
+	}
+}
+
+func TestXLSXGenerator_WithAssessments(t *testing.T) {
+	// Test that XLSX generation works with full assessments
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       1,
+						Name:        "Reactive",
+						Description: "Basic security",
+						Criteria: []Criterion{
+							{
+								ID:         "SEC-001",
+								Name:       "Asset Inventory",
+								MetricName: "asset_coverage",
+								Operator:   "gte",
+								Target:     80,
+							},
+						},
+						Enablers: []Enabler{
+							{
+								ID:   "SEC-E-001",
+								Name: "Deploy asset scanner",
+							},
+						},
+					},
+				},
+			},
+		},
+		Assessments: map[string]*DomainAssessment{
+			"Security": {
+				Domain:       "Security",
+				CurrentLevel: 1,
+				TargetLevel:  3,
+				CriteriaValues: map[string]float64{
+					"SEC-001": 85.0,
+				},
+				EnablerStatus: map[string]string{
+					"SEC-E-001": "completed",
+				},
+			},
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with assessments: %v", err)
+	}
+}
+
+func TestXLSXGenerator_FrameworkColumns(t *testing.T) {
+	// Test that framework columns are collected correctly
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       2,
+						Name:        "Managed",
+						Description: "Managed security",
+						Criteria: []Criterion{
+							{
+								ID:         "SEC-001",
+								Name:       "Asset Inventory",
+								MetricName: "asset_coverage",
+								Operator:   "gte",
+								Target:     80,
+								FrameworkMappings: []FrameworkMapping{
+									{Framework: "NIST_CSF_2", Reference: "ID.AM-1"},
+									{Framework: "NIST_800_53", Reference: "CM-8"},
+								},
+							},
+							{
+								ID:         "SEC-002",
+								Name:       "Vulnerability Scanning",
+								MetricName: "vuln_scan_coverage",
+								Operator:   "gte",
+								Target:     90,
+								FrameworkMappings: []FrameworkMapping{
+									{Framework: "NIST_CSF_2", Reference: "ID.RA-1"},
+									{Framework: "SOC_2", Reference: "CC7.1"},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+
+	// Test collectAllFrameworks
+	frameworks := gen.collectAllFrameworks()
+
+	if len(frameworks) != 3 {
+		t.Errorf("collectAllFrameworks() returned %d frameworks, want 3", len(frameworks))
+	}
+
+	// Should be sorted alphabetically
+	expected := []string{"NIST_800_53", "NIST_CSF_2", "SOC_2"}
+	for i, fw := range expected {
+		if i >= len(frameworks) || frameworks[i] != fw {
+			t.Errorf("frameworks[%d] = %q, want %q", i, frameworks[i], fw)
+		}
+	}
+}
+
+func TestXLSXGenerator_QualitativeCriteria(t *testing.T) {
+	// Test handling of qualitative criteria
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       1,
+						Name:        "Reactive",
+						Description: "Basic security",
+						Criteria: []Criterion{
+							{
+								ID:         "SEC-Q-001",
+								Name:       "Security Policy",
+								MetricName: "security_policy",
+								Type:       "qualitative",
+								Operator:   "exists",
+								Target:     0,
+								Status:     "documented",
+							},
+						},
+					},
+				},
+			},
+		},
+		Assessments: map[string]*DomainAssessment{
+			"Security": {
+				Domain:       "Security",
+				CurrentLevel: 1,
+				TargetLevel:  2,
+				CriteriaStatus: map[string]string{
+					"SEC-Q-001": "implemented",
+				},
+			},
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with qualitative criteria: %v", err)
+	}
+}
+
+func TestXLSXGenerator_FrameworkMappingsSheet(t *testing.T) {
+	// Test that framework mappings sheet is created correctly
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       2,
+						Name:        "Managed",
+						Description: "Managed security",
+						Criteria: []Criterion{
+							{
+								ID:         "SEC-001",
+								Name:       "Asset Inventory",
+								MetricName: "asset_coverage",
+								Operator:   "gte",
+								Target:     80,
+								FrameworkMappings: []FrameworkMapping{
+									{
+										Framework: "NIST_CSF_2",
+										Reference: "ID.AM-1",
+										Name:      "Asset Management",
+										Baseline:  "Low",
+									},
+									{
+										Framework: "FEDRAMP_HIGH",
+										Reference: "CM-8",
+										Name:      "System Component Inventory",
+										Baseline:  "High",
+										Version:   "Rev 5",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed: %v", err)
+	}
+
+	// Verify sheets exist
+	sheets := gen.file.GetSheetList()
+	expectedSheets := []string{"Requirements", "SLOs", "Framework Mappings", "Progress", "Level Definitions"}
+
+	for _, expected := range expectedSheets {
+		found := false
+		for _, sheet := range sheets {
+			if sheet == expected {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("Expected sheet %q not found in %v", expected, sheets)
+		}
+	}
+}
+
+func TestXLSXGenerator_MultipleDomains(t *testing.T) {
+	// Test with multiple domains where some have assessments and some don't
+	spec := &Spec{
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{Level: 1, Name: "Reactive", Description: "Basic"},
+				},
+			},
+			"Operations": {
+				Name: "Operations",
+				Levels: []Level{
+					{Level: 1, Name: "Reactive", Description: "Basic"},
+				},
+			},
+			"Quality": {
+				Name: "Quality",
+				Levels: []Level{
+					{Level: 1, Name: "Reactive", Description: "Basic"},
+				},
+			},
+		},
+		Assessments: map[string]*DomainAssessment{
+			"Security": {
+				Domain:       "Security",
+				CurrentLevel: 2,
+				TargetLevel:  4,
+			},
+			// Operations and Quality have no assessments
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with multiple domains: %v", err)
+	}
+}
+
+func TestXLSXGenerator_SLIResolution(t *testing.T) {
+	// Test that framework mappings are resolved from SLI
+	spec := &Spec{
+		SLIs: map[string]*SLI{
+			"sli-asset-coverage": {
+				ID:         "sli-asset-coverage",
+				Name:       "Asset Coverage",
+				MetricName: "Percentage of assets tracked",
+				Unit:       "%",
+				Type:       CriterionTypeQuantitative,
+				Layer:      "requirements",
+				Category:   "prevention",
+				FrameworkMappings: []FrameworkMapping{
+					{Framework: "NIST_CSF_2", Reference: "ID.AM-1", Name: "Asset Management"},
+					{Framework: "NIST_800_53", Reference: "CM-8", Name: "System Component Inventory"},
+				},
+			},
+			"sli-vuln-scan": {
+				ID:         "sli-vuln-scan",
+				Name:       "Vulnerability Scanning",
+				MetricName: "Vulnerability scan coverage",
+				Unit:       "%",
+				Type:       CriterionTypeQuantitative,
+				FrameworkMappings: []FrameworkMapping{
+					{Framework: "NIST_CSF_2", Reference: "ID.RA-1"},
+					{Framework: "SOC_2", Reference: "CC7.1"},
+				},
+			},
+		},
+		Domains: map[string]*DomainModel{
+			"Security": {
+				Name: "Security",
+				Levels: []Level{
+					{
+						Level:       2,
+						Name:        "Basic",
+						Description: "Basic security",
+						Criteria: []Criterion{
+							{
+								ID:       "SEC-001",
+								Name:     "Asset Inventory M2",
+								SLIID:    "sli-asset-coverage", // Reference to SLI
+								Operator: "gte",
+								Target:   80,
+							},
+							{
+								ID:       "SEC-002",
+								Name:     "Vuln Scan M2",
+								SLIID:    "sli-vuln-scan", // Reference to SLI
+								Operator: "gte",
+								Target:   70,
+							},
+						},
+					},
+					{
+						Level:       3,
+						Name:        "Defined",
+						Description: "Defined security",
+						Criteria: []Criterion{
+							{
+								ID:       "SEC-003",
+								Name:     "Asset Inventory M3",
+								SLIID:    "sli-asset-coverage", // Same SLI, different target
+								Operator: "gte",
+								Target:   90,
+							},
+							{
+								ID:       "SEC-004",
+								Name:     "Vuln Scan M3",
+								SLIID:    "sli-vuln-scan", // Same SLI, different target
+								Operator: "gte",
+								Target:   85,
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	gen := NewXLSXGenerator(spec)
+
+	// Test collectAllFrameworks resolves from SLI
+	frameworks := gen.collectAllFrameworks()
+	if len(frameworks) != 3 {
+		t.Errorf("collectAllFrameworks() returned %d frameworks, want 3", len(frameworks))
+	}
+
+	expected := []string{"NIST_800_53", "NIST_CSF_2", "SOC_2"}
+	for i, fw := range expected {
+		if i >= len(frameworks) || frameworks[i] != fw {
+			t.Errorf("frameworks[%d] = %q, want %q", i, frameworks[i], fw)
+		}
+	}
+
+	// Test that generation succeeds
+	err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Generate() failed with SLI references: %v", err)
+	}
+
+	// Verify sheets exist
+	sheets := gen.file.GetSheetList()
+	expectedSheets := []string{"Requirements", "SLOs", "Framework Mappings", "Progress", "Level Definitions"}
+
+	for _, expected := range expectedSheets {
+		found := false
+		for _, sheet := range sheets {
+			if sheet == expected {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Errorf("Expected sheet %q not found in %v", expected, sheets)
+		}
+	}
+}
+
+func TestCriterion_GetFrameworkMappings(t *testing.T) {
+	// Test GetFrameworkMappings resolution logic
+	sli := &SLI{
+		ID:   "test-sli",
+		Name: "Test SLI",
+		FrameworkMappings: []FrameworkMapping{
+			{Framework: "NIST_CSF_2", Reference: "ID.AM-1"},
+		},
+	}
+
+	spec := &Spec{
+		SLIs: map[string]*SLI{
+			"test-sli": sli,
+		},
+	}
+
+	t.Run("inline mappings take precedence", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c1",
+			SLIID: "test-sli",
+			FrameworkMappings: []FrameworkMapping{
+				{Framework: "SOC_2", Reference: "CC1.1"},
+			},
+		}
+
+		mappings := c.GetFrameworkMappings(spec)
+		if len(mappings) != 1 {
+			t.Fatalf("expected 1 mapping, got %d", len(mappings))
+		}
+		if mappings[0].Framework != "SOC_2" {
+			t.Errorf("expected SOC_2, got %s", mappings[0].Framework)
+		}
+	})
+
+	t.Run("resolve from SLI when no inline mappings", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+			// No inline FrameworkMappings
+		}
+
+		mappings := c.GetFrameworkMappings(spec)
+		if len(mappings) != 1 {
+			t.Fatalf("expected 1 mapping from SLI, got %d", len(mappings))
+		}
+		if mappings[0].Framework != "NIST_CSF_2" {
+			t.Errorf("expected NIST_CSF_2, got %s", mappings[0].Framework)
+		}
+	})
+
+	t.Run("nil when no SLI and no inline mappings", func(t *testing.T) {
+		c := Criterion{
+			ID: "c3",
+			// No SLIID, no inline FrameworkMappings
+		}
+
+		mappings := c.GetFrameworkMappings(spec)
+		if mappings != nil {
+			t.Errorf("expected nil, got %v", mappings)
+		}
+	})
+}
+
+func TestCriterion_GetMetricName(t *testing.T) {
+	sli := &SLI{
+		ID:         "test-sli",
+		MetricName: "SLI Metric Name",
+		Unit:       "%",
+		Type:       CriterionTypeQualitative,
+		Layer:      "code",
+		Category:   "detection",
+	}
+
+	spec := &Spec{
+		SLIs: map[string]*SLI{
+			"test-sli": sli,
+		},
+	}
+
+	t.Run("inline metric name takes precedence", func(t *testing.T) {
+		c := Criterion{
+			ID:         "c1",
+			SLIID:      "test-sli",
+			MetricName: "Inline Metric",
+		}
+
+		if got := c.GetMetricName(spec); got != "Inline Metric" {
+			t.Errorf("expected 'Inline Metric', got %q", got)
+		}
+	})
+
+	t.Run("resolve from SLI", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+		}
+
+		if got := c.GetMetricName(spec); got != "SLI Metric Name" {
+			t.Errorf("expected 'SLI Metric Name', got %q", got)
+		}
+	})
+
+	t.Run("resolve unit from SLI", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+		}
+
+		if got := c.GetUnit(spec); got != "%" {
+			t.Errorf("expected '%%', got %q", got)
+		}
+	})
+
+	t.Run("resolve type from SLI", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+		}
+
+		if got := c.GetType(spec); got != CriterionTypeQualitative {
+			t.Errorf("expected 'qualitative', got %q", got)
+		}
+	})
+
+	t.Run("resolve layer from SLI", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+		}
+
+		if got := c.GetLayer(spec); got != "code" {
+			t.Errorf("expected 'code', got %q", got)
+		}
+	})
+
+	t.Run("resolve category from SLI", func(t *testing.T) {
+		c := Criterion{
+			ID:    "c2",
+			SLIID: "test-sli",
+		}
+
+		if got := c.GetCategory(spec); got != "detection" {
+			t.Errorf("expected 'detection', got %q", got)
+		}
+	})
+}

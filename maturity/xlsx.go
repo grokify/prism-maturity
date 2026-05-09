@@ -34,6 +34,10 @@ func (g *XLSXGenerator) Generate() error {
 		return fmt.Errorf("failed to create SLOs sheet: %w", err)
 	}
 
+	if err := g.createFrameworkMappingsSheet(); err != nil {
+		return fmt.Errorf("failed to create framework mappings sheet: %w", err)
+	}
+
 	if err := g.createProgressSheet(); err != nil {
 		return fmt.Errorf("failed to create progress sheet: %w", err)
 	}
@@ -139,7 +143,7 @@ func (g *XLSXGenerator) createRequirementsSheet() error {
 	return nil
 }
 
-// createSLOsSheet creates the SLOs (Criteria) sheet.
+// createSLOsSheet creates the SLOs (Criteria) sheet with framework columns.
 func (g *XLSXGenerator) createSLOsSheet() error {
 	sheetName := "SLOs"
 	_, err := g.file.NewSheet(sheetName)
@@ -147,10 +151,17 @@ func (g *XLSXGenerator) createSLOsSheet() error {
 		return err
 	}
 
-	// Headers
+	// Collect all unique frameworks across all criteria (sorted alphabetically)
+	frameworks := g.collectAllFrameworks()
+
+	// Headers - base columns plus framework columns
 	headers := []string{
-		"ID", "Domain", "Level", "Name", "Metric", "Operator",
+		"ID", "Domain", "Level", "Name", "Metric", "Type", "Operator",
 		"Target", "Unit", "Current", "Met", "Layer", "Category", "Required",
+	}
+	// Add framework columns
+	for _, fw := range frameworks {
+		headers = append(headers, fw)
 	}
 
 	for i, h := range headers {
@@ -164,7 +175,8 @@ func (g *XLSXGenerator) createSLOsSheet() error {
 		Fill:      excelize.Fill{Type: "pattern", Color: []string{"548235"}, Pattern: 1},
 		Alignment: &excelize.Alignment{Horizontal: "center"},
 	})
-	g.setCellStyle(sheetName, "A1", "M1", headerStyle)
+	endHeaderCell, _ := excelize.CoordinatesToCellName(len(headers), 1)
+	g.setCellStyle(sheetName, "A1", endHeaderCell, headerStyle)
 
 	// Data rows
 	row := 2
@@ -172,7 +184,12 @@ func (g *XLSXGenerator) createSLOsSheet() error {
 
 	for _, domainName := range domainNames {
 		domain := g.spec.Domains[domainName]
-		assessment := g.spec.Assessments[domainName]
+
+		// Get assessment for domain (may be nil)
+		var assessment *DomainAssessment
+		if g.spec.Assessments != nil {
+			assessment = g.spec.Assessments[domainName]
+		}
 
 		for _, level := range domain.Levels {
 			for _, c := range level.Criteria {
@@ -180,42 +197,84 @@ func (g *XLSXGenerator) createSLOsSheet() error {
 				g.setCellValue(sheetName, fmt.Sprintf("B%d", row), domainName)
 				g.setCellValue(sheetName, fmt.Sprintf("C%d", row), fmt.Sprintf("M%d", level.Level))
 				g.setCellValue(sheetName, fmt.Sprintf("D%d", row), c.Name)
-				g.setCellValue(sheetName, fmt.Sprintf("E%d", row), c.MetricName)
-				g.setCellValue(sheetName, fmt.Sprintf("F%d", row), OperatorSymbol(c.Operator))
-				g.setCellValue(sheetName, fmt.Sprintf("G%d", row), c.Target)
-				g.setCellValue(sheetName, fmt.Sprintf("H%d", row), c.Unit)
+				g.setCellValue(sheetName, fmt.Sprintf("E%d", row), c.GetMetricName(g.spec))
 
-				// Get current value from assessment
-				var current float64
-				var isMet bool
-				if assessment.CriteriaValues != nil {
-					if v, ok := assessment.CriteriaValues[c.ID]; ok {
-						current = v
-						isMet = c.CheckMet(current)
-					}
+				// Type column - Quantitative or Qualitative (resolve from SLI)
+				isQual := c.IsQualitativeWithSpec(g.spec)
+				criterionType := "Quantitative"
+				if isQual {
+					criterionType = "Qualitative"
+				}
+				g.setCellValue(sheetName, fmt.Sprintf("F%d", row), criterionType)
+
+				g.setCellValue(sheetName, fmt.Sprintf("G%d", row), OperatorSymbol(c.Operator))
+
+				// Target - different display for qualitative
+				if isQual {
+					g.setCellValue(sheetName, fmt.Sprintf("H%d", row), "Tracked")
+				} else {
+					g.setCellValue(sheetName, fmt.Sprintf("H%d", row), c.Target)
 				}
 
-				g.setCellValue(sheetName, fmt.Sprintf("I%d", row), current)
+				g.setCellValue(sheetName, fmt.Sprintf("I%d", row), c.GetUnit(g.spec))
+
+				// Get current value/status from assessment
+				var isMet bool
+				if isQual {
+					// For qualitative, check if status is set
+					status := c.Status
+					if assessment != nil && assessment.CriteriaStatus != nil {
+						if s, ok := assessment.CriteriaStatus[c.ID]; ok {
+							status = s
+						}
+					}
+					isMet = IsQualitativeStatusMet(status)
+					g.setCellValue(sheetName, fmt.Sprintf("J%d", row), formatQualitativeStatus(status))
+				} else {
+					// For quantitative, use numeric value
+					var current float64
+					if assessment != nil && assessment.CriteriaValues != nil {
+						if v, ok := assessment.CriteriaValues[c.ID]; ok {
+							current = v
+							isMet = c.CheckMet(current)
+						}
+					}
+					g.setCellValue(sheetName, fmt.Sprintf("J%d", row), current)
+				}
 
 				metStatus := "No"
 				if isMet {
 					metStatus = "Yes"
 				}
-				g.setCellValue(sheetName, fmt.Sprintf("J%d", row), metStatus)
+				g.setCellValue(sheetName, fmt.Sprintf("K%d", row), metStatus)
 
-				g.setCellValue(sheetName, fmt.Sprintf("K%d", row), c.Layer)
-				g.setCellValue(sheetName, fmt.Sprintf("L%d", row), c.Category)
+				g.setCellValue(sheetName, fmt.Sprintf("L%d", row), c.GetLayer(g.spec))
+				g.setCellValue(sheetName, fmt.Sprintf("M%d", row), c.GetCategory(g.spec))
 
 				required := "Yes"
 				if !c.Required && c.Weight > 0 {
 					required = "No"
 				}
-				g.setCellValue(sheetName, fmt.Sprintf("M%d", row), required)
+				g.setCellValue(sheetName, fmt.Sprintf("N%d", row), required)
 
 				// Color code met status
 				metStyle := g.metStyle(isMet)
 				if metStyle != 0 {
-					g.setCellStyle(sheetName, fmt.Sprintf("J%d", row), fmt.Sprintf("J%d", row), metStyle)
+					g.setCellStyle(sheetName, fmt.Sprintf("K%d", row), fmt.Sprintf("K%d", row), metStyle)
+				}
+
+				// Framework columns - show control reference if mapped (resolve from SLI)
+				frameworkRefs := make(map[string]string)
+				for _, fm := range c.GetFrameworkMappings(g.spec) {
+					frameworkRefs[fm.Framework] = fm.Reference
+				}
+				for i, fw := range frameworks {
+					col, _ := excelize.CoordinatesToCellName(15+i, row) // Column O onwards
+					if ref, ok := frameworkRefs[fw]; ok {
+						g.setCellValue(sheetName, col, ref)
+					} else {
+						g.setCellValue(sheetName, col, "-")
+					}
 				}
 
 				row++
@@ -225,17 +284,170 @@ func (g *XLSXGenerator) createSLOsSheet() error {
 
 	// Set column widths
 	colWidths := map[string]float64{
-		"A": 25, "B": 12, "C": 8, "D": 30, "E": 35, "F": 10,
-		"G": 10, "H": 10, "I": 10, "J": 8, "K": 12, "L": 12, "M": 10,
+		"A": 25, "B": 12, "C": 8, "D": 30, "E": 35, "F": 12,
+		"G": 10, "H": 12, "I": 10, "J": 12, "K": 8, "L": 12, "M": 12, "N": 10,
+	}
+	for col, width := range colWidths {
+		g.setColWidth(sheetName, col, col, width)
+	}
+	// Set framework column widths
+	for i := range frameworks {
+		col, _ := excelize.ColumnNumberToName(15 + i)
+		g.setColWidth(sheetName, col, col, 15)
+	}
+
+	// Auto filter
+	endFilterCell, _ := excelize.CoordinatesToCellName(len(headers), 1)
+	g.setAutoFilter(sheetName, "A1:"+endFilterCell)
+
+	return nil
+}
+
+// collectAllFrameworks returns all unique frameworks across all criteria, sorted alphabetically.
+// Resolves framework mappings from both inline criterion mappings and referenced SLIs.
+func (g *XLSXGenerator) collectAllFrameworks() []string {
+	frameworkSet := make(map[string]bool)
+
+	for _, domain := range g.spec.Domains {
+		for _, level := range domain.Levels {
+			for _, c := range level.Criteria {
+				// Use GetFrameworkMappings to resolve from SLI if needed
+				for _, fm := range c.GetFrameworkMappings(g.spec) {
+					frameworkSet[fm.Framework] = true
+				}
+			}
+		}
+	}
+
+	var frameworks []string
+	for fw := range frameworkSet {
+		frameworks = append(frameworks, fw)
+	}
+	sort.Strings(frameworks)
+	return frameworks
+}
+
+// createFrameworkMappingsSheet creates a detailed Framework Mappings sheet (Option 4).
+func (g *XLSXGenerator) createFrameworkMappingsSheet() error {
+	sheetName := "Framework Mappings"
+	_, err := g.file.NewSheet(sheetName)
+	if err != nil {
+		return err
+	}
+
+	// Headers
+	headers := []string{
+		"SLO ID", "SLO Name", "Domain", "Level", "Framework", "Reference",
+		"Control Name", "Baseline", "Version", "Status",
+	}
+
+	for i, h := range headers {
+		cell, _ := excelize.CoordinatesToCellName(i+1, 1)
+		g.setCellValue(sheetName, cell, h)
+	}
+
+	// Style header row
+	headerStyle, _ := g.file.NewStyle(&excelize.Style{
+		Font:      &excelize.Font{Bold: true, Color: "FFFFFF"},
+		Fill:      excelize.Fill{Type: "pattern", Color: []string{"7030A0"}, Pattern: 1},
+		Alignment: &excelize.Alignment{Horizontal: "center"},
+	})
+	g.setCellStyle(sheetName, "A1", "J1", headerStyle)
+
+	// Data rows - one row per SLO-framework mapping
+	row := 2
+	domainNames := g.sortedDomainNames()
+
+	for _, domainName := range domainNames {
+		domain := g.spec.Domains[domainName]
+
+		// Get assessment for domain (may be nil)
+		var assessment *DomainAssessment
+		if g.spec.Assessments != nil {
+			assessment = g.spec.Assessments[domainName]
+		}
+
+		for _, level := range domain.Levels {
+			for _, c := range level.Criteria {
+				// Get framework mappings (resolve from SLI if needed)
+				frameworkMappings := c.GetFrameworkMappings(g.spec)
+				if len(frameworkMappings) == 0 {
+					continue
+				}
+
+				// Determine status
+				var isMet bool
+				if c.IsQualitativeWithSpec(g.spec) {
+					status := c.Status
+					if assessment != nil && assessment.CriteriaStatus != nil {
+						if s, ok := assessment.CriteriaStatus[c.ID]; ok {
+							status = s
+						}
+					}
+					isMet = IsQualitativeStatusMet(status)
+				} else if assessment != nil && assessment.CriteriaValues != nil {
+					if v, ok := assessment.CriteriaValues[c.ID]; ok {
+						isMet = c.CheckMet(v)
+					}
+				}
+
+				metStatus := "Pending"
+				if isMet {
+					metStatus = "Met"
+				}
+
+				// Create a row for each framework mapping
+				for _, fm := range frameworkMappings {
+					g.setCellValue(sheetName, fmt.Sprintf("A%d", row), c.ID)
+					g.setCellValue(sheetName, fmt.Sprintf("B%d", row), c.Name)
+					g.setCellValue(sheetName, fmt.Sprintf("C%d", row), domainName)
+					g.setCellValue(sheetName, fmt.Sprintf("D%d", row), fmt.Sprintf("M%d", level.Level))
+					g.setCellValue(sheetName, fmt.Sprintf("E%d", row), fm.Framework)
+					g.setCellValue(sheetName, fmt.Sprintf("F%d", row), fm.Reference)
+					g.setCellValue(sheetName, fmt.Sprintf("G%d", row), fm.Name)
+					g.setCellValue(sheetName, fmt.Sprintf("H%d", row), fm.Baseline)
+					g.setCellValue(sheetName, fmt.Sprintf("I%d", row), fm.Version)
+					g.setCellValue(sheetName, fmt.Sprintf("J%d", row), metStatus)
+
+					// Color code status
+					statusStyle := g.frameworkStatusStyle(isMet)
+					if statusStyle != 0 {
+						g.setCellStyle(sheetName, fmt.Sprintf("J%d", row), fmt.Sprintf("J%d", row), statusStyle)
+					}
+
+					row++
+				}
+			}
+		}
+	}
+
+	// Set column widths
+	colWidths := map[string]float64{
+		"A": 25, "B": 30, "C": 12, "D": 8, "E": 15, "F": 15,
+		"G": 35, "H": 12, "I": 10, "J": 10,
 	}
 	for col, width := range colWidths {
 		g.setColWidth(sheetName, col, col, width)
 	}
 
 	// Auto filter
-	g.setAutoFilter(sheetName, "A1:M1")
+	g.setAutoFilter(sheetName, "A1:J1")
 
 	return nil
+}
+
+func (g *XLSXGenerator) frameworkStatusStyle(isMet bool) int {
+	var color string
+	if isMet {
+		color = "C6EFCE" // Green
+	} else {
+		color = "FFEB9C" // Yellow (pending)
+	}
+
+	style, _ := g.file.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{Type: "pattern", Color: []string{color}, Pattern: 1},
+	})
+	return style
 }
 
 // createProgressSheet creates the Progress Summary sheet.
@@ -272,11 +484,23 @@ func (g *XLSXGenerator) createProgressSheet() error {
 
 	for _, domainName := range domainNames {
 		domain := g.spec.Domains[domainName]
-		assessment := g.spec.Assessments[domainName]
+
+		// Get assessment for domain (may be nil)
+		var assessment *DomainAssessment
+		if g.spec.Assessments != nil {
+			assessment = g.spec.Assessments[domainName]
+		}
 
 		g.setCellValue(sheetName, fmt.Sprintf("A%d", row), domain.Name)
-		g.setCellValue(sheetName, fmt.Sprintf("B%d", row), fmt.Sprintf("M%d", assessment.CurrentLevel))
-		g.setCellValue(sheetName, fmt.Sprintf("C%d", row), fmt.Sprintf("M%d", assessment.TargetLevel))
+
+		// Show current/target levels if assessment exists
+		if assessment != nil {
+			g.setCellValue(sheetName, fmt.Sprintf("B%d", row), fmt.Sprintf("M%d", assessment.CurrentLevel))
+			g.setCellValue(sheetName, fmt.Sprintf("C%d", row), fmt.Sprintf("M%d", assessment.TargetLevel))
+		} else {
+			g.setCellValue(sheetName, fmt.Sprintf("B%d", row), "-")
+			g.setCellValue(sheetName, fmt.Sprintf("C%d", row), "-")
+		}
 
 		// Calculate progress for each level
 		for level := 2; level <= 5; level++ {
@@ -288,7 +512,14 @@ func (g *XLSXGenerator) createProgressSheet() error {
 				continue
 			}
 
-			progress := levelDef.CalculateLevelProgress(assessment.CriteriaValues, assessment.EnablerStatus)
+			var criteriaValues map[string]float64
+			var enablerStatus map[string]string
+			if assessment != nil {
+				criteriaValues = assessment.CriteriaValues
+				enablerStatus = assessment.EnablerStatus
+			}
+
+			progress := levelDef.CalculateLevelProgress(criteriaValues, enablerStatus)
 			g.setCellValue(sheetName, col, fmt.Sprintf("%.0f%%", progress.ProgressPercent))
 
 			// Color code based on progress
@@ -299,13 +530,16 @@ func (g *XLSXGenerator) createProgressSheet() error {
 		}
 
 		// Next actions: list incomplete enablers for next level
-		nextLevel := assessment.CurrentLevel + 1
+		nextLevel := 1
+		if assessment != nil {
+			nextLevel = assessment.CurrentLevel + 1
+		}
 		if nextLevel <= 5 {
 			enablers := domain.EnablersForLevel(nextLevel)
 			var nextActions []string
 			for _, e := range enablers {
 				status := StatusNotStarted
-				if assessment.EnablerStatus != nil {
+				if assessment != nil && assessment.EnablerStatus != nil {
 					if s, ok := assessment.EnablerStatus[e.ID]; ok {
 						status = s
 					}
@@ -598,7 +832,7 @@ func buildRequirementsFrame(spec *Spec) (*omniframe.Frame, error) {
 
 func buildSLOsFrame(spec *Spec) (*omniframe.Frame, error) {
 	columns := []string{
-		"ID", "Domain", "Level", "Name", "Metric", "Operator",
+		"ID", "Domain", "Level", "Name", "Metric", "Type", "Operator",
 		"Target", "Unit", "Current", "Met", "Layer", "Category", "Required",
 	}
 
@@ -611,13 +845,42 @@ func buildSLOsFrame(spec *Spec) (*omniframe.Frame, error) {
 
 		for _, level := range domain.Levels {
 			for _, c := range level.Criteria {
-				var current float64
+				// Determine type (resolve from SLI if needed)
+				isQual := c.IsQualitativeWithSpec(spec)
+				criterionType := "Quantitative"
+				if isQual {
+					criterionType = "Qualitative"
+				}
+
+				// Determine target display
+				var targetDisplay any
+				if isQual {
+					targetDisplay = "Tracked"
+				} else {
+					targetDisplay = c.Target
+				}
+
+				// Get current value/status
+				var currentDisplay any
 				var isMet bool
-				if assessment.CriteriaValues != nil {
-					if v, ok := assessment.CriteriaValues[c.ID]; ok {
-						current = v
-						isMet = c.CheckMet(current)
+				if isQual {
+					status := c.Status
+					if assessment != nil && assessment.CriteriaStatus != nil {
+						if s, ok := assessment.CriteriaStatus[c.ID]; ok {
+							status = s
+						}
 					}
+					isMet = IsQualitativeStatusMet(status)
+					currentDisplay = formatQualitativeStatus(status)
+				} else {
+					var current float64
+					if assessment != nil && assessment.CriteriaValues != nil {
+						if v, ok := assessment.CriteriaValues[c.ID]; ok {
+							current = v
+							isMet = c.CheckMet(current)
+						}
+					}
+					currentDisplay = current
 				}
 
 				metStatus := "No"
@@ -635,14 +898,15 @@ func buildSLOsFrame(spec *Spec) (*omniframe.Frame, error) {
 					domainName,
 					fmt.Sprintf("M%d", level.Level),
 					c.Name,
-					c.MetricName,
+					c.GetMetricName(spec),
+					criterionType,
 					OperatorSymbol(c.Operator),
-					c.Target,
-					c.Unit,
-					current,
+					targetDisplay,
+					c.GetUnit(spec),
+					currentDisplay,
 					metStatus,
-					c.Layer,
-					c.Category,
+					c.GetLayer(spec),
+					c.GetCategory(spec),
 					required,
 				})
 			}
@@ -657,6 +921,7 @@ func buildSLOsFrame(spec *Spec) (*omniframe.Frame, error) {
 	_ = frame.SetColumnWidth("ID", 25)
 	_ = frame.SetColumnWidth("Name", 30)
 	_ = frame.SetColumnWidth("Metric", 35)
+	_ = frame.SetColumnWidth("Type", 12)
 
 	return frame, nil
 }
