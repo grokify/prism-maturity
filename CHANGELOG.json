@@ -7,6 +7,57 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.4.0",
+      "date": "2026-05-09",
+      "highlights": [
+        { "description": "SLI (Service Level Indicator) type for defining metrics with framework mappings once" },
+        { "description": "SLI Catalog in Markdown reports showing metrics grouped by category" },
+        { "description": "Expanded framework support: NIST CSF 2.0, FedRAMP baselines, SOC 2, ISO 27001, CIS Controls" },
+        { "description": "TypeScript/Zod schema for web viewer component" },
+        { "description": "Formal PRD documentation with project vision and design decisions" }
+      ],
+      "added": [
+        { "description": "SLI type with framework mappings defined at metric level", "commit": "c8e72b5" },
+        { "description": "SLI Catalog section in Markdown reports grouped by category", "commit": "b277766" },
+        { "description": "Criterion.GetSLI(), GetFrameworkMappings(), GetMetricName() resolver methods", "commit": "c8e72b5" },
+        { "description": "`prism maturity report` command for Markdown generation", "commit": "b277766" },
+        { "description": "`prism maturity xlsx` command for Excel export", "commit": "dbce1ba" },
+        { "description": "TypeScript/Zod schema for maturity specifications", "commit": "f251ed8" },
+        { "description": "fileutil.ReplaceExtension() utility function", "commit": "19d395e" },
+        { "description": "NIST CSF 2.0, NIST RMF, NIST AI RMF, NIST 800-171 framework constants", "commit": "531b527" },
+        { "description": "FedRAMP High/Moderate/Low baseline constants", "commit": "531b527" },
+        { "description": "CIS Controls, SOC 2, ISO 27001 framework constants", "commit": "531b527" },
+        { "description": "FormatFrameworkName() helper for human-readable framework names", "commit": "531b527" }
+      ],
+      "changed": [
+        { "description": "Criterion now references SLI via sliId field for framework mappings", "commit": "c8e72b5" },
+        { "description": "Layer and Category removed from Criterion (now SLI-only)", "commit": "c8e72b5" },
+        { "description": "KPIThresholds marked as deprecated in favor of SLIs", "commit": "c8e72b5" },
+        { "description": "XLSX export uses SLI resolver methods for framework columns", "commit": "dbce1ba" }
+      ],
+      "documentation": [
+        { "description": "docs/design/core/PRD.md with project vision, design decisions, ISO 25010 alignment", "commit": "9a937cc" },
+        { "description": "SLI vs SLO architecture explanation in schema/slos.md", "commit": "eb89fe2" },
+        { "description": "SLI Catalog section documented in cli/maturity-report.md", "commit": "eb89fe2" },
+        { "description": "Framework mappings documentation updated for SLI-level mappings", "commit": "eb89fe2" },
+        { "description": "README updated with maturity commands and expanded framework table", "commit": "f84eea5" },
+        { "description": "IDEATION_CHAT.md converted to formal documentation", "commit": "9a937cc" }
+      ],
+      "tests": [
+        { "description": "SLI Catalog generation tests", "commit": "b277766" },
+        { "description": "SLI resolution and nil safety tests for XLSX export", "commit": "dbce1ba" },
+        { "description": "Cross-platform stdout capture tests using oscompat/testutil", "commit": "91f6b94" }
+      ],
+      "fixed": [
+        { "description": "Test hangs on Windows fixed with oscompat/testutil.CaptureStdout", "commit": "91f6b94" }
+      ],
+      "infrastructure": [
+        { "description": "Regenerated maturity JSON schema with SLI type", "commit": "12f866a" },
+        { "description": "Updated dependencies: oscompat v0.3.0, buger/jsonparser v1.2.0", "commit": "a409f27" },
+        { "description": ".gitignore updated for node_modules and dist directories", "commit": "f251ed8" }
+      ]
+    },
+    {
       "version": "v0.3.0",
       "date": "2026-04-26",
       "highlights": [
