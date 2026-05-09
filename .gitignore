@@ -25,3 +25,8 @@ TASKS.md
 
 # Generated files
 *.xlsx
+
+# Node.js
+node_modules/
+dist/
+*.tgz

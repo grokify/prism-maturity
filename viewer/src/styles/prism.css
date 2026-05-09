@@ -1,0 +1,304 @@
+/**
+ * PRISM Maturity Viewer Styles
+ *
+ * Minimal CSS for rendering maturity specifications.
+ * Designed to be customizable and theme-compatible.
+ */
+
+/* Container styles */
+.prism-domain-view,
+.prism-framework-view {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Headings */
+.prism-domain-view h2,
+.prism-framework-view h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.prism-domain-view h3,
+.prism-framework-view h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #374151;
+}
+
+.prism-domain-view h4,
+.prism-framework-view h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.prism-domain-view h5,
+.prism-framework-view h5 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #6b7280;
+}
+
+/* Sections */
+.prism-domain,
+.prism-framework {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+/* Level styling */
+.prism-level {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.375rem;
+  border-left: 4px solid #d1d5db;
+}
+
+.prism-level-current {
+  border-left-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.prism-level-achieved {
+  border-left-color: #10b981;
+}
+
+/* Assessment summary */
+.prism-assessment-summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.prism-current-level {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.prism-target-level {
+  color: #6b7280;
+}
+
+/* Tables */
+.prism-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+
+.prism-table th,
+.prism-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.prism-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.prism-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Criterion status */
+.prism-criterion-met {
+  background: #f0fdf4;
+}
+
+.prism-criterion-met:hover {
+  background: #dcfce7;
+}
+
+.prism-criterion-pending {
+  background: #fefce8;
+}
+
+.prism-criterion-pending:hover {
+  background: #fef9c3;
+}
+
+/* Code styling */
+.prism-table code {
+  padding: 0.125rem 0.375rem;
+  background: #e5e7eb;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  font-size: 0.8125rem;
+}
+
+/* Details/expandable */
+.prism-criterion-details {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #fafafa;
+  border-radius: 0.25rem;
+}
+
+.prism-criterion-details summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+}
+
+.prism-criterion-details[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.prism-criterion-details ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.prism-criterion-details li {
+  margin: 0.25rem 0;
+}
+
+/* Coverage summary */
+.prism-framework-coverage {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f0f9ff;
+  border-radius: 0.375rem;
+  border: 1px solid #bae6fd;
+  font-size: 0.875rem;
+}
+
+/* Description text */
+.prism-domain-description,
+.prism-level-description {
+  color: #6b7280;
+  margin: 0.5rem 0;
+}
+
+/* Criteria and enablers sections */
+.prism-criteria,
+.prism-enablers {
+  margin: 1rem 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .prism-domain-view,
+  .prism-framework-view {
+    color: #e5e7eb;
+    background: #111827;
+  }
+
+  .prism-domain-view h2,
+  .prism-framework-view h2 {
+    border-bottom-color: #374151;
+  }
+
+  .prism-domain-view h3,
+  .prism-framework-view h3 {
+    color: #d1d5db;
+  }
+
+  .prism-domain-view h4,
+  .prism-framework-view h4 {
+    color: #9ca3af;
+  }
+
+  .prism-domain,
+  .prism-framework {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .prism-level {
+    background: #111827;
+    border-left-color: #4b5563;
+  }
+
+  .prism-level-current {
+    background: #1e3a5f;
+    border-left-color: #60a5fa;
+  }
+
+  .prism-level-achieved {
+    border-left-color: #34d399;
+  }
+
+  .prism-assessment-summary {
+    background: #111827;
+  }
+
+  .prism-table th {
+    background: #374151;
+    color: #e5e7eb;
+  }
+
+  .prism-table th,
+  .prism-table td {
+    border-bottom-color: #374151;
+  }
+
+  .prism-table tbody tr:hover {
+    background: #1f2937;
+  }
+
+  .prism-criterion-met {
+    background: #064e3b;
+  }
+
+  .prism-criterion-met:hover {
+    background: #065f46;
+  }
+
+  .prism-criterion-pending {
+    background: #713f12;
+  }
+
+  .prism-criterion-pending:hover {
+    background: #854d0e;
+  }
+
+  .prism-table code {
+    background: #374151;
+    color: #e5e7eb;
+  }
+
+  .prism-criterion-details {
+    background: #1f2937;
+  }
+
+  .prism-criterion-details summary {
+    color: #d1d5db;
+  }
+
+  .prism-framework-coverage {
+    background: #1e3a5f;
+    border-color: #3b82f6;
+  }
+
+  .prism-domain-description,
+  .prism-level-description {
+    color: #9ca3af;
+  }
+}
