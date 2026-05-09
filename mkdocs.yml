@@ -113,6 +113,8 @@ nav:
       - Architecture: developer/architecture.md
       - Contributing: developer/contributing.md
   - Design:
+      - Core:
+          - PRD: design/core/PRD.md
       - Maturity:
           - Codegen: design/maturity/FEAT_MATURITY_CODEGEN.md
           - SLO Design: design/maturity/FEAT_MATURITY_SLO_DESIGN.md
