@@ -37,6 +37,13 @@ go install github.com/grokify/prism/cmd/prism@latest
 | [`prism dashboard`](dashboard.md) | Generate executive dashboards |
 | `prism dashforge` | Convert to dashforge format |
 
+### Maturity Model Commands (v0.3.0)
+
+| Command | Description |
+|---------|-------------|
+| [`prism maturity report`](maturity-report.md) | Generate maturity model reports (Markdown) |
+| [`prism maturity xlsx`](maturity-xlsx.md) | Generate maturity model reports (Excel) |
+
 ### Organizational Commands (v0.3.0)
 
 | Command | Description |

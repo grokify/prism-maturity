@@ -80,6 +80,14 @@ PRISM assesses maturity for each domain/stage combination:
 
 ## Maturity Model Structure
 
+PRISM maturity models consist of:
+
+- **Domains** - Areas of capability (security, operations, quality)
+- **Levels** - Maturity stages (M1-M5)
+- **Criteria** - SLOs that must be met for each level
+- **Enablers** - Tasks/projects that help achieve criteria
+- **SLIs** - Shared metric definitions with framework mappings
+
 ### MaturityModel
 
 ```json
@@ -171,6 +179,68 @@ opsOnly := prism.NewMaturityModelForDomains([]string{"operations"})
 - Automate optimization
 - Implement predictive capabilities
 - Drive continuous improvement
+
+## SLIs and Criteria
+
+PRISM separates metrics (SLIs) from level-specific targets (Criteria/SLOs):
+
+| Concept | Definition | Example |
+|---------|------------|---------|
+| **SLI** | The metric being measured | "Security MTTR" |
+| **Criterion** | Target threshold for a level | "MTTR ≤ 7 days for M4" |
+
+### Why Separate SLIs?
+
+1. **No duplication** - Framework mappings defined once per metric
+2. **Consistent metadata** - Unit, type, layer inherited by all criteria
+3. **Cleaner exports** - XLSX/Markdown shows framework columns correctly
+
+### Example
+
+```json
+{
+  "slis": {
+    "security-mttr": {
+      "id": "security-mttr",
+      "name": "Security MTTR",
+      "metricName": "security_mttr_days",
+      "unit": "days",
+      "frameworkMappings": [
+        {"framework": "NIST_800_53", "reference": "IR-6"},
+        {"framework": "SOC_2", "reference": "CC7.4"}
+      ]
+    }
+  },
+  "domains": {
+    "security": {
+      "levels": [
+        {
+          "level": 4,
+          "criteria": [{
+            "id": "sec-m4-mttr",
+            "name": "Fast MTTR",
+            "sliId": "security-mttr",
+            "operator": "lte",
+            "target": 7
+          }]
+        },
+        {
+          "level": 5,
+          "criteria": [{
+            "id": "sec-m5-mttr",
+            "name": "Rapid MTTR",
+            "sliId": "security-mttr",
+            "operator": "lte",
+            "target": 1
+          }]
+        }
+      ]
+    }
+  }
+}
+```
+
+See [SLIs & SLOs](../schema/slos.md) for detailed schema documentation.
 
 ## Maturity Weight in PRISM Score
 

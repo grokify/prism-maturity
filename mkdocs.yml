@@ -71,6 +71,8 @@ nav:
       - prism dashboard: cli/dashboard.md
       - prism analyze: cli/analyze.md
       - prism export: cli/export.md
+      - prism maturity report: cli/maturity-report.md
+      - prism maturity xlsx: cli/maturity-xlsx.md
   - Schema:
       - Overview: schema/index.md
       - Domains: schema/domains.md

@@ -91,6 +91,14 @@ Metrics can have machine-evaluable SLOs:
 
 ## Maturity Roadmap
 
+### [Maturity Model](maturity.md)
+
+Maturity models define levels (M1-M5) with criteria and enablers:
+
+- **SLIs** - Service Level Indicators define metrics with framework mappings
+- **Criteria** - SLO-based requirements that reference SLIs
+- **Enablers** - Tasks that help achieve criteria
+
 ### [Goals](goals.md)
 
 Goals represent strategic objectives with SLO-backed maturity levels:

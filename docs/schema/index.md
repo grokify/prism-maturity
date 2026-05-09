@@ -76,5 +76,5 @@ schemaJSON := schema.PRISMSchemaJSON()
 - [Lifecycle Stages](stages.md) - Software delivery stages
 - [Categories](categories.md) - Metric categories
 - [Metric Types](metrics.md) - Types of measurements
-- [SLIs & SLOs](slos.md) - Service level indicators and objectives
+- [SLIs & SLOs](slos.md) - Service level indicators and objectives (including maturity model SLIs)
 - [Thresholds](thresholds.md) - Status thresholds
