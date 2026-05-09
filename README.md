@@ -305,6 +305,22 @@ prism export okr prism.json -o roadmap.okr.json
 prism export v2mom prism.json -o roadmap.v2mom.json
 ```
 
+### Maturity commands (v0.3.0)
+
+```bash
+# Generate Markdown report with SLI Catalog
+prism maturity report maturity-spec.json -o report.md
+
+# Generate domain view only
+prism maturity report maturity-spec.json --view domain
+
+# Generate framework view only
+prism maturity report maturity-spec.json --view framework
+
+# Generate Excel workbook
+prism maturity xlsx maturity-spec.json -o report.xlsx
+```
+
 ## Schema Overview
 
 ### Domains
@@ -459,12 +475,22 @@ PRISM uses a 5-level maturity model:
 
 PRISM metrics can be mapped to external frameworks:
 
-| Framework | Description |
-|-----------|-------------|
-| `DORA` | DevOps Research and Assessment |
-| `SRE` | Site Reliability Engineering |
-| `NIST_CSF` | NIST Cybersecurity Framework |
-| `MITRE_ATTACK` | MITRE ATT&CK Framework |
+| Framework | Constant | Description |
+|-----------|----------|-------------|
+| NIST CSF 1.1 | `NIST_CSF` | NIST Cybersecurity Framework 1.1 |
+| NIST CSF 2.0 | `NIST_CSF_2` | NIST Cybersecurity Framework 2.0 |
+| NIST 800-53 | `NIST_800_53` | Security and Privacy Controls |
+| NIST RMF | `NIST_RMF` | Risk Management Framework |
+| NIST AI RMF | `NIST_AI_RMF` | AI Risk Management Framework |
+| FedRAMP High | `FEDRAMP_HIGH` | FedRAMP High baseline |
+| FedRAMP Moderate | `FEDRAMP_MOD` | FedRAMP Moderate baseline |
+| FedRAMP Low | `FEDRAMP_LOW` | FedRAMP Low baseline |
+| MITRE ATT&CK | `MITRE_ATTACK` | Threat framework |
+| CIS Controls | `CIS_CONTROLS` | Critical Security Controls |
+| SOC 2 | `SOC_2` | Trust Services Criteria |
+| ISO 27001 | `ISO_27001` | Information Security Management |
+| DORA | `DORA` | DevOps Research and Assessment |
+| SRE | `SRE` | Site Reliability Engineering |
 
 ## JSON Schema
 
