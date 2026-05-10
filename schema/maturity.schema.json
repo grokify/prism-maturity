@@ -305,6 +305,10 @@
         "type": {
           "type": "string"
         },
+        "sliType": {
+          "type": "string",
+          "enum": ["availability", "latency", "error_rate", "throughput", "saturation", "utilization", "quality", "freshness"]
+        },
         "layer": {
           "type": "string"
         },
