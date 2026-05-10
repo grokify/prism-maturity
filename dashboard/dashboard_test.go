@@ -180,6 +180,112 @@ func TestGenerateHTML(t *testing.T) {
 	}
 }
 
+func TestMaturityBullet(t *testing.T) {
+	// Test NewMaturityBullet
+	bullet := NewMaturityBullet("Availability", "99.5% uptime", 3.5, 5)
+
+	if bullet.Title != "Availability" {
+		t.Errorf("Expected title 'Availability', got '%s'", bullet.Title)
+	}
+	if bullet.Subtitle != "99.5% uptime" {
+		t.Errorf("Expected subtitle '99.5%% uptime', got '%s'", bullet.Subtitle)
+	}
+	if len(bullet.Ranges) != 3 {
+		t.Errorf("Expected 3 ranges, got %d", len(bullet.Ranges))
+	}
+	if len(bullet.Measures) != 1 || bullet.Measures[0] != 3.5 {
+		t.Errorf("Expected measures [3.5], got %v", bullet.Measures)
+	}
+	if len(bullet.Markers) != 1 || bullet.Markers[0] != 5 {
+		t.Errorf("Expected markers [5], got %v", bullet.Markers)
+	}
+
+	// Test MaturityLevel
+	cases := []struct {
+		value    float64
+		expected string
+	}{
+		{5.0, "M5"},
+		{4.5, "M4"},
+		{4.0, "M4"},
+		{3.5, "M3"},
+		{2.0, "M2"},
+		{1.0, "M1"},
+		{0.5, "M0"},
+	}
+
+	for _, tc := range cases {
+		got := MaturityLevel(tc.value)
+		if got != tc.expected {
+			t.Errorf("MaturityLevel(%v) = %s, want %s", tc.value, got, tc.expected)
+		}
+	}
+
+	// Test MaturityStatus
+	statusCases := []struct {
+		value    float64
+		expected string
+	}{
+		{5.0, "green"},
+		{4.5, "yellow"},
+		{3.0, "red"},
+	}
+
+	for _, tc := range statusCases {
+		got := MaturityStatus(tc.value)
+		if got != tc.expected {
+			t.Errorf("MaturityStatus(%v) = %s, want %s", tc.value, got, tc.expected)
+		}
+	}
+}
+
+func TestMaturityBulletCSS(t *testing.T) {
+	css := GetMaturityBulletCSS()
+
+	// Check for required CSS classes
+	requiredClasses := []string{
+		".bullet",
+		".range.s0",
+		".range.s1",
+		".range.s2",
+		".measure.s0",
+		"#fee2e2", // red
+		"#fef3c7", // yellow
+		"#dcfce7", // green
+	}
+
+	for _, class := range requiredClasses {
+		if !contains(css, class) {
+			t.Errorf("CSS missing '%s'", class)
+		}
+	}
+}
+
+func TestGenerateBullets(t *testing.T) {
+	specFile := filepath.Join("..", "maturity-models", "operations.json")
+	spec, err := maturity.ReadSpecFile(specFile)
+	if err != nil {
+		t.Fatalf("Failed to read spec file: %v", err)
+	}
+
+	gen := NewGenerator(spec)
+	bulletData := gen.GenerateMaturityBullets()
+
+	if len(bulletData.Bullets) == 0 {
+		t.Error("Expected bullets to be generated")
+	}
+
+	// Check JSON serialization
+	jsonBytes, err := bulletData.ToJSON()
+	if err != nil {
+		t.Fatalf("Failed to marshal bullet data: %v", err)
+	}
+
+	if len(jsonBytes) == 0 {
+		t.Error("JSON output is empty")
+	}
+}
+
 func contains(s, substr string) bool {
 	return len(s) > 0 && len(substr) > 0 &&
 		(len(s) >= len(substr) && (s == substr ||

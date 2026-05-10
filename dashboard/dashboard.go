@@ -216,6 +216,9 @@ func (g *Generator) Generate() (*Dashboard, error) {
 	// Add domain summary cards
 	g.addDomainSummaryRow()
 
+	// Add maturity bullet charts for each domain
+	g.addBulletWidgets()
+
 	// Add level progress charts for each domain
 	g.addLevelProgressCharts()
 
@@ -632,4 +635,170 @@ func float64Ptr(v float64) *float64 {
 // ToJSON returns the dashboard as JSON bytes.
 func (d *Dashboard) ToJSON() ([]byte, error) {
 	return json.MarshalIndent(d, "", "  ")
+}
+
+// GenerateMaturityBullets creates bullet chart data for all domains.
+func (g *Generator) GenerateMaturityBullets() *MaturityBulletData {
+	if g.spec == nil {
+		return &MaturityBulletData{}
+	}
+
+	bullets := []MaturityBullet{}
+
+	for domainKey, domain := range g.spec.Domains {
+		assessment := g.spec.Assessments[domainKey]
+
+		currentLevel := float64(1)
+		targetLevel := float64(5)
+
+		if assessment != nil {
+			currentLevel = float64(assessment.CurrentLevel)
+			targetLevel = float64(assessment.TargetLevel)
+		}
+
+		bullets = append(bullets, NewMaturityBullet(
+			domain.Name,
+			fmt.Sprintf("M%d → M%d", int(currentLevel), int(targetLevel)),
+			currentLevel,
+			targetLevel,
+		))
+
+		// Add bullets for each SLI in the domain
+		for _, level := range domain.Levels {
+			for _, criterion := range level.Criteria {
+				sliName := criterion.Name
+				if sli, ok := g.spec.SLIs[criterion.SLIID]; ok && sli != nil {
+					sliName = sli.Name
+				}
+
+				// Calculate current maturity level for this SLI
+				sliLevel := float64(1)
+				if assessment != nil {
+					sliLevel = g.calculateSLIMaturityLevel(domain, assessment, criterion.SLIID)
+				}
+
+				bullets = append(bullets, NewMaturityBullet(
+					sliName,
+					MaturityLevel(sliLevel),
+					sliLevel,
+					targetLevel,
+				))
+			}
+		}
+	}
+
+	return &MaturityBulletData{Bullets: bullets}
+}
+
+// calculateSLIMaturityLevel determines the highest level achieved for an SLI.
+func (g *Generator) calculateSLIMaturityLevel(domain *maturity.DomainModel, assessment *maturity.DomainAssessment, sliID string) float64 {
+	highestLevel := float64(1)
+
+	for _, level := range domain.Levels {
+		for _, criterion := range level.Criteria {
+			if criterion.SLIID != sliID {
+				continue
+			}
+
+			if val, ok := assessment.CriteriaValues[criterion.ID]; ok {
+				if criterion.CheckMet(val) {
+					levelNum := float64(level.Level)
+					if levelNum > highestLevel {
+						highestLevel = levelNum
+					}
+				} else {
+					// Partial progress within level
+					progress := calculateProgress(criterion, val)
+					partialLevel := float64(level.Level-1) + (progress / 100)
+					if partialLevel > highestLevel {
+						highestLevel = partialLevel
+					}
+				}
+			}
+		}
+	}
+
+	return highestLevel
+}
+
+// addBulletWidgets adds maturity bullet chart widgets.
+func (g *Generator) addBulletWidgets() {
+	domains := g.getSortedDomains()
+
+	for _, domainKey := range domains {
+		domain := g.spec.Domains[domainKey]
+		assessment := g.spec.Assessments[domainKey]
+
+		// Collect SLI bullets for this domain
+		var bullets []MaturityBullet
+
+		currentLevel := float64(1)
+		targetLevel := float64(5)
+		if assessment != nil {
+			currentLevel = float64(assessment.CurrentLevel)
+			targetLevel = float64(assessment.TargetLevel)
+		}
+
+		// Domain-level bullet
+		bullets = append(bullets, NewMaturityBullet(
+			domain.Name,
+			fmt.Sprintf("Overall: M%d → M%d", int(currentLevel), int(targetLevel)),
+			currentLevel,
+			targetLevel,
+		))
+
+		// SLI-level bullets
+		seenSLIs := make(map[string]bool)
+		for _, level := range domain.Levels {
+			for _, criterion := range level.Criteria {
+				sliID := criterion.SLIID
+				if sliID == "" || seenSLIs[sliID] {
+					continue
+				}
+				seenSLIs[sliID] = true
+
+				sliName := criterion.Name
+				if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
+					sliName = sli.Name
+				}
+
+				sliLevel := float64(1)
+				if assessment != nil {
+					sliLevel = g.calculateSLIMaturityLevel(domain, assessment, sliID)
+				}
+
+				bullets = append(bullets, NewMaturityBullet(
+					sliName,
+					MaturityLevel(sliLevel),
+					sliLevel,
+					targetLevel,
+				))
+			}
+		}
+
+		// Create data source
+		dataID := fmt.Sprintf("bullet-%s", domainKey)
+		dataBytes, _ := json.Marshal(bullets)
+
+		g.data = append(g.data, DataSource{
+			ID:   dataID,
+			Type: "inline",
+			Data: dataBytes,
+		})
+
+		// Create bullet widget
+		config, _ := json.Marshal(map[string]any{
+			"bulletType": "maturity",
+		})
+
+		g.widgets = append(g.widgets, Widget{
+			ID:           fmt.Sprintf("bullet-%s", domainKey),
+			Type:         "bullet",
+			Title:        fmt.Sprintf("%s - Maturity Levels", domain.Name),
+			Position:     Position{X: 0, Y: g.row, W: 12, H: 4},
+			DataSourceID: dataID,
+			Config:       config,
+		})
+		g.row += 4
+	}
 }

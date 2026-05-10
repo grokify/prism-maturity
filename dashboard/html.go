@@ -65,6 +65,7 @@ const htmlTemplate = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{.Title}}</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
   <style>
     :root {
       --bg-primary: {{if eq .Theme "dark"}}#1a1a2e{{else}}#f8fafc{{end}};
@@ -213,6 +214,36 @@ const htmlTemplate = `<!DOCTYPE html>
         grid-column: span 1 !important;
       }
     }
+
+    /* Maturity Bullet Chart Styles */
+    .bullet { font: 10px sans-serif; }
+    .bullet .marker { stroke: #000; stroke-width: 2px; }
+    .bullet .tick line { stroke: #666; stroke-width: .5px; }
+    .bullet .range.s0 { fill: #fee2e2; }
+    .bullet .range.s1 { fill: #fef3c7; }
+    .bullet .range.s2 { fill: #dcfce7; }
+    .bullet .measure.s0 { fill: #3b82f6; }
+    .bullet .measure.s1 { fill: #60a5fa; }
+    .bullet .title { font-size: 12px; font-weight: bold; }
+    .bullet .subtitle { fill: #999; font-size: 10px; }
+    .bullet-container { padding: 8px 0; }
+    .bullet-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+    .bullet-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .bullet-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
@@ -253,6 +284,9 @@ const htmlTemplate = `<!DOCTYPE html>
             break;
           case 'table':
             renderTable(el, widget, data);
+            break;
+          case 'bullet':
+            renderBullet(el, widget, data);
             break;
         }
 
@@ -396,6 +430,276 @@ const htmlTemplate = `<!DOCTYPE html>
         return Number(value).toLocaleString();
       }
       return value;
+    }
+
+    function renderBullet(el, widget, data) {
+      el.innerHTML = ` + "`" + `
+        <div class="widget-title">${widget.title}</div>
+        <div class="bullet-legend">
+          <div class="bullet-legend-item">
+            <div class="bullet-legend-swatch" style="background: #fee2e2"></div>
+            <span>M1-M3</span>
+          </div>
+          <div class="bullet-legend-item">
+            <div class="bullet-legend-swatch" style="background: #fef3c7"></div>
+            <span>M4</span>
+          </div>
+          <div class="bullet-legend-item">
+            <div class="bullet-legend-swatch" style="background: #dcfce7"></div>
+            <span>M5</span>
+          </div>
+          <div class="bullet-legend-item">
+            <div class="bullet-legend-swatch" style="background: #3b82f6"></div>
+            <span>Current</span>
+          </div>
+          <div class="bullet-legend-item">
+            <span style="border-left: 2px solid #000; height: 12px; margin-right: 4px;"></span>
+            <span>Target</span>
+          </div>
+        </div>
+        <div class="bullet-container" id="bullet-${widget.id}"></div>
+      ` + "`" + `;
+
+      setTimeout(() => {
+        const container = document.getElementById('bullet-' + widget.id);
+        if (!container || !Array.isArray(data)) return;
+
+        const margin = {top: 5, right: 40, bottom: 10, left: 140};
+        const width = container.offsetWidth - margin.left - margin.right;
+        const height = 35;
+
+        const chart = d3Bullet().width(width).height(height);
+
+        const svg = d3.select('#bullet-' + widget.id).selectAll('svg')
+            .data(data)
+          .enter().append('svg')
+            .attr('class', 'bullet')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+            .call(chart);
+
+        const title = svg.append('g')
+            .style('text-anchor', 'end')
+            .attr('transform', 'translate(-6,' + height / 2 + ')');
+
+        title.append('text')
+            .attr('class', 'title')
+            .text(d => d.title);
+
+        title.append('text')
+            .attr('class', 'subtitle')
+            .attr('dy', '1em')
+            .text(d => d.subtitle);
+      }, 0);
+    }
+
+    // D3 Bullet Chart implementation
+    function d3Bullet() {
+      let orient = 'left';
+      let reverse = false;
+      let duration = 0;
+      let ranges = d => d.ranges;
+      let markers = d => d.markers;
+      let measures = d => d.measures;
+      let width = 380;
+      let height = 30;
+      let tickFormat = null;
+
+      function bullet(g) {
+        g.each(function(d, i) {
+          const rangez = ranges.call(this, d, i).slice().sort(d3.descending);
+          const markerz = markers.call(this, d, i).slice().sort(d3.descending);
+          const measurez = measures.call(this, d, i).slice().sort(d3.descending);
+          const g = d3.select(this);
+
+          const x1 = d3.scale.linear()
+              .domain([0, Math.max(rangez[0], markerz[0] || 0, measurez[0] || 0)])
+              .range(reverse ? [width, 0] : [0, width]);
+
+          const x0 = this.__chart__ || d3.scale.linear()
+              .domain([0, Infinity])
+              .range(x1.range());
+
+          this.__chart__ = x1;
+
+          const w0 = bulletWidth(x0);
+          const w1 = bulletWidth(x1);
+
+          // Ranges
+          let range = g.selectAll('rect.range')
+              .data(rangez);
+
+          range.enter().append('rect')
+              .attr('class', (d, i) => 'range s' + i)
+              .attr('width', w0)
+              .attr('height', height)
+              .attr('x', reverse ? x0 : 0)
+            .transition()
+              .duration(duration)
+              .attr('width', w1)
+              .attr('x', reverse ? x1 : 0);
+
+          range.transition()
+              .duration(duration)
+              .attr('x', reverse ? x1 : 0)
+              .attr('width', w1)
+              .attr('height', height);
+
+          // Measures
+          let measure = g.selectAll('rect.measure')
+              .data(measurez);
+
+          measure.enter().append('rect')
+              .attr('class', (d, i) => 'measure s' + i)
+              .attr('width', w0)
+              .attr('height', height / 3)
+              .attr('x', reverse ? x0 : 0)
+              .attr('y', height / 3)
+            .transition()
+              .duration(duration)
+              .attr('width', w1)
+              .attr('x', reverse ? x1 : 0);
+
+          measure.transition()
+              .duration(duration)
+              .attr('width', w1)
+              .attr('height', height / 3)
+              .attr('x', reverse ? x1 : 0)
+              .attr('y', height / 3);
+
+          // Markers
+          let marker = g.selectAll('line.marker')
+              .data(markerz);
+
+          marker.enter().append('line')
+              .attr('class', 'marker')
+              .attr('x1', x0)
+              .attr('x2', x0)
+              .attr('y1', height / 6)
+              .attr('y2', height * 5 / 6)
+            .transition()
+              .duration(duration)
+              .attr('x1', x1)
+              .attr('x2', x1);
+
+          marker.transition()
+              .duration(duration)
+              .attr('x1', x1)
+              .attr('x2', x1)
+              .attr('y1', height / 6)
+              .attr('y2', height * 5 / 6);
+
+          // Ticks
+          const format = tickFormat || x1.tickFormat(8);
+          let tick = g.selectAll('g.tick')
+              .data(x1.ticks(8), d => this.textContent || format(d));
+
+          const tickEnter = tick.enter().append('g')
+              .attr('class', 'tick')
+              .attr('transform', bulletTranslate(x0))
+              .style('opacity', 1e-6);
+
+          tickEnter.append('line')
+              .attr('y1', height)
+              .attr('y2', height * 7 / 6);
+
+          tickEnter.append('text')
+              .attr('text-anchor', 'middle')
+              .attr('dy', '1em')
+              .attr('y', height * 7 / 6)
+              .text(format);
+
+          tickEnter.transition()
+              .duration(duration)
+              .attr('transform', bulletTranslate(x1))
+              .style('opacity', 1);
+
+          const tickUpdate = tick.transition()
+              .duration(duration)
+              .attr('transform', bulletTranslate(x1))
+              .style('opacity', 1);
+
+          tickUpdate.select('line')
+              .attr('y1', height)
+              .attr('y2', height * 7 / 6);
+
+          tickUpdate.select('text')
+              .attr('y', height * 7 / 6);
+
+          tick.exit().transition()
+              .duration(duration)
+              .attr('transform', bulletTranslate(x1))
+              .style('opacity', 1e-6)
+              .remove();
+        });
+        d3.timer.flush();
+      }
+
+      function bulletWidth(x) {
+        const x0 = x(0);
+        return function(d) {
+          return Math.abs(x(d) - x0);
+        };
+      }
+
+      function bulletTranslate(x) {
+        return function(d) {
+          return 'translate(' + x(d) + ',0)';
+        };
+      }
+
+      bullet.orient = function(x) {
+        if (!arguments.length) return orient;
+        orient = x;
+        reverse = orient === 'right' || orient === 'bottom';
+        return bullet;
+      };
+
+      bullet.ranges = function(x) {
+        if (!arguments.length) return ranges;
+        ranges = x;
+        return bullet;
+      };
+
+      bullet.markers = function(x) {
+        if (!arguments.length) return markers;
+        markers = x;
+        return bullet;
+      };
+
+      bullet.measures = function(x) {
+        if (!arguments.length) return measures;
+        measures = x;
+        return bullet;
+      };
+
+      bullet.width = function(x) {
+        if (!arguments.length) return width;
+        width = x;
+        return bullet;
+      };
+
+      bullet.height = function(x) {
+        if (!arguments.length) return height;
+        height = x;
+        return bullet;
+      };
+
+      bullet.tickFormat = function(x) {
+        if (!arguments.length) return tickFormat;
+        tickFormat = x;
+        return bullet;
+      };
+
+      bullet.duration = function(x) {
+        if (!arguments.length) return duration;
+        duration = x;
+        return bullet;
+      };
+
+      return bullet;
     }
 
     // Initialize
