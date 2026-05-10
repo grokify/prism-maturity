@@ -758,8 +758,15 @@ func GetMethodologyInfos() []MethodologyInfo {
 }
 
 // addBulletWidgets adds maturity bullet chart widgets grouped by methodology.
+// Works with any maturity model - gracefully handles missing SLIs, SLITypes, or assessments.
 func (g *Generator) addBulletWidgets() {
 	domains := g.getSortedDomains()
+	if len(domains) == 0 {
+		return
+	}
+
+	// Check if we have SLI type data for methodology grouping
+	hasSLITypes := g.hasSLITypeData()
 
 	for _, domainKey := range domains {
 		domain := g.spec.Domains[domainKey]
@@ -777,6 +784,12 @@ func (g *Generator) addBulletWidgets() {
 
 		// Collect SLIs for this domain with their types
 		slisByType := g.collectSLIsByType(domain, assessment, targetLevel)
+
+		// If no SLI types defined, skip methodology grouping and show flat list
+		if !hasSLITypes {
+			g.addFlatBulletList(domainKey, domain, slisByType)
+			continue
+		}
 
 		// Add methodology-grouped bullet sections
 		for _, methodology := range GetMethodologyInfos() {
@@ -985,4 +998,75 @@ func (g *Generator) getOtherBullets(slisByType map[string][]sliInfo) []MaturityB
 	}
 
 	return bullets
+}
+
+// hasSLITypeData checks if any SLIs have SLIType defined for methodology grouping.
+func (g *Generator) hasSLITypeData() bool {
+	if g.spec.SLIs == nil {
+		return false
+	}
+	for _, sli := range g.spec.SLIs {
+		if sli != nil && sli.SLIType != "" {
+			return true
+		}
+	}
+	return false
+}
+
+// addFlatBulletList adds bullets without methodology grouping (for models without SLIType).
+func (g *Generator) addFlatBulletList(domainKey string, domain *maturity.DomainModel, slisByType map[string][]sliInfo) {
+	var bullets []MaturityBullet
+
+	// Collect all SLIs into a flat list
+	for _, infos := range slisByType {
+		for _, info := range infos {
+			bullets = append(bullets, NewMaturityBullet(
+				info.Name,
+				MaturityLevel(info.Level),
+				info.Level,
+				info.Target,
+			))
+		}
+	}
+
+	if len(bullets) == 0 {
+		return
+	}
+
+	// Sort bullets by name for consistent ordering
+	sort.Slice(bullets, func(i, j int) bool {
+		return bullets[i].Title < bullets[j].Title
+	})
+
+	dataID := fmt.Sprintf("bullet-%s-all", domainKey)
+	dataBytes, _ := json.Marshal(bullets)
+
+	g.data = append(g.data, DataSource{
+		ID:   dataID,
+		Type: "inline",
+		Data: dataBytes,
+	})
+
+	config, _ := json.Marshal(map[string]any{
+		"bulletType": "maturity",
+	})
+
+	// Calculate height based on number of bullets
+	height := len(bullets) + 1
+	if height < 2 {
+		height = 2
+	}
+	if height > 8 {
+		height = 8
+	}
+
+	g.widgets = append(g.widgets, Widget{
+		ID:           fmt.Sprintf("bullet-%s-all", domainKey),
+		Type:         "bullet",
+		Title:        fmt.Sprintf("%s - Maturity Metrics", domain.Name),
+		Position:     Position{X: 0, Y: g.row, W: 12, H: height},
+		DataSourceID: dataID,
+		Config:       config,
+	})
+	g.row += height
 }

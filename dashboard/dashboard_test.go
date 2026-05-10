@@ -286,6 +286,66 @@ func TestGenerateBullets(t *testing.T) {
 	}
 }
 
+func TestDashboardWithoutSLITypes(t *testing.T) {
+	// Create a minimal spec without SLI types
+	spec := &maturity.Spec{
+		Metadata: &maturity.SpecMetadata{
+			Name:        "Basic Model",
+			Description: "A model without SLI types",
+		},
+		Domains: map[string]*maturity.DomainModel{
+			"ops": {
+				Name: "Operations",
+				Levels: []maturity.Level{
+					{
+						Level: 1,
+						Name:  "Reactive",
+						Criteria: []maturity.Criterion{
+							{ID: "c1", Name: "Basic monitoring"},
+							{ID: "c2", Name: "Manual deployments"},
+						},
+					},
+					{
+						Level: 2,
+						Name:  "Basic",
+						Criteria: []maturity.Criterion{
+							{ID: "c3", Name: "Automated alerts"},
+						},
+					},
+				},
+			},
+		},
+		// No SLIs defined - should fall back to flat list
+	}
+
+	gen := NewGenerator(spec)
+	dashboard, err := gen.Generate()
+	if err != nil {
+		t.Fatalf("Failed to generate dashboard: %v", err)
+	}
+
+	// Should have widgets even without SLI types
+	if len(dashboard.Widgets) == 0 {
+		t.Error("Dashboard should have widgets")
+	}
+
+	// Check for bullet widgets (should be flat list, not methodology-grouped)
+	hasBullet := false
+	for _, w := range dashboard.Widgets {
+		if w.Type == "bullet" {
+			hasBullet = true
+			// Should NOT have methodology in title (no RED/USE/Golden Signals)
+			if contains(w.Title, "RED") || contains(w.Title, "USE") || contains(w.Title, "Golden") {
+				t.Error("Dashboard without SLI types should not have methodology headers")
+			}
+		}
+	}
+
+	if !hasBullet {
+		t.Error("Dashboard should have bullet widgets")
+	}
+}
+
 func contains(s, substr string) bool {
 	return len(s) > 0 && len(substr) > 0 &&
 		(len(s) >= len(substr) && (s == substr ||
