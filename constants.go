@@ -280,3 +280,111 @@ const (
 func AllWindows() []string {
 	return []string{Window7Days, Window30Days, Window90Days}
 }
+
+// SLI type constants classify SLIs by observability type.
+const (
+	SLITypeAvailability = "availability" // System/service availability
+	SLITypeLatency      = "latency"      // Response time, duration
+	SLITypeErrorRate    = "error_rate"   // Error percentage, failure rate
+	SLITypeThroughput   = "throughput"   // Request rate, traffic volume
+	SLITypeSaturation   = "saturation"   // Resource utilization/exhaustion
+	SLITypeUtilization  = "utilization"  // Resource usage level
+	SLITypeQuality      = "quality"      // Data quality, correctness
+	SLITypeFreshness    = "freshness"    // Data age, staleness
+)
+
+// AllSLITypes returns all valid SLI type values.
+func AllSLITypes() []string {
+	return []string{
+		SLITypeAvailability,
+		SLITypeLatency,
+		SLITypeErrorRate,
+		SLITypeThroughput,
+		SLITypeSaturation,
+		SLITypeUtilization,
+		SLITypeQuality,
+		SLITypeFreshness,
+	}
+}
+
+// Methodology constants for standard observability methodologies.
+const (
+	MethodologyGoldenSignals = "GOLDEN_SIGNALS" // Google Golden Signals: latency, traffic, errors, saturation
+	MethodologyRED           = "RED"            // Rate, Errors, Duration
+	MethodologyUSE           = "USE"            // Utilization, Saturation, Errors
+)
+
+// AllMethodologies returns all valid methodology values.
+func AllMethodologies() []string {
+	return []string{
+		MethodologyGoldenSignals,
+		MethodologyRED,
+		MethodologyUSE,
+	}
+}
+
+// GoldenSignalsSLITypes returns the SLI types that map to Google's Golden Signals.
+// Golden Signals: Latency, Traffic, Errors, Saturation.
+func GoldenSignalsSLITypes() []string {
+	return []string{
+		SLITypeLatency,
+		SLITypeThroughput,
+		SLITypeErrorRate,
+		SLITypeSaturation,
+	}
+}
+
+// REDSLITypes returns the SLI types that map to the RED methodology.
+// RED: Rate (throughput), Errors, Duration (latency).
+func REDSLITypes() []string {
+	return []string{
+		SLITypeThroughput,
+		SLITypeErrorRate,
+		SLITypeLatency,
+	}
+}
+
+// USESLITypes returns the SLI types that map to the USE methodology.
+// USE: Utilization, Saturation, Errors.
+func USESLITypes() []string {
+	return []string{
+		SLITypeUtilization,
+		SLITypeSaturation,
+		SLITypeErrorRate,
+	}
+}
+
+// SLITypesForMethodology returns the SLI types associated with a methodology.
+// Returns nil for unknown methodologies.
+func SLITypesForMethodology(methodology string) []string {
+	switch methodology {
+	case MethodologyGoldenSignals:
+		return GoldenSignalsSLITypes()
+	case MethodologyRED:
+		return REDSLITypes()
+	case MethodologyUSE:
+		return USESLITypes()
+	default:
+		return nil
+	}
+}
+
+// MethodologiesForSLIType returns the methodologies that include the given SLI type.
+func MethodologiesForSLIType(sliType string) []string {
+	var result []string
+	methodologyTypes := map[string][]string{
+		MethodologyGoldenSignals: GoldenSignalsSLITypes(),
+		MethodologyRED:           REDSLITypes(),
+		MethodologyUSE:           USESLITypes(),
+	}
+
+	for methodology, types := range methodologyTypes {
+		for _, t := range types {
+			if t == sliType {
+				result = append(result, methodology)
+				break
+			}
+		}
+	}
+	return result
+}
