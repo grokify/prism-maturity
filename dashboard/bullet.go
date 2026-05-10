@@ -2,16 +2,27 @@ package dashboard
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // MaturityBullet represents a D3 bullet chart for maturity visualization.
 // Ranges are configured for M1-M3 (red), M4 (yellow), M5 (green) zones.
 type MaturityBullet struct {
-	Title    string    `json:"title,omitempty"`
-	Subtitle string    `json:"subtitle,omitempty"`
-	Ranges   []float64 `json:"ranges,omitempty"`   // Zone boundaries [M3, M4, M5]
-	Measures []float64 `json:"measures,omitempty"` // Current level(s)
-	Markers  []float64 `json:"markers,omitempty"`  // Target level(s)
+	Title       string           `json:"title,omitempty"`
+	Subtitle    string           `json:"subtitle,omitempty"`
+	Ranges      []float64        `json:"ranges,omitempty"`      // Zone boundaries [M3, M4, M5]
+	Measures    []float64        `json:"measures,omitempty"`    // Current maturity level(s)
+	Markers     []float64        `json:"markers,omitempty"`     // Target level(s)
+	ActualValue string           `json:"actualValue,omitempty"` // Actual SLI value with unit (e.g., "65%", "120ms")
+	Thresholds  []LevelThreshold `json:"thresholds,omitempty"`  // Thresholds for each maturity level
+}
+
+// LevelThreshold defines the threshold for a specific maturity level.
+type LevelThreshold struct {
+	Level    int     `json:"level"`              // Maturity level (1-5)
+	Operator string  `json:"operator,omitempty"` // >=, <=, ==, etc.
+	Value    float64 `json:"value"`              // Threshold value
+	ValueStr string  `json:"valueStr,omitempty"` // Formatted value with unit
 }
 
 // MaturityBulletData holds a collection of maturity bullet charts.
@@ -35,6 +46,38 @@ func NewMaturityBullet(title, subtitle string, currentLevel, targetLevel float64
 		Measures: []float64{currentLevel},
 	}
 	if targetLevel > 0 {
+		bullet.Markers = []float64{targetLevel}
+	}
+	return bullet
+}
+
+// NewMaturityBulletWithDetails creates a bullet chart with actual SLI value and thresholds.
+func NewMaturityBulletWithDetails(title string, currentLevel, targetLevel, actualValue float64, unit string, thresholds []LevelThreshold) MaturityBullet {
+	// Format actual value with unit
+	actualValueStr := ""
+	if actualValue != 0 || unit != "" {
+		if actualValue == float64(int(actualValue)) {
+			actualValueStr = fmt.Sprintf("%d%s", int(actualValue), unit)
+		} else {
+			actualValueStr = fmt.Sprintf("%.1f%s", actualValue, unit)
+		}
+	}
+
+	// Build subtitle with level and actual value
+	subtitle := MaturityLevel(currentLevel)
+	if actualValueStr != "" {
+		subtitle = fmt.Sprintf("%s (%s)", actualValueStr, MaturityLevel(currentLevel))
+	}
+
+	bullet := MaturityBullet{
+		Title:       title,
+		Subtitle:    subtitle,
+		Ranges:      []float64{3, 4, 5},
+		Measures:    []float64{currentLevel},
+		ActualValue: actualValueStr,
+		Thresholds:  thresholds,
+	}
+	if targetLevel > 0 && targetLevel != currentLevel {
 		bullet.Markers = []float64{targetLevel}
 	}
 	return bullet

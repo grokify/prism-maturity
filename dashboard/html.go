@@ -465,9 +465,9 @@ const htmlTemplate = `<!DOCTYPE html>
         const container = document.getElementById('bullet-' + widget.id);
         if (!container || !Array.isArray(data)) return;
 
-        const margin = {top: 5, right: 40, bottom: 20, left: 140};
+        const margin = {top: 5, right: 40, bottom: 30, left: 140};
         const width = container.offsetWidth - margin.left - margin.right;
-        const height = 35;
+        const height = 30;
 
         // Use maturity-specific bullet chart with M1-M5 ticks
         const chart = d3MaturityBullet().width(width).height(height);
@@ -560,8 +560,16 @@ const htmlTemplate = `<!DOCTYPE html>
                 .attr('y2', height * 5 / 6);
           });
 
-          // M1-M5 tick marks and labels
+          // M1-M5 tick marks and labels with thresholds
           const ticks = [1, 2, 3, 4, 5];
+          const thresholds = d.thresholds || [];
+
+          // Create threshold lookup by level
+          const thresholdByLevel = {};
+          thresholds.forEach(t => {
+            thresholdByLevel[t.level] = t.valueStr || '';
+          });
+
           const tickG = g.selectAll('g.tick')
               .data(ticks)
             .enter().append('g')
@@ -574,12 +582,22 @@ const htmlTemplate = `<!DOCTYPE html>
               .style('stroke', '#666')
               .style('stroke-width', '1px');
 
+          // Level label (M1, M2, etc.)
           tickG.append('text')
               .attr('text-anchor', 'middle')
-              .attr('y', height + 16)
-              .style('font-size', '10px')
-              .style('fill', '#666')
+              .attr('y', height + 14)
+              .style('font-size', '9px')
+              .style('font-weight', 'bold')
+              .style('fill', '#333')
               .text(d => 'M' + d);
+
+          // Threshold value below level label
+          tickG.append('text')
+              .attr('text-anchor', 'middle')
+              .attr('y', height + 24)
+              .style('font-size', '8px')
+              .style('fill', '#666')
+              .text(d => thresholdByLevel[d] || '');
         });
       }
 

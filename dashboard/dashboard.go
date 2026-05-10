@@ -870,11 +870,14 @@ func (g *Generator) addBulletWidgets() {
 
 // sliInfo holds SLI data for grouping.
 type sliInfo struct {
-	ID      string
-	Name    string
-	SLIType string
-	Level   float64
-	Target  float64
+	ID          string
+	Name        string
+	SLIType     string
+	Level       float64
+	Target      float64
+	ActualValue float64          // The actual SLI value (e.g., 65 for 65%)
+	Unit        string           // Unit of measurement (e.g., "%", "ms", "rps")
+	Thresholds  []LevelThreshold // Thresholds for each maturity level
 }
 
 func (g *Generator) addDomainOverviewBullet(domainKey string, domain *maturity.DomainModel, currentLevel, targetLevel float64) {
@@ -916,36 +919,122 @@ func (g *Generator) collectSLIsByType(domain *maturity.DomainModel, assessment *
 	for _, level := range domain.Levels {
 		for _, criterion := range level.Criteria {
 			sliID := criterion.SLIID
-			if sliID == "" || seenSLIs[sliID] {
+			if sliID == "" {
 				continue
 			}
-			seenSLIs[sliID] = true
 
-			sliName := criterion.Name
-			sliType := ""
-			if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
-				sliName = sli.Name
-				sliType = sli.SLIType
+			// Get or create SLI info
+			if !seenSLIs[sliID] {
+				seenSLIs[sliID] = true
+
+				sliName := criterion.Name
+				sliType := ""
+				unit := ""
+				if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
+					sliName = sli.Name
+					sliType = sli.SLIType
+					unit = sli.Unit
+				}
+
+				sliLevel := float64(1)
+				actualValue := float64(0)
+				if assessment != nil {
+					sliLevel = g.calculateSLIMaturityLevel(domain, assessment, sliID)
+					// Get actual value from first matching criterion
+					for _, lvl := range domain.Levels {
+						for _, c := range lvl.Criteria {
+							if c.SLIID == sliID {
+								if val, ok := assessment.CriteriaValues[c.ID]; ok {
+									actualValue = val
+									break
+								}
+							}
+						}
+						if actualValue != 0 {
+							break
+						}
+					}
+				}
+
+				info := sliInfo{
+					ID:          sliID,
+					Name:        sliName,
+					SLIType:     sliType,
+					Level:       sliLevel,
+					Target:      targetLevel,
+					ActualValue: actualValue,
+					Unit:        unit,
+					Thresholds:  []LevelThreshold{},
+				}
+
+				slisByType[sliType] = append(slisByType[sliType], info)
 			}
 
-			sliLevel := float64(1)
-			if assessment != nil {
-				sliLevel = g.calculateSLIMaturityLevel(domain, assessment, sliID)
+			// Collect threshold for this level
+			for i := range slisByType[g.getSLIType(sliID)] {
+				if slisByType[g.getSLIType(sliID)][i].ID == sliID {
+					threshold := LevelThreshold{
+						Level:    level.Level,
+						Operator: criterion.Operator,
+						Value:    criterion.Target,
+						ValueStr: formatThresholdValue(criterion.Target, criterion.Operator, g.getSLIUnit(sliID)),
+					}
+					slisByType[g.getSLIType(sliID)][i].Thresholds = append(
+						slisByType[g.getSLIType(sliID)][i].Thresholds,
+						threshold,
+					)
+					break
+				}
 			}
-
-			info := sliInfo{
-				ID:      sliID,
-				Name:    sliName,
-				SLIType: sliType,
-				Level:   sliLevel,
-				Target:  targetLevel,
-			}
-
-			slisByType[sliType] = append(slisByType[sliType], info)
 		}
 	}
 
 	return slisByType
+}
+
+func (g *Generator) getSLIType(sliID string) string {
+	if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
+		return sli.SLIType
+	}
+	return ""
+}
+
+func (g *Generator) getSLIUnit(sliID string) string {
+	if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
+		return sli.Unit
+	}
+	return ""
+}
+
+func formatThresholdValue(value float64, operator, unit string) string {
+	// Format the value with appropriate precision
+	var valStr string
+	if value == float64(int(value)) {
+		valStr = fmt.Sprintf("%d", int(value))
+	} else {
+		valStr = fmt.Sprintf("%.1f", value)
+	}
+
+	// Add unit
+	if unit != "" {
+		valStr += unit
+	}
+
+	// Add operator prefix
+	switch operator {
+	case ">=", "gte":
+		return "≥" + valStr
+	case "<=", "lte":
+		return "≤" + valStr
+	case ">", "gt":
+		return ">" + valStr
+	case "<", "lt":
+		return "<" + valStr
+	case "==", "eq":
+		return "=" + valStr
+	default:
+		return valStr
+	}
 }
 
 func (g *Generator) getBulletsForMethodology(methodology MethodologyInfo, slisByType map[string][]sliInfo) []MaturityBullet {
@@ -959,12 +1048,15 @@ func (g *Generator) getBulletsForMethodology(methodology MethodologyInfo, slisBy
 			}
 			seen[info.ID] = true
 
-			bullets = append(bullets, NewMaturityBullet(
+			bullet := NewMaturityBulletWithDetails(
 				info.Name,
-				MaturityLevel(info.Level),
 				info.Level,
 				info.Target,
-			))
+				info.ActualValue,
+				info.Unit,
+				info.Thresholds,
+			)
+			bullets = append(bullets, bullet)
 		}
 	}
 
