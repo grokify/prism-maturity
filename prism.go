@@ -96,6 +96,54 @@ type SLI struct {
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 	Formula     string `json:"formula,omitempty"`
+	SLIType     string `json:"sliType,omitempty"` // Observability type: availability, latency, error_rate, etc.
+}
+
+// IsGoldenSignal returns true if the SLI type is part of Google's Golden Signals.
+func (s *SLI) IsGoldenSignal() bool {
+	if s == nil || s.SLIType == "" {
+		return false
+	}
+	for _, t := range GoldenSignalsSLITypes() {
+		if t == s.SLIType {
+			return true
+		}
+	}
+	return false
+}
+
+// IsRED returns true if the SLI type is part of the RED methodology.
+func (s *SLI) IsRED() bool {
+	if s == nil || s.SLIType == "" {
+		return false
+	}
+	for _, t := range REDSLITypes() {
+		if t == s.SLIType {
+			return true
+		}
+	}
+	return false
+}
+
+// IsUSE returns true if the SLI type is part of the USE methodology.
+func (s *SLI) IsUSE() bool {
+	if s == nil || s.SLIType == "" {
+		return false
+	}
+	for _, t := range USESLITypes() {
+		if t == s.SLIType {
+			return true
+		}
+	}
+	return false
+}
+
+// Methodologies returns all methodologies that include this SLI's type.
+func (s *SLI) Methodologies() []string {
+	if s == nil || s.SLIType == "" {
+		return nil
+	}
+	return MethodologiesForSLIType(s.SLIType)
 }
 
 // SLO represents a Service Level Objective.
