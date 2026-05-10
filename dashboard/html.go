@@ -216,12 +216,13 @@ const htmlTemplate = `<!DOCTYPE html>
     }
 
     /* Maturity Bullet Chart Styles */
+    /* D3 sorts ranges descending: s0=highest(M5), s1=middle(M4), s2=lowest(M1-3) */
     .bullet { font: 10px sans-serif; }
     .bullet .marker { stroke: #000; stroke-width: 2px; }
     .bullet .tick line { stroke: #666; stroke-width: .5px; }
-    .bullet .range.s0 { fill: #fee2e2; }
+    .bullet .range.s0 { fill: #dcfce7; }
     .bullet .range.s1 { fill: #fef3c7; }
-    .bullet .range.s2 { fill: #dcfce7; }
+    .bullet .range.s2 { fill: #fee2e2; }
     .bullet .measure.s0 { fill: #3b82f6; }
     .bullet .measure.s1 { fill: #60a5fa; }
     .bullet .title { font-size: 12px; font-weight: bold; }
