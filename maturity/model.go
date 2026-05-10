@@ -35,6 +35,7 @@ type SLI struct {
 	// Classification
 	Layer    string `json:"layer,omitempty"`    // requirements, code, infra, runtime, adoption, support
 	Category string `json:"category,omitempty"` // prevention, detection, response
+	SLIType  string `json:"sliType,omitempty"`  // Observability type: availability, latency, error_rate, throughput, saturation, utilization, quality, freshness
 
 	// Framework mappings - defined once on the SLI, inherited by all SLOs
 	FrameworkMappings []FrameworkMapping `json:"frameworkMappings,omitempty"`
