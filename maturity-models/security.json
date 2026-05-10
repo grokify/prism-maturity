@@ -2,11 +2,413 @@
   "$schema": "https://github.com/grokify/prism/schema/maturity.schema.json",
   "metadata": {
     "name": "Security Maturity Model",
-    "description": "Security domain maturity model with SLO-backed level criteria",
-    "version": "1.0.0",
+    "description": "Security domain maturity model with SLI-backed level criteria and compliance framework mappings",
+    "version": "2.0.0",
     "organization": "Example Corp",
     "createdAt": "2026-01-15",
-    "updatedAt": "2026-01-15"
+    "updatedAt": "2026-05-09"
+  },
+  "slis": {
+    "sli-sast-coverage": {
+      "id": "sli-sast-coverage",
+      "name": "SAST Coverage",
+      "description": "Percentage of repositories with static application security testing enabled",
+      "metricName": "Repositories with SAST scanning",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "code",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "PR.DS-1",
+          "name": "Data Security",
+          "description": "Data-at-rest is protected"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "SA-11",
+          "name": "Developer Testing and Evaluation",
+          "description": "Security and privacy testing during development",
+          "baseline": "moderate"
+        },
+        {
+          "framework": "SOC_2",
+          "reference": "CC7.1",
+          "name": "System Operations",
+          "description": "Detection and monitoring of security events"
+        }
+      ]
+    },
+    "sli-sca-coverage": {
+      "id": "sli-sca-coverage",
+      "name": "SCA Coverage",
+      "description": "Percentage of repositories with software composition analysis (dependency scanning)",
+      "metricName": "Repositories with SCA scanning",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "code",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "ID.SC-2",
+          "name": "Supply Chain Risk Management",
+          "description": "Suppliers and partners are identified and assessed"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "SA-12",
+          "name": "Supply Chain Protection",
+          "description": "Protect against supply chain threats",
+          "baseline": "moderate"
+        }
+      ]
+    },
+    "sli-critical-vulns": {
+      "id": "sli-critical-vulns",
+      "name": "Critical Vulnerabilities",
+      "description": "Number of critical/high severity vulnerabilities in production",
+      "metricName": "Critical vulnerabilities in production",
+      "unit": "count",
+      "type": "quantitative",
+      "sliType": "error_rate",
+      "layer": "runtime",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "ID.RA-1",
+          "name": "Risk Assessment",
+          "description": "Asset vulnerabilities are identified and documented"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "RA-5",
+          "name": "Vulnerability Monitoring and Scanning",
+          "description": "Scan for vulnerabilities and remediate",
+          "baseline": "low"
+        }
+      ]
+    },
+    "sli-secrets-in-code": {
+      "id": "sli-secrets-in-code",
+      "name": "Secrets in Code",
+      "description": "Number of exposed credentials or secrets detected in repositories",
+      "metricName": "Secrets detected in code",
+      "unit": "count",
+      "type": "quantitative",
+      "sliType": "error_rate",
+      "layer": "code",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "PR.DS-5",
+          "name": "Data Security",
+          "description": "Protections against data leaks"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "IA-5",
+          "name": "Authenticator Management",
+          "description": "Manage system authenticators",
+          "baseline": "low"
+        }
+      ]
+    },
+    "sli-mttr-critical": {
+      "id": "sli-mttr-critical",
+      "name": "MTTR Critical Findings",
+      "description": "Mean time to remediate critical security findings",
+      "metricName": "MTTR for critical findings",
+      "unit": "days",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "RS.MI-1",
+          "name": "Mitigation",
+          "description": "Incidents are contained"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "IR-4",
+          "name": "Incident Handling",
+          "description": "Implement incident handling capability",
+          "baseline": "low"
+        }
+      ]
+    },
+    "sli-mttr-high": {
+      "id": "sli-mttr-high",
+      "name": "MTTR High Findings",
+      "description": "Mean time to remediate high severity findings",
+      "metricName": "MTTR for high findings",
+      "unit": "days",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "RS.MI-1",
+          "name": "Mitigation",
+          "description": "Incidents are contained"
+        }
+      ]
+    },
+    "sli-cloud-posture": {
+      "id": "sli-cloud-posture",
+      "name": "Cloud Security Posture",
+      "description": "Cloud security posture management (CSPM) compliance score",
+      "metricName": "CSPM compliance score",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "infra",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "PR.IP-1",
+          "name": "Information Protection",
+          "description": "Configuration management is established"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "CM-2",
+          "name": "Baseline Configuration",
+          "description": "Develop and maintain baseline configurations",
+          "baseline": "low"
+        },
+        {
+          "framework": "CIS_CONTROLS",
+          "reference": "4",
+          "name": "Secure Configuration",
+          "description": "Secure configuration of assets"
+        }
+      ]
+    },
+    "sli-detection-coverage": {
+      "id": "sli-detection-coverage",
+      "name": "Threat Detection Coverage",
+      "description": "MITRE ATT&CK technique coverage in detection rules",
+      "metricName": "MITRE ATT&CK coverage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "MITRE_ATTACK",
+          "reference": "coverage",
+          "name": "ATT&CK Coverage",
+          "description": "Detection coverage across ATT&CK techniques"
+        },
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "DE.CM-1",
+          "name": "Continuous Monitoring",
+          "description": "Networks and systems are monitored"
+        }
+      ]
+    },
+    "sli-detection-latency": {
+      "id": "sli-detection-latency",
+      "name": "Detection Latency",
+      "description": "Time from security event occurrence to alert generation",
+      "metricName": "Event to alert latency",
+      "unit": "seconds",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "DE.AE-4",
+          "name": "Anomaly Detection",
+          "description": "Impact of events is determined"
+        }
+      ]
+    },
+    "sli-pentest-coverage": {
+      "id": "sli-pentest-coverage",
+      "name": "Penetration Test Coverage",
+      "description": "Percentage of tier-1 services with annual penetration testing",
+      "metricName": "Services with pentest coverage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_800_53",
+          "reference": "CA-8",
+          "name": "Penetration Testing",
+          "description": "Conduct penetration testing",
+          "baseline": "moderate"
+        },
+        {
+          "framework": "SOC_2",
+          "reference": "CC4.1",
+          "name": "COSO Principle 16",
+          "description": "Ongoing evaluations to ascertain controls are present and functioning"
+        }
+      ]
+    },
+    "sli-auto-remediation": {
+      "id": "sli-auto-remediation",
+      "name": "Auto-Remediation Rate",
+      "description": "Percentage of known vulnerability patterns automatically remediated",
+      "metricName": "Auto-remediated findings",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "throughput",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "RS.MI-2",
+          "name": "Mitigation",
+          "description": "Incidents are mitigated"
+        }
+      ]
+    },
+    "sli-vuln-tracking": {
+      "id": "sli-vuln-tracking",
+      "name": "Vulnerability Tracking",
+      "description": "Whether vulnerabilities are systematically tracked in a tracking system",
+      "metricName": "Vulnerabilities tracked",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "code",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_800_53",
+          "reference": "RA-5",
+          "name": "Vulnerability Monitoring and Scanning",
+          "description": "Scan for vulnerabilities and remediate",
+          "baseline": "low"
+        }
+      ]
+    },
+    "sli-incident-process": {
+      "id": "sli-incident-process",
+      "name": "Incident Response Process",
+      "description": "Whether security incident response process is documented",
+      "metricName": "Incident process documented",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "RS.RP-1",
+          "name": "Response Planning",
+          "description": "Response plan is executed"
+        },
+        {
+          "framework": "NIST_800_53",
+          "reference": "IR-1",
+          "name": "Policy and Procedures",
+          "description": "Incident response policy and procedures",
+          "baseline": "low"
+        }
+      ]
+    },
+    "sli-security-gates": {
+      "id": "sli-security-gates",
+      "name": "Security Gates Active",
+      "description": "Whether security gates in CI/CD block deployments with critical findings",
+      "metricName": "Security gates enforced",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "code",
+      "category": "prevention",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_800_53",
+          "reference": "SA-11",
+          "name": "Developer Testing and Evaluation",
+          "description": "Security testing during development",
+          "baseline": "moderate"
+        }
+      ]
+    },
+    "sli-threat-hunting": {
+      "id": "sli-threat-hunting",
+      "name": "Proactive Threat Hunting",
+      "description": "Number of threat hunting exercises conducted per quarter",
+      "metricName": "Threat hunts per quarter",
+      "unit": "count",
+      "type": "quantitative",
+      "sliType": "throughput",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "MITRE_ATTACK",
+          "reference": "hunting",
+          "name": "Threat Hunting",
+          "description": "Proactive threat hunting activities"
+        }
+      ]
+    },
+    "sli-red-team": {
+      "id": "sli-red-team",
+      "name": "Red Team Exercises",
+      "description": "Number of red team or purple team exercises conducted per year",
+      "metricName": "Red team exercises per year",
+      "unit": "count",
+      "type": "quantitative",
+      "sliType": "throughput",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_800_53",
+          "reference": "CA-8",
+          "name": "Penetration Testing",
+          "description": "Conduct penetration testing",
+          "baseline": "high"
+        }
+      ]
+    },
+    "sli-zero-day-response": {
+      "id": "sli-zero-day-response",
+      "name": "Zero-Day Response Time",
+      "description": "Time to assess and begin mitigation of zero-day vulnerabilities",
+      "metricName": "Zero-day response time",
+      "unit": "hours",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "NIST_CSF_2",
+          "reference": "RS.AN-1",
+          "name": "Analysis",
+          "description": "Notifications from detection systems are investigated"
+        }
+      ]
+    }
   },
   "domains": {
     "security": {
@@ -28,50 +430,36 @@
           "criteria": [
             {
               "id": "sec-m2-sast-coverage",
-              "name": "SAST Coverage",
-              "description": "Percentage of repositories with SAST scanning enabled",
-              "metricName": "Repositories with SAST scanning",
+              "name": "Basic SAST Coverage",
+              "sliId": "sli-sast-coverage",
               "operator": "gte",
               "target": 50,
-              "unit": "%",
-              "layer": "code",
-              "category": "prevention",
               "required": true
             },
             {
               "id": "sec-m2-sca-coverage",
-              "name": "SCA Coverage",
-              "description": "Percentage of repositories with dependency scanning",
-              "metricName": "Repositories with SCA scanning",
+              "name": "Basic SCA Coverage",
+              "sliId": "sli-sca-coverage",
               "operator": "gte",
               "target": 50,
-              "unit": "%",
-              "layer": "code",
-              "category": "prevention",
               "required": true
             },
             {
               "id": "sec-m2-vulns-tracked",
               "name": "Vulnerability Tracking",
-              "description": "Percentage of discovered vulnerabilities logged in tracking system",
-              "metricName": "Vulnerabilities tracked",
-              "operator": "eq",
-              "target": 100,
-              "unit": "%",
-              "layer": "code",
-              "category": "detection",
+              "sliId": "sli-vuln-tracking",
+              "operator": "exists",
+              "target": 0,
+              "status": "tracked",
               "required": true
             },
             {
               "id": "sec-m2-incident-process",
-              "name": "Incident Process",
-              "description": "Security incident response process is documented",
-              "metricName": "Incident process documented",
-              "operator": "eq",
-              "target": 1,
-              "unit": "",
-              "layer": "runtime",
-              "category": "response",
+              "name": "Incident Process Documented",
+              "sliId": "sli-incident-process",
+              "operator": "exists",
+              "target": 0,
+              "status": "documented",
               "required": true
             }
           ],
@@ -129,74 +517,51 @@
           "criteria": [
             {
               "id": "sec-m3-sast-coverage",
-              "name": "SAST CI Coverage",
-              "description": "Percentage of repositories with SAST integrated in CI pipeline",
-              "metricName": "Repositories with SAST in CI",
+              "name": "Full SAST CI Coverage",
+              "sliId": "sli-sast-coverage",
               "operator": "eq",
               "target": 100,
-              "unit": "%",
-              "layer": "code",
-              "category": "prevention",
               "required": true
             },
             {
               "id": "sec-m3-sca-coverage",
-              "name": "SCA CI Coverage",
-              "description": "Percentage of repositories with SCA integrated in CI pipeline",
-              "metricName": "Repositories with SCA in CI",
+              "name": "Full SCA CI Coverage",
+              "sliId": "sli-sca-coverage",
               "operator": "eq",
               "target": 100,
-              "unit": "%",
-              "layer": "code",
-              "category": "prevention",
               "required": true
             },
             {
-              "id": "sec-m3-gates-active",
-              "name": "Security Gates Active",
-              "description": "Percentage of pipelines with security gates that block on critical findings",
-              "metricName": "Pipelines with security gates",
-              "operator": "eq",
-              "target": 100,
-              "unit": "%",
-              "layer": "code",
-              "category": "prevention",
+              "id": "sec-m3-security-gates",
+              "name": "Security Gates Enforced",
+              "sliId": "sli-security-gates",
+              "operator": "exists",
+              "target": 0,
+              "status": "enabled",
               "required": true
             },
             {
               "id": "sec-m3-secrets-zero",
               "name": "No Secrets in Code",
-              "description": "Number of secrets detected in repositories",
-              "metricName": "Secrets in code",
+              "sliId": "sli-secrets-in-code",
               "operator": "eq",
               "target": 0,
-              "unit": "count",
-              "layer": "code",
-              "category": "prevention",
               "required": true
             },
             {
-              "id": "sec-m3-critical-findings",
+              "id": "sec-m3-critical-zero",
               "name": "Zero Critical Findings",
-              "description": "Number of critical/high severity findings in production code",
-              "metricName": "Critical findings in production",
+              "sliId": "sli-critical-vulns",
               "operator": "eq",
               "target": 0,
-              "unit": "count",
-              "layer": "runtime",
-              "category": "prevention",
               "required": true
             },
             {
               "id": "sec-m3-cloud-posture",
-              "name": "Cloud Posture Score",
-              "description": "Cloud security posture management compliance score",
-              "metricName": "CSPM compliance score",
+              "name": "Cloud Posture Baseline",
+              "sliId": "sli-cloud-posture",
               "operator": "gte",
               "target": 80,
-              "unit": "%",
-              "layer": "infra",
-              "category": "prevention",
               "required": true
             }
           ],
@@ -214,7 +579,7 @@
               "dependsOn": ["sec-m2-deploy-sast", "sec-m2-deploy-sca"]
             },
             {
-              "id": "sec-m3-security-gates",
+              "id": "sec-m3-security-gates-impl",
               "name": "Implement security gates",
               "description": "Configure CI to block merges and deploys with critical/high findings",
               "type": "implementation",
@@ -222,7 +587,7 @@
               "effort": "2 weeks",
               "team": "Platform",
               "status": "not_started",
-              "criteriaIds": ["sec-m3-gates-active", "sec-m3-critical-findings"],
+              "criteriaIds": ["sec-m3-security-gates", "sec-m3-critical-zero"],
               "dependsOn": ["sec-m3-ci-integration"]
             },
             {
@@ -256,74 +621,50 @@
           "criteria": [
             {
               "id": "sec-m4-mttr-critical",
-              "name": "MTTR Critical Findings",
-              "description": "Mean time to remediate critical security findings",
-              "metricName": "MTTR for critical findings",
+              "name": "MTTR Critical <=7 days",
+              "sliId": "sli-mttr-critical",
               "operator": "lte",
               "target": 7,
-              "unit": "days",
-              "layer": "runtime",
-              "category": "response",
               "required": true
             },
             {
               "id": "sec-m4-mttr-high",
-              "name": "MTTR High Findings",
-              "description": "Mean time to remediate high severity findings",
-              "metricName": "MTTR for high findings",
+              "name": "MTTR High <=30 days",
+              "sliId": "sli-mttr-high",
               "operator": "lte",
               "target": 30,
-              "unit": "days",
-              "layer": "runtime",
-              "category": "response",
               "required": true
             },
             {
               "id": "sec-m4-detection-coverage",
-              "name": "Threat Detection Coverage",
-              "description": "MITRE ATT&CK technique coverage in detection rules",
-              "metricName": "MITRE ATT&CK coverage",
+              "name": "Detection Coverage 70%",
+              "sliId": "sli-detection-coverage",
               "operator": "gte",
               "target": 70,
-              "unit": "%",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             },
             {
               "id": "sec-m4-detection-latency",
-              "name": "Detection Latency",
-              "description": "Time from security event to alert",
-              "metricName": "Event to alert latency",
+              "name": "Detection Latency <=60s",
+              "sliId": "sli-detection-latency",
               "operator": "lte",
               "target": 60,
-              "unit": "seconds",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             },
             {
               "id": "sec-m4-cloud-posture",
-              "name": "Cloud Posture Score",
-              "description": "Cloud security posture management compliance score",
-              "metricName": "CSPM compliance score",
+              "name": "Cloud Posture Managed",
+              "sliId": "sli-cloud-posture",
               "operator": "gte",
               "target": 95,
-              "unit": "%",
-              "layer": "infra",
-              "category": "prevention",
               "required": true
             },
             {
               "id": "sec-m4-pentest-coverage",
-              "name": "Penetration Test Coverage",
-              "description": "Percentage of tier-1 services with annual pentest",
-              "metricName": "Services with pentest coverage",
+              "name": "Pentest Coverage 100%",
+              "sliId": "sli-pentest-coverage",
               "operator": "eq",
               "target": 100,
-              "unit": "%",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             }
           ],
@@ -394,74 +735,50 @@
           "criteria": [
             {
               "id": "sec-m5-mttr-critical",
-              "name": "MTTR Critical Findings",
-              "description": "Mean time to remediate critical security findings",
-              "metricName": "MTTR for critical findings",
+              "name": "MTTR Critical <=1 day",
+              "sliId": "sli-mttr-critical",
               "operator": "lte",
               "target": 1,
-              "unit": "days",
-              "layer": "runtime",
-              "category": "response",
               "required": true
             },
             {
               "id": "sec-m5-auto-remediation",
-              "name": "Auto-Remediation Rate",
-              "description": "Percentage of known vulnerability patterns auto-remediated",
-              "metricName": "Auto-remediated findings",
+              "name": "Auto-Remediation 80%",
+              "sliId": "sli-auto-remediation",
               "operator": "gte",
               "target": 80,
-              "unit": "%",
-              "layer": "runtime",
-              "category": "response",
               "required": true
             },
             {
               "id": "sec-m5-detection-coverage",
-              "name": "Threat Detection Coverage",
-              "description": "MITRE ATT&CK technique coverage in detection rules",
-              "metricName": "MITRE ATT&CK coverage",
+              "name": "Detection Coverage 90%",
+              "sliId": "sli-detection-coverage",
               "operator": "gte",
               "target": 90,
-              "unit": "%",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             },
             {
-              "id": "sec-m5-proactive-hunting",
-              "name": "Proactive Threat Hunting",
-              "description": "Number of threat hunting exercises per quarter",
-              "metricName": "Threat hunts per quarter",
+              "id": "sec-m5-threat-hunting",
+              "name": "Threat Hunting Quarterly",
+              "sliId": "sli-threat-hunting",
               "operator": "gte",
               "target": 4,
-              "unit": "count",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             },
             {
               "id": "sec-m5-red-team",
-              "name": "Red Team Exercises",
-              "description": "Number of red team/purple team exercises per year",
-              "metricName": "Red team exercises per year",
+              "name": "Red Team Annually",
+              "sliId": "sli-red-team",
               "operator": "gte",
               "target": 2,
-              "unit": "count",
-              "layer": "runtime",
-              "category": "detection",
               "required": true
             },
             {
               "id": "sec-m5-zero-day-response",
-              "name": "Zero-Day Response Time",
-              "description": "Time to assess and mitigate zero-day vulnerabilities",
-              "metricName": "Zero-day response time",
+              "name": "Zero-Day Response <=24h",
+              "sliId": "sli-zero-day-response",
               "operator": "lte",
               "target": 24,
-              "unit": "hours",
-              "layer": "runtime",
-              "category": "response",
               "required": true
             }
           ],
@@ -478,7 +795,7 @@
               "criteriaIds": ["sec-m5-auto-remediation", "sec-m5-mttr-critical"]
             },
             {
-              "id": "sec-m5-threat-hunting",
+              "id": "sec-m5-threat-hunting-program",
               "name": "Establish threat hunting program",
               "description": "Quarterly proactive threat hunting exercises",
               "type": "process",
@@ -486,7 +803,7 @@
               "effort": "Ongoing",
               "team": "Security",
               "status": "not_started",
-              "criteriaIds": ["sec-m5-proactive-hunting"]
+              "criteriaIds": ["sec-m5-threat-hunting"]
             },
             {
               "id": "sec-m5-red-team-program",
@@ -518,20 +835,17 @@
   "assessments": {
     "security": {
       "domain": "security",
-      "assessedAt": "2026-01-15",
+      "assessedAt": "2026-05-09",
       "assessedBy": "Security Team",
       "currentLevel": 2,
       "targetLevel": 4,
       "criteriaValues": {
         "sec-m2-sast-coverage": 75,
         "sec-m2-sca-coverage": 80,
-        "sec-m2-vulns-tracked": 100,
-        "sec-m2-incident-process": 1,
         "sec-m3-sast-coverage": 60,
         "sec-m3-sca-coverage": 65,
-        "sec-m3-gates-active": 40,
         "sec-m3-secrets-zero": 3,
-        "sec-m3-critical-findings": 5,
+        "sec-m3-critical-zero": 5,
         "sec-m3-cloud-posture": 72,
         "sec-m4-mttr-critical": 14,
         "sec-m4-mttr-high": 45,
@@ -540,13 +854,18 @@
         "sec-m4-cloud-posture": 72,
         "sec-m4-pentest-coverage": 60
       },
+      "criteriaStatus": {
+        "sec-m2-vulns-tracked": "tracked",
+        "sec-m2-incident-process": "documented",
+        "sec-m3-security-gates": "partial"
+      },
       "enablerStatus": {
         "sec-m2-deploy-sast": "completed",
         "sec-m2-deploy-sca": "completed",
         "sec-m2-vuln-tracking": "completed",
         "sec-m2-incident-runbook": "completed",
         "sec-m3-ci-integration": "in_progress",
-        "sec-m3-security-gates": "not_started",
+        "sec-m3-security-gates-impl": "not_started",
         "sec-m3-secrets-scanning": "in_progress",
         "sec-m3-cspm-deploy": "not_started"
       }
