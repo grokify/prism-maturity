@@ -465,11 +465,12 @@ const htmlTemplate = `<!DOCTYPE html>
         const container = document.getElementById('bullet-' + widget.id);
         if (!container || !Array.isArray(data)) return;
 
-        const margin = {top: 5, right: 40, bottom: 10, left: 140};
+        const margin = {top: 5, right: 40, bottom: 20, left: 140};
         const width = container.offsetWidth - margin.left - margin.right;
         const height = 35;
 
-        const chart = d3Bullet().width(width).height(height);
+        // Use maturity-specific bullet chart with M1-M5 ticks
+        const chart = d3MaturityBullet().width(width).height(height);
 
         const svg = d3.select('#bullet-' + widget.id).selectAll('svg')
             .data(data)
@@ -496,7 +497,108 @@ const htmlTemplate = `<!DOCTYPE html>
       }, 0);
     }
 
-    // D3 Bullet Chart implementation
+    // D3 Maturity Bullet Chart - specialized for M1-M5 levels
+    function d3MaturityBullet() {
+      let width = 380;
+      let height = 30;
+
+      function bullet(g) {
+        g.each(function(d) {
+          const rangez = (d.ranges || [3, 4, 5]).slice().sort(d3.descending);
+          const markerz = (d.markers || []).slice();
+          const measurez = (d.measures || []).slice();
+          const g = d3.select(this);
+
+          // Fixed scale 0-5 for maturity levels
+          const x = d3.scale.linear()
+              .domain([0, 5])
+              .range([0, width]);
+
+          // Background ranges (colored zones)
+          const rangeData = [
+            { start: 0, end: 3, class: 's2' },   // M1-M3: red
+            { start: 3, end: 4, class: 's1' },   // M4: yellow
+            { start: 4, end: 5, class: 's0' }    // M5: green
+          ];
+
+          g.selectAll('rect.range')
+              .data(rangeData)
+            .enter().append('rect')
+              .attr('class', d => 'range ' + d.class)
+              .attr('x', d => x(d.start))
+              .attr('width', d => x(d.end) - x(d.start))
+              .attr('height', height);
+
+          // Measure bar (current level)
+          if (measurez.length > 0) {
+            const currentLevel = measurez[0];
+            g.append('rect')
+                .attr('class', 'measure s0')
+                .attr('x', 0)
+                .attr('width', x(currentLevel))
+                .attr('height', height / 3)
+                .attr('y', height / 3);
+
+            // Current level label on bar
+            g.append('text')
+                .attr('class', 'measure-label')
+                .attr('x', x(currentLevel) + 4)
+                .attr('y', height / 2 + 4)
+                .style('font-size', '11px')
+                .style('font-weight', 'bold')
+                .style('fill', '#3b82f6')
+                .text(currentLevel.toFixed(1));
+          }
+
+          // Target marker
+          markerz.forEach(m => {
+            g.append('line')
+                .attr('class', 'marker')
+                .attr('x1', x(m))
+                .attr('x2', x(m))
+                .attr('y1', height / 6)
+                .attr('y2', height * 5 / 6);
+          });
+
+          // M1-M5 tick marks and labels
+          const ticks = [1, 2, 3, 4, 5];
+          const tickG = g.selectAll('g.tick')
+              .data(ticks)
+            .enter().append('g')
+              .attr('class', 'tick')
+              .attr('transform', d => 'translate(' + x(d) + ',0)');
+
+          tickG.append('line')
+              .attr('y1', height)
+              .attr('y2', height + 6)
+              .style('stroke', '#666')
+              .style('stroke-width', '1px');
+
+          tickG.append('text')
+              .attr('text-anchor', 'middle')
+              .attr('y', height + 16)
+              .style('font-size', '10px')
+              .style('fill', '#666')
+              .text(d => 'M' + d);
+        });
+      }
+
+      bullet.width = function(x) {
+        if (!arguments.length) return width;
+        width = x;
+        return bullet;
+      };
+
+      bullet.height = function(x) {
+        if (!arguments.length) return height;
+        height = x;
+        return bullet;
+      };
+
+      return bullet;
+    }
+
+    // D3 Bullet Chart implementation (generic)
     function d3Bullet() {
       let orient = 'left';
       let reverse = false;
