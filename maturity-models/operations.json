@@ -1,0 +1,819 @@
+{
+  "$schema": "https://github.com/grokify/prism/schema/maturity.schema.json",
+  "metadata": {
+    "name": "Operations Maturity Model",
+    "description": "Operations domain maturity model with SLI-backed level criteria covering Golden Signals (latency, traffic, errors, saturation)",
+    "version": "1.0.0",
+    "organization": "Example Corp",
+    "createdAt": "2026-05-09",
+    "updatedAt": "2026-05-09"
+  },
+  "slis": {
+    "sli-availability": {
+      "id": "sli-availability",
+      "name": "Service Availability",
+      "description": "Percentage of time services are operational and responding to requests",
+      "metricName": "Service uptime percentage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "availability",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "availability",
+          "name": "Service Availability",
+          "description": "Core SRE availability SLI"
+        },
+        {
+          "framework": "DORA",
+          "reference": "availability",
+          "name": "System Availability",
+          "description": "DORA reliability metric"
+        }
+      ]
+    },
+    "sli-latency-p99": {
+      "id": "sli-latency-p99",
+      "name": "P99 Response Latency",
+      "description": "99th percentile response time for API requests",
+      "metricName": "P99 response time",
+      "unit": "ms",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "latency",
+          "name": "Request Latency",
+          "description": "Golden Signal: Latency"
+        }
+      ]
+    },
+    "sli-latency-p50": {
+      "id": "sli-latency-p50",
+      "name": "P50 Response Latency",
+      "description": "Median response time for API requests",
+      "metricName": "P50 response time",
+      "unit": "ms",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "latency",
+          "name": "Median Latency",
+          "description": "Golden Signal: Latency (median)"
+        }
+      ]
+    },
+    "sli-error-rate": {
+      "id": "sli-error-rate",
+      "name": "Error Rate",
+      "description": "Percentage of requests resulting in errors (5xx, timeouts)",
+      "metricName": "Request error percentage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "error_rate",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "errors",
+          "name": "Error Rate",
+          "description": "Golden Signal: Errors"
+        },
+        {
+          "framework": "DORA",
+          "reference": "change-failure-rate",
+          "name": "Change Failure Rate",
+          "description": "Related DORA metric"
+        }
+      ]
+    },
+    "sli-throughput": {
+      "id": "sli-throughput",
+      "name": "Request Throughput",
+      "description": "Requests processed per second",
+      "metricName": "Requests per second",
+      "unit": "req/s",
+      "type": "quantitative",
+      "sliType": "throughput",
+      "layer": "runtime",
+      "category": "efficiency",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "traffic",
+          "name": "Traffic",
+          "description": "Golden Signal: Traffic"
+        }
+      ]
+    },
+    "sli-cpu-saturation": {
+      "id": "sli-cpu-saturation",
+      "name": "CPU Saturation",
+      "description": "Percentage of CPU capacity utilized across services",
+      "metricName": "CPU utilization percentage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "saturation",
+      "layer": "runtime",
+      "category": "efficiency",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "saturation",
+          "name": "Saturation",
+          "description": "Golden Signal: Saturation"
+        }
+      ]
+    },
+    "sli-memory-saturation": {
+      "id": "sli-memory-saturation",
+      "name": "Memory Saturation",
+      "description": "Percentage of memory capacity utilized across services",
+      "metricName": "Memory utilization percentage",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "saturation",
+      "layer": "runtime",
+      "category": "efficiency",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "saturation",
+          "name": "Memory Saturation",
+          "description": "Golden Signal: Saturation (memory)"
+        }
+      ]
+    },
+    "sli-mttr": {
+      "id": "sli-mttr",
+      "name": "Mean Time to Recovery",
+      "description": "Average time to restore service after an incident",
+      "metricName": "Mean time to recovery",
+      "unit": "minutes",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "runtime",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "DORA",
+          "reference": "time-to-restore",
+          "name": "Time to Restore Service",
+          "description": "DORA key metric"
+        }
+      ]
+    },
+    "sli-deployment-frequency": {
+      "id": "sli-deployment-frequency",
+      "name": "Deployment Frequency",
+      "description": "Number of deployments to production per day",
+      "metricName": "Deployments per day",
+      "unit": "deploys/day",
+      "type": "quantitative",
+      "sliType": "throughput",
+      "layer": "runtime",
+      "category": "efficiency",
+      "frameworkMappings": [
+        {
+          "framework": "DORA",
+          "reference": "deployment-frequency",
+          "name": "Deployment Frequency",
+          "description": "DORA key metric"
+        }
+      ]
+    },
+    "sli-lead-time": {
+      "id": "sli-lead-time",
+      "name": "Lead Time for Changes",
+      "description": "Time from code commit to production deployment",
+      "metricName": "Lead time",
+      "unit": "hours",
+      "type": "quantitative",
+      "sliType": "latency",
+      "layer": "code",
+      "category": "efficiency",
+      "frameworkMappings": [
+        {
+          "framework": "DORA",
+          "reference": "lead-time",
+          "name": "Lead Time for Changes",
+          "description": "DORA key metric"
+        }
+      ]
+    },
+    "sli-monitoring-coverage": {
+      "id": "sli-monitoring-coverage",
+      "name": "Monitoring Coverage",
+      "description": "Percentage of services with comprehensive monitoring",
+      "metricName": "Services with monitoring",
+      "unit": "%",
+      "type": "quantitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "observability",
+          "name": "Observability Coverage",
+          "description": "SRE observability practice"
+        }
+      ]
+    },
+    "sli-alerting-defined": {
+      "id": "sli-alerting-defined",
+      "name": "Alerting Defined",
+      "description": "Whether alerting policies are defined and documented",
+      "metricName": "Alerting policies documented",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "detection",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "alerting",
+          "name": "Alerting",
+          "description": "SRE alerting practice"
+        }
+      ]
+    },
+    "sli-runbooks-exist": {
+      "id": "sli-runbooks-exist",
+      "name": "Runbooks Documented",
+      "description": "Whether operational runbooks exist for incident response",
+      "metricName": "Runbooks documented",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "support",
+      "category": "response",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "incident-response",
+          "name": "Incident Response",
+          "description": "SRE incident response practice"
+        }
+      ]
+    },
+    "sli-slos-defined": {
+      "id": "sli-slos-defined",
+      "name": "SLOs Defined",
+      "description": "Whether SLOs are formally defined and tracked",
+      "metricName": "SLOs formally defined",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "slo",
+          "name": "Service Level Objectives",
+          "description": "Core SRE practice"
+        }
+      ]
+    },
+    "sli-error-budget-policy": {
+      "id": "sli-error-budget-policy",
+      "name": "Error Budget Policy",
+      "description": "Whether error budget policies are defined and enforced",
+      "metricName": "Error budget policy exists",
+      "unit": "",
+      "type": "qualitative",
+      "sliType": "quality",
+      "layer": "runtime",
+      "category": "reliability",
+      "frameworkMappings": [
+        {
+          "framework": "SRE",
+          "reference": "error-budget",
+          "name": "Error Budget",
+          "description": "Core SRE practice"
+        }
+      ]
+    }
+  },
+  "domains": {
+    "operations": {
+      "name": "Operations",
+      "description": "Service reliability, performance, and operational excellence maturity",
+      "owner": "SRE Team",
+      "levels": [
+        {
+          "level": 1,
+          "name": "Reactive",
+          "description": "Ad-hoc operations, firefighting mode, no SLOs or monitoring standards",
+          "criteria": [],
+          "enablers": []
+        },
+        {
+          "level": 2,
+          "name": "Basic",
+          "description": "Basic monitoring in place, some visibility, informal processes",
+          "criteria": [
+            {
+              "id": "ops-m2-availability",
+              "name": "Basic Availability",
+              "sliId": "sli-availability",
+              "operator": "gte",
+              "target": 95.0,
+              "required": true
+            },
+            {
+              "id": "ops-m2-latency-p99",
+              "name": "Basic P99 Latency",
+              "sliId": "sli-latency-p99",
+              "operator": "lte",
+              "target": 2000,
+              "required": true
+            },
+            {
+              "id": "ops-m2-error-rate",
+              "name": "Basic Error Rate",
+              "sliId": "sli-error-rate",
+              "operator": "lte",
+              "target": 5.0,
+              "required": true
+            },
+            {
+              "id": "ops-m2-monitoring",
+              "name": "Basic Monitoring Coverage",
+              "sliId": "sli-monitoring-coverage",
+              "operator": "gte",
+              "target": 50,
+              "required": true
+            },
+            {
+              "id": "ops-m2-alerting",
+              "name": "Alerting Defined",
+              "sliId": "sli-alerting-defined",
+              "operator": "exists",
+              "target": 0,
+              "status": "defined",
+              "required": true
+            }
+          ],
+          "enablers": [
+            {
+              "id": "ops-m2-deploy-monitoring",
+              "name": "Deploy basic monitoring",
+              "description": "Install metrics collection and dashboards (e.g., Prometheus, Grafana)",
+              "type": "tooling",
+              "layer": "runtime",
+              "effort": "2 weeks",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m2-monitoring"]
+            },
+            {
+              "id": "ops-m2-setup-alerts",
+              "name": "Configure basic alerting",
+              "description": "Set up alerts for critical service health metrics",
+              "type": "implementation",
+              "layer": "runtime",
+              "effort": "1 week",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m2-alerting"]
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Defined",
+          "description": "SLOs defined, comprehensive monitoring, documented processes",
+          "criteria": [
+            {
+              "id": "ops-m3-availability",
+              "name": "Defined Availability",
+              "sliId": "sli-availability",
+              "operator": "gte",
+              "target": 99.0,
+              "required": true
+            },
+            {
+              "id": "ops-m3-latency-p99",
+              "name": "Defined P99 Latency",
+              "sliId": "sli-latency-p99",
+              "operator": "lte",
+              "target": 500,
+              "required": true
+            },
+            {
+              "id": "ops-m3-latency-p50",
+              "name": "Defined P50 Latency",
+              "sliId": "sli-latency-p50",
+              "operator": "lte",
+              "target": 100,
+              "required": true
+            },
+            {
+              "id": "ops-m3-error-rate",
+              "name": "Defined Error Rate",
+              "sliId": "sli-error-rate",
+              "operator": "lte",
+              "target": 1.0,
+              "required": true
+            },
+            {
+              "id": "ops-m3-cpu-saturation",
+              "name": "CPU Saturation Limit",
+              "sliId": "sli-cpu-saturation",
+              "operator": "lte",
+              "target": 80,
+              "required": true
+            },
+            {
+              "id": "ops-m3-monitoring",
+              "name": "Comprehensive Monitoring",
+              "sliId": "sli-monitoring-coverage",
+              "operator": "gte",
+              "target": 80,
+              "required": true
+            },
+            {
+              "id": "ops-m3-mttr",
+              "name": "Basic MTTR",
+              "sliId": "sli-mttr",
+              "operator": "lte",
+              "target": 60,
+              "required": true
+            },
+            {
+              "id": "ops-m3-slos-defined",
+              "name": "SLOs Formally Defined",
+              "sliId": "sli-slos-defined",
+              "operator": "exists",
+              "target": 0,
+              "status": "defined",
+              "required": true
+            },
+            {
+              "id": "ops-m3-runbooks",
+              "name": "Runbooks Documented",
+              "sliId": "sli-runbooks-exist",
+              "operator": "exists",
+              "target": 0,
+              "status": "documented",
+              "required": true
+            }
+          ],
+          "enablers": [
+            {
+              "id": "ops-m3-define-slos",
+              "name": "Define formal SLOs",
+              "description": "Establish SLOs for all tier-1 services with stakeholder agreement",
+              "type": "process",
+              "layer": "runtime",
+              "effort": "3 weeks",
+              "team": "SRE + Product",
+              "status": "not_started",
+              "criteriaIds": ["ops-m3-slos-defined"]
+            },
+            {
+              "id": "ops-m3-create-runbooks",
+              "name": "Document operational runbooks",
+              "description": "Create runbooks for common incidents and operational procedures",
+              "type": "process",
+              "layer": "support",
+              "effort": "4 weeks",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m3-runbooks"]
+            },
+            {
+              "id": "ops-m3-expand-monitoring",
+              "name": "Expand monitoring coverage",
+              "description": "Add monitoring to all services with Golden Signals coverage",
+              "type": "implementation",
+              "layer": "runtime",
+              "effort": "4 weeks",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m3-monitoring"],
+              "dependsOn": ["ops-m2-deploy-monitoring"]
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Managed",
+          "description": "Data-driven operations, error budgets, proactive capacity planning",
+          "criteria": [
+            {
+              "id": "ops-m4-availability",
+              "name": "Managed Availability",
+              "sliId": "sli-availability",
+              "operator": "gte",
+              "target": 99.9,
+              "required": true
+            },
+            {
+              "id": "ops-m4-latency-p99",
+              "name": "Managed P99 Latency",
+              "sliId": "sli-latency-p99",
+              "operator": "lte",
+              "target": 200,
+              "required": true
+            },
+            {
+              "id": "ops-m4-latency-p50",
+              "name": "Managed P50 Latency",
+              "sliId": "sli-latency-p50",
+              "operator": "lte",
+              "target": 50,
+              "required": true
+            },
+            {
+              "id": "ops-m4-error-rate",
+              "name": "Managed Error Rate",
+              "sliId": "sli-error-rate",
+              "operator": "lte",
+              "target": 0.1,
+              "required": true
+            },
+            {
+              "id": "ops-m4-cpu-saturation",
+              "name": "CPU Saturation Managed",
+              "sliId": "sli-cpu-saturation",
+              "operator": "lte",
+              "target": 70,
+              "required": true
+            },
+            {
+              "id": "ops-m4-memory-saturation",
+              "name": "Memory Saturation Managed",
+              "sliId": "sli-memory-saturation",
+              "operator": "lte",
+              "target": 75,
+              "required": true
+            },
+            {
+              "id": "ops-m4-monitoring",
+              "name": "Full Monitoring Coverage",
+              "sliId": "sli-monitoring-coverage",
+              "operator": "gte",
+              "target": 95,
+              "required": true
+            },
+            {
+              "id": "ops-m4-mttr",
+              "name": "Managed MTTR",
+              "sliId": "sli-mttr",
+              "operator": "lte",
+              "target": 30,
+              "required": true
+            },
+            {
+              "id": "ops-m4-deployment-frequency",
+              "name": "Deployment Frequency",
+              "sliId": "sli-deployment-frequency",
+              "operator": "gte",
+              "target": 1,
+              "required": true
+            },
+            {
+              "id": "ops-m4-lead-time",
+              "name": "Lead Time for Changes",
+              "sliId": "sli-lead-time",
+              "operator": "lte",
+              "target": 24,
+              "required": true
+            },
+            {
+              "id": "ops-m4-error-budget-policy",
+              "name": "Error Budget Policy",
+              "sliId": "sli-error-budget-policy",
+              "operator": "exists",
+              "target": 0,
+              "status": "implemented",
+              "required": true
+            }
+          ],
+          "enablers": [
+            {
+              "id": "ops-m4-error-budgets",
+              "name": "Implement error budget policies",
+              "description": "Define and enforce error budget policies with automated tracking",
+              "type": "process",
+              "layer": "runtime",
+              "effort": "3 weeks",
+              "team": "SRE + Engineering",
+              "status": "not_started",
+              "criteriaIds": ["ops-m4-error-budget-policy"],
+              "dependsOn": ["ops-m3-define-slos"]
+            },
+            {
+              "id": "ops-m4-capacity-planning",
+              "name": "Implement capacity planning",
+              "description": "Proactive capacity planning with load testing and forecasting",
+              "type": "process",
+              "layer": "runtime",
+              "effort": "4 weeks",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m4-cpu-saturation", "ops-m4-memory-saturation"]
+            },
+            {
+              "id": "ops-m4-cicd-improvements",
+              "name": "Optimize CI/CD pipeline",
+              "description": "Reduce lead time with automated testing and deployment",
+              "type": "implementation",
+              "layer": "code",
+              "effort": "6 weeks",
+              "team": "Platform",
+              "status": "not_started",
+              "criteriaIds": ["ops-m4-deployment-frequency", "ops-m4-lead-time"]
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Optimizing",
+          "description": "Continuous improvement, predictive operations, industry-leading reliability",
+          "criteria": [
+            {
+              "id": "ops-m5-availability",
+              "name": "Optimized Availability",
+              "sliId": "sli-availability",
+              "operator": "gte",
+              "target": 99.99,
+              "required": true
+            },
+            {
+              "id": "ops-m5-latency-p99",
+              "name": "Optimized P99 Latency",
+              "sliId": "sli-latency-p99",
+              "operator": "lte",
+              "target": 100,
+              "required": true
+            },
+            {
+              "id": "ops-m5-latency-p50",
+              "name": "Optimized P50 Latency",
+              "sliId": "sli-latency-p50",
+              "operator": "lte",
+              "target": 20,
+              "required": true
+            },
+            {
+              "id": "ops-m5-error-rate",
+              "name": "Optimized Error Rate",
+              "sliId": "sli-error-rate",
+              "operator": "lte",
+              "target": 0.01,
+              "required": true
+            },
+            {
+              "id": "ops-m5-cpu-saturation",
+              "name": "CPU Saturation Optimized",
+              "sliId": "sli-cpu-saturation",
+              "operator": "lte",
+              "target": 60,
+              "required": true
+            },
+            {
+              "id": "ops-m5-memory-saturation",
+              "name": "Memory Saturation Optimized",
+              "sliId": "sli-memory-saturation",
+              "operator": "lte",
+              "target": 65,
+              "required": true
+            },
+            {
+              "id": "ops-m5-monitoring",
+              "name": "Complete Monitoring Coverage",
+              "sliId": "sli-monitoring-coverage",
+              "operator": "eq",
+              "target": 100,
+              "required": true
+            },
+            {
+              "id": "ops-m5-mttr",
+              "name": "Optimized MTTR",
+              "sliId": "sli-mttr",
+              "operator": "lte",
+              "target": 10,
+              "required": true
+            },
+            {
+              "id": "ops-m5-deployment-frequency",
+              "name": "High Deployment Frequency",
+              "sliId": "sli-deployment-frequency",
+              "operator": "gte",
+              "target": 10,
+              "required": true
+            },
+            {
+              "id": "ops-m5-lead-time",
+              "name": "Minimal Lead Time",
+              "sliId": "sli-lead-time",
+              "operator": "lte",
+              "target": 1,
+              "required": true
+            }
+          ],
+          "enablers": [
+            {
+              "id": "ops-m5-predictive-ops",
+              "name": "Implement predictive operations",
+              "description": "ML-based anomaly detection and predictive alerting",
+              "type": "implementation",
+              "layer": "runtime",
+              "effort": "3 months",
+              "team": "SRE + ML",
+              "status": "not_started",
+              "criteriaIds": ["ops-m5-availability", "ops-m5-mttr"]
+            },
+            {
+              "id": "ops-m5-auto-remediation",
+              "name": "Implement auto-remediation",
+              "description": "Automated remediation for known failure patterns",
+              "type": "implementation",
+              "layer": "runtime",
+              "effort": "2 months",
+              "team": "SRE",
+              "status": "not_started",
+              "criteriaIds": ["ops-m5-mttr"],
+              "dependsOn": ["ops-m3-create-runbooks"]
+            },
+            {
+              "id": "ops-m5-continuous-deployment",
+              "name": "Achieve continuous deployment",
+              "description": "Fully automated deployment pipeline with feature flags",
+              "type": "implementation",
+              "layer": "code",
+              "effort": "2 months",
+              "team": "Platform",
+              "status": "not_started",
+              "criteriaIds": ["ops-m5-deployment-frequency", "ops-m5-lead-time"],
+              "dependsOn": ["ops-m4-cicd-improvements"]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "assessments": {
+    "operations": {
+      "domain": "operations",
+      "assessedAt": "2026-05-09",
+      "assessedBy": "SRE Team",
+      "currentLevel": 3,
+      "targetLevel": 5,
+      "criteriaValues": {
+        "ops-m2-availability": 99.5,
+        "ops-m2-latency-p99": 450,
+        "ops-m2-error-rate": 0.8,
+        "ops-m2-monitoring": 85,
+        "ops-m3-availability": 99.5,
+        "ops-m3-latency-p99": 450,
+        "ops-m3-latency-p50": 75,
+        "ops-m3-error-rate": 0.8,
+        "ops-m3-cpu-saturation": 65,
+        "ops-m3-monitoring": 85,
+        "ops-m3-mttr": 45,
+        "ops-m4-availability": 99.5,
+        "ops-m4-latency-p99": 450,
+        "ops-m4-latency-p50": 75,
+        "ops-m4-error-rate": 0.8,
+        "ops-m4-cpu-saturation": 65,
+        "ops-m4-memory-saturation": 70,
+        "ops-m4-monitoring": 85,
+        "ops-m4-mttr": 45,
+        "ops-m4-deployment-frequency": 0.5,
+        "ops-m4-lead-time": 48
+      },
+      "criteriaStatus": {
+        "ops-m2-alerting": "defined",
+        "ops-m3-slos-defined": "defined",
+        "ops-m3-runbooks": "documented",
+        "ops-m4-error-budget-policy": "partial"
+      },
+      "enablerStatus": {
+        "ops-m2-deploy-monitoring": "completed",
+        "ops-m2-setup-alerts": "completed",
+        "ops-m3-define-slos": "completed",
+        "ops-m3-create-runbooks": "completed",
+        "ops-m3-expand-monitoring": "in_progress",
+        "ops-m4-error-budgets": "in_progress",
+        "ops-m4-capacity-planning": "not_started",
+        "ops-m4-cicd-improvements": "not_started"
+      }
+    }
+  }
+}
