@@ -64,6 +64,15 @@ func NewMaturityBulletWithDetails(title string, currentLevel, targetLevel, actua
 		}
 	}
 
+	// Check if this is a qualitative SLI (has "exists" operator in thresholds)
+	isQualitative := false
+	for _, t := range thresholds {
+		if t.Operator == "exists" {
+			isQualitative = true
+			break
+		}
+	}
+
 	// Build subtitle with level and actual value
 	subtitle := MaturityLevel(currentLevel)
 	if actualValueStr != "" {
@@ -71,6 +80,9 @@ func NewMaturityBulletWithDetails(title string, currentLevel, targetLevel, actua
 	} else if qualitativeState != "" {
 		// For qualitative SLIs, show the state (e.g., "Tracked", "Measured")
 		subtitle = fmt.Sprintf("%s (%s)", titleCase(qualitativeState), MaturityLevel(currentLevel))
+	} else if isQualitative {
+		// For qualitative SLIs with no state, show "Not Tracked"
+		subtitle = fmt.Sprintf("Not Tracked (%s)", MaturityLevel(currentLevel))
 	}
 
 	bullet := MaturityBullet{
