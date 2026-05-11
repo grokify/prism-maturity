@@ -28,21 +28,37 @@ go install github.com/grokify/prism/cmd/prism@latest
 | [`prism roadmap`](roadmap.md) | View roadmap overview |
 | [`prism initiative`](initiative.md) | List and inspect initiatives |
 
-### Reporting Commands (v0.2.0)
+### SLO Reporting (v0.2.0)
 
 | Command | Description |
 |---------|-------------|
-| [`prism report`](report.md) | Generate roadmap reports (Markdown/JSON) |
 | [`prism slo-report`](slo-report.md) | Generate SLO compliance reports |
-| [`prism dashboard`](dashboard.md) | Generate executive dashboards |
 | `prism dashforge` | Convert to dashforge format |
 
-### Maturity Model Commands (v0.3.0)
+### Maturity Commands (v0.6.0)
+
+#### Model Commands
 
 | Command | Description |
 |---------|-------------|
-| [`prism maturity report`](maturity-report.md) | Generate maturity model reports (Markdown) |
-| [`prism maturity xlsx`](maturity-xlsx.md) | Generate maturity model reports (Excel) |
+| [`prism maturity model report`](maturity-report.md) | Generate maturity model reports (Markdown) |
+| [`prism maturity model xlsx`](maturity-xlsx.md) | Generate maturity model reports (Excel) |
+| `prism maturity model dashboard` | Generate model dashboards with state integration |
+| `prism maturity model validate` | Validate model documents |
+
+#### State Commands
+
+| Command | Description |
+|---------|-------------|
+| `prism maturity state validate` | Validate state documents (with optional model cross-validation) |
+| `prism maturity state show` | Display state summary (text/json) |
+
+#### Plan Commands
+
+| Command | Description |
+|---------|-------------|
+| [`prism maturity plan dashboard`](dashboard.md) | Generate executive dashboards |
+| [`prism maturity plan report`](report.md) | Generate roadmap reports (Markdown/JSON) |
 
 ### Organizational Commands (v0.3.0)
 

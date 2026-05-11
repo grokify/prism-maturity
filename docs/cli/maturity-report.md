@@ -1,16 +1,18 @@
-# prism maturity report
+# prism maturity model report
 
 Generate markdown reports from a maturity model specification file.
 
 ## Synopsis
 
 ```bash
-prism maturity report <maturity-spec-file> [flags]
+prism maturity model report <model-file> [flags]
 ```
+
+> **Note:** As of v0.6.0, `prism maturity report` has been moved to `prism maturity model report`.
 
 ## Description
 
-The `prism maturity report` command generates comprehensive markdown documentation from a maturity model specification. Reports can be viewed from two perspectives:
+The `prism maturity model report` command generates comprehensive markdown documentation from a maturity model specification. Reports can be viewed from two perspectives:
 
 - **Domain view**: Maturity levels organized by domain (security, operations, quality)
 - **Framework view**: Criteria organized by compliance framework mappings
@@ -95,43 +97,43 @@ Framework (NIST CSF 2.0, NIST 800-53, FedRAMP, etc.)
 ### Generate to stdout
 
 ```bash
-prism maturity report maturity-spec.json
+prism maturity model report model.json
 ```
 
 ### Generate to file
 
 ```bash
-prism maturity report maturity-spec.json -o maturity-report.md
+prism maturity model report model.json -o maturity-report.md
 ```
 
 ### Domain view only
 
 ```bash
-prism maturity report maturity-spec.json --view domain -o domain-report.md
+prism maturity model report model.json --view domain -o domain-report.md
 ```
 
 ### Framework view only
 
 ```bash
-prism maturity report maturity-spec.json --view framework -o compliance-report.md
+prism maturity model report model.json --view framework -o compliance-report.md
 ```
 
 ### Filter to specific frameworks
 
 ```bash
-prism maturity report maturity-spec.json --frameworks NIST_CSF_2,NIST_800_53
+prism maturity model report model.json --frameworks NIST_CSF_2,NIST_800_53
 ```
 
 ### Without YAML front matter
 
 ```bash
-prism maturity report maturity-spec.json --no-meta
+prism maturity model report model.json --no-meta
 ```
 
 ### JSON output
 
 ```bash
-prism maturity report maturity-spec.json -f json -o maturity-spec.json
+prism maturity model report model.json -f json -o model.json
 ```
 
 ## Output Format
@@ -221,7 +223,7 @@ Framework mappings are resolved from SLIs when criteria use `sliId` references:
 Generate framework-specific compliance reports:
 
 ```bash
-prism maturity report spec.json --view framework --frameworks FEDRAMP_MOD -o fedramp-moderate.md
+prism maturity model report model.json --view framework --frameworks FEDRAMP_MOD -o fedramp-moderate.md
 ```
 
 ### Executive Summaries
@@ -229,7 +231,7 @@ prism maturity report spec.json --view framework --frameworks FEDRAMP_MOD -o fed
 Generate domain-focused summaries without implementation details:
 
 ```bash
-prism maturity report spec.json --view domain --no-detail -o executive-summary.md
+prism maturity model report model.json --view domain --no-detail -o executive-summary.md
 ```
 
 ### Documentation Site
@@ -237,7 +239,7 @@ prism maturity report spec.json --view domain --no-detail -o executive-summary.m
 Generate MkDocs-compatible documentation:
 
 ```bash
-prism maturity report spec.json -o docs/maturity/index.md
+prism maturity model report model.json -o docs/maturity/index.md
 ```
 
 ## See Also

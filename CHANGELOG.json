@@ -11,17 +11,29 @@
       "date": "2026-05-10",
       "highlights": [
         { "description": "BREAKING: Three-part schema taxonomy: Model, State, Plan" },
+        { "description": "BREAKING: CLI restructured to match schema taxonomy" },
         { "description": "Domain-centric examples directory structure" },
         { "description": "New MaturityStateDocument type for state tracking" },
         { "description": "Consistent schema naming: prism-maturity-{model,state,plan}.schema.json" }
       ],
       "breaking": [
+        { "description": "CLI: `prism maturity report` → `prism maturity model report`" },
+        { "description": "CLI: `prism maturity xlsx` → `prism maturity model xlsx`" },
+        { "description": "CLI: `prism dashboard` → `prism maturity plan dashboard`" },
+        { "description": "CLI: `prism report` → `prism maturity plan report`" },
         { "description": "Schema files renamed: `maturity.schema.json` → `prism-maturity-model.schema.json`" },
         { "description": "Schema files renamed: `prism.schema.json` → `prism-maturity-plan.schema.json`" },
         { "description": "Examples directory restructured to domain-centric layout" },
         { "description": "Old schema embedding functions deprecated in favor of new names" }
       ],
       "added": [
+        { "description": "`prism maturity model` subcommand: report, xlsx, dashboard, validate" },
+        { "description": "`prism maturity state` subcommand: validate, show" },
+        { "description": "`prism maturity plan` subcommand: dashboard, report" },
+        { "description": "`prism maturity model dashboard` with --state flag for state document integration" },
+        { "description": "`prism maturity model validate` for model document validation" },
+        { "description": "`prism maturity state validate` with --model flag for cross-validation" },
+        { "description": "`prism maturity state show` with text/json output formats" },
         { "description": "New `prism-maturity-state.schema.json` for state tracking documents" },
         { "description": "`MaturityStateDocument` type for PRISM Maturity State documents" },
         { "description": "`MaturityStateMetadata` type with maturityModelRef field" },

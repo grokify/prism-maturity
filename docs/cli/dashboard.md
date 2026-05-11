@@ -1,12 +1,14 @@
-# prism dashboard
+# prism maturity plan dashboard
 
-Generate executive dashboards from a PRISM document.
+Generate executive dashboards from a PRISM plan document.
 
 ## Synopsis
 
 ```bash
-prism dashboard <file> [options]
+prism maturity plan dashboard <plan-file> [options]
 ```
+
+> **Note:** As of v0.6.0, `prism dashboard` has been moved to `prism maturity plan dashboard`.
 
 ## Description
 
@@ -25,19 +27,31 @@ Generate an executive dashboard showing high-level status views including goal p
 Generate dashboard JSON:
 
 ```bash
-prism dashboard prism.json -o dashboard.json
+prism maturity plan dashboard plan.json -o dashboard.json
 ```
 
 Generate dashboard to stdout:
 
 ```bash
-prism dashboard prism.json
+prism maturity plan dashboard plan.json
 ```
 
 Generate markdown dashboard:
 
 ```bash
-prism dashboard prism.json --format markdown -o dashboard.md
+prism maturity plan dashboard plan.json --format markdown -o dashboard.md
+```
+
+Generate HTML dashboard:
+
+```bash
+prism maturity plan dashboard plan.json -f html -o dashboard.html
+```
+
+Generate Marp presentation slides:
+
+```bash
+prism maturity plan dashboard plan.json -f marp -o slides.md
 ```
 
 ## Output Format
@@ -76,6 +90,14 @@ The dashboard JSON includes:
 
 ## Related Commands
 
+### prism maturity model dashboard
+
+Generate dashboards from a maturity model with optional state document:
+
+```bash
+prism maturity model dashboard model.json --state state.json -f html -o dashboard.html
+```
+
 ### prism dashforge
 
 Convert a PRISM document to dashforge format for dashboard generation.
@@ -103,6 +125,6 @@ prism dashforge prism.json --widgets metrics
 
 ## See Also
 
-- [prism report](report.md) - Roadmap reports
+- [prism maturity plan report](report.md) - Roadmap reports
 - [prism slo-report](slo-report.md) - SLO compliance reports
 - [Dashforge Integration](../integrations/dashforge.md) - Dashforge integration guide

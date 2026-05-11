@@ -1,16 +1,18 @@
-# prism maturity xlsx
+# prism maturity model xlsx
 
 Generate an Excel (XLSX) report from a maturity model specification.
 
 ## Synopsis
 
 ```bash
-prism maturity xlsx <maturity-spec-file> [flags]
+prism maturity model xlsx <model-file> [flags]
 ```
+
+> **Note:** As of v0.6.0, `prism maturity xlsx` has been moved to `prism maturity model xlsx`.
 
 ## Description
 
-The `maturity xlsx` command generates a comprehensive Excel workbook from a PRISM maturity specification. The workbook contains multiple sheets for different views of the maturity data.
+The `prism maturity model xlsx` command generates a comprehensive Excel workbook from a PRISM maturity specification. The workbook contains multiple sheets for different views of the maturity data.
 
 ## Output Sheets
 
@@ -54,14 +56,14 @@ See [SLIs & SLOs](../schema/slos.md) for details on the SLI architecture.
 ## Examples
 
 ```bash
-# Generate XLSX with default filename (spec.xlsx)
-prism maturity xlsx spec.json
+# Generate XLSX with default filename (model.xlsx)
+prism maturity model xlsx model.json
 
 # Generate XLSX with custom output filename
-prism maturity xlsx spec.json -o security-maturity-report.xlsx
+prism maturity model xlsx model.json -o security-maturity-report.xlsx
 
 # Generate from YAML input
-prism maturity xlsx maturity.yaml -o report.xlsx
+prism maturity model xlsx maturity.yaml -o report.xlsx
 ```
 
 ## Output File
@@ -104,5 +106,5 @@ The generated workbook uses color coding for status fields:
 
 ## See Also
 
-- [`prism maturity report`](maturity-report.md) - Generate Markdown reports
+- [`prism maturity model report`](maturity-report.md) - Generate Markdown reports
 - [`prism slo-report`](slo-report.md) - Generate SLO compliance reports

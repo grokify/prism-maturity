@@ -229,24 +229,8 @@ prism initiative show prism.json init-monitoring
 ### Report commands (v0.2.0)
 
 ```bash
-# Generate markdown report (both views)
-prism report prism.json -o report.md
-
-# Generate phase-centric view only
-prism report prism.json --view by-phase
-
-# Generate JSON report
-prism report prism.json --format json
-
 # Generate SLO compliance report
 prism slo-report prism.json
-```
-
-### Dashboard commands (v0.2.0)
-
-```bash
-# Generate executive dashboard
-prism dashboard prism.json -o dashboard.json
 
 # Convert to dashforge format
 prism dashforge prism.json -o dashforge.json
@@ -305,20 +289,22 @@ prism export okr prism.json -o roadmap.okr.json
 prism export v2mom prism.json -o roadmap.v2mom.json
 ```
 
-### Maturity commands (v0.4.0)
+### Maturity commands (v0.6.0)
 
 ```bash
-# Generate Markdown report with SLI Catalog
-prism maturity report maturity-spec.json -o report.md
+# Model commands - work with maturity model documents
+prism maturity model report model.json -o report.md
+prism maturity model xlsx model.json -o report.xlsx
+prism maturity model dashboard model.json --state state.json -f html -o dashboard.html
+prism maturity model validate model.json
 
-# Generate domain view only
-prism maturity report maturity-spec.json --view domain
+# State commands - work with maturity state documents
+prism maturity state validate state.json --model model.json
+prism maturity state show state.json --model model.json
 
-# Generate framework view only
-prism maturity report maturity-spec.json --view framework
-
-# Generate Excel workbook
-prism maturity xlsx maturity-spec.json -o report.xlsx
+# Plan commands - work with maturity plan documents
+prism maturity plan dashboard plan.json -f html -o dashboard.html
+prism maturity plan report plan.json -o roadmap.md
 ```
 
 ## Schema Overview

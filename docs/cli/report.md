@@ -1,12 +1,14 @@
-# prism report
+# prism maturity plan report
 
-Generate roadmap reports from a PRISM document.
+Generate roadmap reports from a PRISM plan document.
 
 ## Synopsis
 
 ```bash
-prism report <file> [options]
+prism maturity plan report <plan-file> [options]
 ```
+
+> **Note:** As of v0.6.0, `prism report` has been moved to `prism maturity plan report`.
 
 ## Description
 
@@ -33,37 +35,37 @@ Generate a roadmap report in Markdown or JSON format. The report can be generate
 Generate markdown report to stdout:
 
 ```bash
-prism report roadmap.json
+prism maturity plan report plan.json
 ```
 
 Generate markdown report to file:
 
 ```bash
-prism report roadmap.json -o report.md
+prism maturity plan report plan.json -o report.md
 ```
 
 Generate JSON report:
 
 ```bash
-prism report roadmap.json --format json
+prism maturity plan report plan.json --format json
 ```
 
 Generate phase-centric view only:
 
 ```bash
-prism report roadmap.json --view by-phase
+prism maturity plan report plan.json --view by-phase
 ```
 
 Generate goal-centric view only:
 
 ```bash
-prism report roadmap.json --view by-goal
+prism maturity plan report plan.json --view by-goal
 ```
 
 Generate report with custom title:
 
 ```bash
-prism report roadmap.json --title "Q1 2026 Roadmap Report"
+prism maturity plan report plan.json --title "Q1 2026 Roadmap Report"
 ```
 
 ## Output Format
@@ -98,5 +100,5 @@ The JSON output includes a structured roadmap report object:
 ## See Also
 
 - [prism slo-report](slo-report.md) - SLO compliance reports
-- [prism dashboard](dashboard.md) - Executive dashboards
+- [prism maturity plan dashboard](dashboard.md) - Executive dashboards
 - [prism roadmap](roadmap.md) - Roadmap overview commands
