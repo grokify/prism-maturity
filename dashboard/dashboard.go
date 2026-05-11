@@ -1209,12 +1209,16 @@ func (g *Generator) addFlatBulletList(domainKey string, domain *maturity.DomainM
 	// Collect all SLIs into a flat list
 	for _, infos := range slisByType {
 		for _, info := range infos {
-			bullets = append(bullets, NewMaturityBullet(
+			bullet := NewMaturityBulletWithDetails(
 				info.Name,
-				MaturityLevel(info.Level),
 				info.Level,
 				info.Target,
-			))
+				info.ActualValue,
+				info.Unit,
+				info.QualitativeState,
+				info.Thresholds,
+			)
+			bullets = append(bullets, bullet)
 		}
 	}
 
