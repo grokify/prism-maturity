@@ -2978,6 +2978,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.6.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.6.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.5.0/" class="md-nav__link">
         
   
@@ -3459,13 +3482,39 @@
 </tbody>
 </table>
 <h3 id="maturity-package-maturity">Maturity Package (<code>maturity/</code>)</h3>
-<p>Handles maturity model specifications and evaluation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Spec defines a complete maturity specification</span>
+<p>Handles maturity model specifications and evaluation using a three-part schema:</p>
+<table>
+<thead>
+<tr>
+<th>Schema</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prism-maturity-model</code></td>
+<td><code>Spec</code></td>
+<td>Defines what good looks like (M1-M5 levels)</td>
+</tr>
+<tr>
+<td><code>prism-maturity-state</code></td>
+<td><code>MaturityStateDocument</code></td>
+<td>Tracks current state and measurements</td>
+</tr>
+<tr>
+<td><code>prism-maturity-plan</code></td>
+<td><code>PRISMDocument</code></td>
+<td>Plans how to achieve target levels</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Spec defines a maturity model specification</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Spec</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nx">Metadata</span><span class="w">      </span><span class="o">*</span><span class="nx">SpecMetadata</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">KPIThresholds</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">][]</span><span class="nx">KPIThreshold</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">Domains</span><span class="w">       </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">DomainModel</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">Assessments</span><span class="w">   </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">DomainAssessment</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nx">Schema</span><span class="w">   </span><span class="kt">string</span><span class="w">                  </span><span class="s">`json:&quot;$schema,omitempty&quot;`</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nx">Metadata</span><span class="w"> </span><span class="o">*</span><span class="nx">SpecMetadata</span><span class="w">           </span><span class="s">`json:&quot;metadata,omitempty&quot;`</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nx">SLIs</span><span class="w">     </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">SLI</span><span class="w">         </span><span class="s">`json:&quot;slis,omitempty&quot;`</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">Domains</span><span class="w">  </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="o">*</span><span class="nx">DomainModel</span><span class="w"> </span><span class="s">`json:&quot;domains&quot;`</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">// DomainModel defines maturity levels for a domain</span>
@@ -3489,48 +3538,58 @@
 <li><code>Level.IsLevelAchieved()</code> - Check if criteria are met</li>
 <li><code>Level.CalculateLevelProgress()</code> - Calculate progress toward a level</li>
 </ul>
+<p><strong>State tracking:</strong></p>
+<p>State is tracked separately from the model using <code>MaturityStateDocument</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">MaturityStateDocument</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nx">Schema</span><span class="w">        </span><span class="kt">string</span><span class="w">                </span><span class="s">`json:&quot;$schema,omitempty&quot;`</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nx">Metadata</span><span class="w">      </span><span class="nx">MaturityStateMetadata</span><span class="w"> </span><span class="s">`json:&quot;metadata&quot;`</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nx">SLIState</span><span class="w">      </span><span class="nx">SLIStateMap</span><span class="w">           </span><span class="s">`json:&quot;sliState,omitempty&quot;`</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nx">MaturityState</span><span class="w"> </span><span class="nx">MaturityStateMap</span><span class="w">      </span><span class="s">`json:&quot;maturityState,omitempty&quot;`</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nx">EnablerState</span><span class="w">  </span><span class="nx">EnablerStateMap</span><span class="w">       </span><span class="s">`json:&quot;enablerState,omitempty&quot;`</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
+</code></pre></div>
 <h3 id="output-package-output">Output Package (<code>output/</code>)</h3>
 <p>Provides multi-format output capabilities:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Supported formats</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nx">FormatText</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;text&quot;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nx">FormatJSON</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;json&quot;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nx">FormatMarkdown</span><span class="w"> </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;markdown&quot;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nx">FormatTOON</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;toon&quot;</span><span class="w">  </span><span class="c1">// Token-Optimized Object Notation</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1">// Formatter handles output</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Formatter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nx">Format</span><span class="w"> </span><span class="nx">Format</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nx">Writer</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1">// Output methods</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteTable</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="o">*</span><span class="nx">TableData</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteDetail</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="o">*</span><span class="nx">DetailData</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteJSON</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kt">error</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Supported formats</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nx">FormatText</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;text&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nx">FormatJSON</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;json&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nx">FormatMarkdown</span><span class="w"> </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;markdown&quot;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nx">FormatTOON</span><span class="w">     </span><span class="nx">Format</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;toon&quot;</span><span class="w">  </span><span class="c1">// Token-Optimized Object Notation</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">// Formatter handles output</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Formatter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nx">Format</span><span class="w"> </span><span class="nx">Format</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nx">Writer</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">// Output methods</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteTable</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="o">*</span><span class="nx">TableData</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteDetail</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="o">*</span><span class="nx">DetailData</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">Formatter</span><span class="p">)</span><span class="w"> </span><span class="nx">WriteJSON</span><span class="p">(</span><span class="nx">data</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kt">error</span>
 </code></pre></div>
 <p><strong>TOON Format:</strong></p>
 <p>TOON (Token-Optimized Object Notation) is a compact format designed for LLM token efficiency:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>title;h1,h2,h3;r1c1,r1c2,r1c3;r2c1,r2c2,r2c3
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>title;h1,h2,h3;r1c1,r1c2,r1c3;r2c1,r2c2,r2c3
 </code></pre></div>
 <h3 id="scaffold-package-scaffold">Scaffold Package (<code>scaffold/</code>)</h3>
 <p>Provides templates for creating new PRISM documents:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Create a new document with specified domains</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewDocument</span><span class="p">(</span><span class="nx">domains</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">// Get example metrics</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">OperationsMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SecurityMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Create a new document with specified domains</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">NewDocument</span><span class="p">(</span><span class="nx">domains</span><span class="w"> </span><span class="o">...</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// Get example metrics</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">OperationsMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SecurityMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
 </code></pre></div>
 <h3 id="dashforge-package-dashforge">Dashforge Package (<code>dashforge/</code>)</h3>
 <p>Converts PRISM data to dashboard format:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Convert to Dashforge format</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Convert</span><span class="p">(</span><span class="nx">doc</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">dashforge</span><span class="p">.</span><span class="nx">Dashboard</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// Generate specific chart types</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">GaugeChart</span><span class="p">(</span><span class="nx">score</span><span class="w"> </span><span class="kt">float64</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">echartify</span><span class="p">.</span><span class="nx">Chart</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="kd">func</span><span class="w"> </span><span class="nx">RadarChart</span><span class="p">(</span><span class="nx">scores</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">float64</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">echartify</span><span class="p">.</span><span class="nx">Chart</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Convert to Dashforge format</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Convert</span><span class="p">(</span><span class="nx">doc</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">dashforge</span><span class="p">.</span><span class="nx">Dashboard</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1">// Generate specific chart types</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">GaugeChart</span><span class="p">(</span><span class="nx">score</span><span class="w"> </span><span class="kt">float64</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">echartify</span><span class="p">.</span><span class="nx">Chart</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="kd">func</span><span class="w"> </span><span class="nx">RadarChart</span><span class="p">(</span><span class="nx">scores</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">float64</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">echartify</span><span class="p">.</span><span class="nx">Chart</span>
 </code></pre></div>
 <h3 id="report-package-report">Report Package (<code>report/</code>)</h3>
 <p>Generates various report formats:</p>
@@ -3539,38 +3598,38 @@
 <li><code>markdown.go</code> - Markdown report generation</li>
 </ul>
 <h2 id="data-flow">Data Flow</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>│                     prism.json (Input)                      │
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>└─────────────────────────┬───────────────────────────────────┘
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>                          │
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>                          ▼
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│                   PRISMDocument (Core)                       │
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>│  - Validate()                                                │
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>│  - CalculatePRISMScore()                                    │
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>│  - GetMetricByID(), GetGoalByID(), etc.                     │
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>└─────────────────────────┬───────────────────────────────────┘
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>                          │
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>         ┌───────────────┼───────────────┐
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>         │               │               │
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>         ▼               ▼               ▼
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>│  analysis/  │  │   export/   │  │  dashforge/ │
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>│             │  │             │  │             │
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>│ - Analyze() │  │ - ToOKR()   │  │ - Convert() │
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>│ - Gaps      │  │ - ToV2MOM() │  │ - Charts    │
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>└─────────────┘  └─────────────┘  └─────────────┘
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>         │               │               │
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>         ▼               ▼               ▼
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>│                    output/ (Formatter)                       │
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>│  - text, json, markdown, toon                                │
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>└─────────────────────────────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>│                     prism.json (Input)                      │
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>└─────────────────────────┬───────────────────────────────────┘
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>                          │
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>                          ▼
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│                   PRISMDocument (Core)                       │
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>│  - Validate()                                                │
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>│  - CalculatePRISMScore()                                    │
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>│  - GetMetricByID(), GetGoalByID(), etc.                     │
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>└─────────────────────────┬───────────────────────────────────┘
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>                          │
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>         ┌───────────────┼───────────────┐
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>         │               │               │
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>         ▼               ▼               ▼
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>│  analysis/  │  │   export/   │  │  dashforge/ │
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>│             │  │             │  │             │
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>│ - Analyze() │  │ - ToOKR()   │  │ - Convert() │
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>│ - Gaps      │  │ - ToV2MOM() │  │ - Charts    │
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>└─────────────┘  └─────────────┘  └─────────────┘
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>         │               │               │
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>         ▼               ▼               ▼
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>│                    output/ (Formatter)                       │
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>│  - text, json, markdown, toon                                │
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>└─────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <h2 id="design-principles">Design Principles</h2>
 <h3 id="1-go-first-schema">1. Go-First Schema</h3>
 <p>JSON Schema is generated from Go types, not hand-written:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>schema<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>go<span class="w"> </span>run<span class="w"> </span>generate.go
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>schema<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>go<span class="w"> </span>run<span class="w"> </span>generate.go
 </code></pre></div>
 <p>This ensures the schema always matches the Go types.</p>
 <h3 id="2-sparse-data-handling">2. Sparse Data Handling</h3>
@@ -3599,15 +3658,15 @@
 <h2 id="testing">Testing</h2>
 <h3 id="unit-tests">Unit Tests</h3>
 <p>Each package has corresponding <code>*_test.go</code> files:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./...
 </code></pre></div>
 <h3 id="integration-tests">Integration Tests</h3>
 <p>CLI integration tests are in <code>cmd/prism/cli_integration_test.go</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./cmd/prism/<span class="w"> </span>-run<span class="w"> </span>Integration
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-v<span class="w"> </span>./cmd/prism/<span class="w"> </span>-run<span class="w"> </span>Integration
 </code></pre></div>
 <h3 id="coverage">Coverage</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>coverage.out<span class="w"> </span>./...
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>go<span class="w"> </span>tool<span class="w"> </span>cover<span class="w"> </span>-html<span class="o">=</span>coverage.out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-coverprofile<span class="o">=</span>coverage.out<span class="w"> </span>./...
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>go<span class="w"> </span>tool<span class="w"> </span>cover<span class="w"> </span>-html<span class="o">=</span>coverage.out
 </code></pre></div>
 <h2 id="dependencies">Dependencies</h2>
 <p>Key external dependencies:</p>
