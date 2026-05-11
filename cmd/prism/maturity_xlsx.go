@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var maturityXLSXCmd = &cobra.Command{
-	Use:   "xlsx <maturity-spec-file>",
-	Short: "Generate Excel report from a maturity specification",
+var maturityModelXLSXCmd = &cobra.Command{
+	Use:   "xlsx <model-file>",
+	Short: "Generate Excel report from a maturity model",
 	Long: `Generate an Excel (XLSX) report from a maturity model specification.
 
 The report includes multiple sheets:
@@ -21,21 +21,21 @@ The report includes multiple sheets:
   - Level Definitions:    M1-M5 level descriptions
 
 Examples:
-  prism maturity xlsx spec.json                       # Generate spec.xlsx
-  prism maturity xlsx spec.json -o report.xlsx        # Generate report.xlsx`,
+  prism maturity model xlsx model.json                       # Generate model.xlsx
+  prism maturity model xlsx model.json -o report.xlsx        # Generate report.xlsx`,
 	Args: cobra.ExactArgs(1),
-	RunE: runMaturityXLSX,
+	RunE: runMaturityModelXLSX,
 }
 
 var xlsxOutput string
 
 func init() {
-	maturityCmd.AddCommand(maturityXLSXCmd)
+	maturityModelCmd.AddCommand(maturityModelXLSXCmd)
 
-	maturityXLSXCmd.Flags().StringVarP(&xlsxOutput, "output", "o", "", "Output file (default: <input>.xlsx)")
+	maturityModelXLSXCmd.Flags().StringVarP(&xlsxOutput, "output", "o", "", "Output file (default: <input>.xlsx)")
 }
 
-func runMaturityXLSX(cmd *cobra.Command, args []string) error {
+func runMaturityModelXLSX(cmd *cobra.Command, args []string) error {
 	filename := args[0]
 
 	// Read and parse maturity spec

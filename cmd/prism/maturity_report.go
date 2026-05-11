@@ -12,13 +12,17 @@ import (
 
 var maturityCmd = &cobra.Command{
 	Use:   "maturity",
-	Short: "Maturity model commands",
-	Long:  `Commands for working with maturity model specifications.`,
+	Short: "Maturity model, state, and plan commands",
+	Long: `Commands for working with PRISM maturity documents:
+
+  model  - Maturity model documents that define "what good looks like"
+  state  - State documents that track current measurements
+  plan   - Plan documents that define goals, phases, and initiatives`,
 }
 
-var maturityReportCmd = &cobra.Command{
-	Use:   "report <maturity-spec-file>",
-	Short: "Generate markdown report from a maturity specification",
+var maturityModelReportCmd = &cobra.Command{
+	Use:   "report <model-file>",
+	Short: "Generate markdown report from a maturity model",
 	Long: `Generate a markdown report from a maturity model specification.
 
 The report can be generated in three views:
@@ -33,13 +37,13 @@ Output includes:
   - Framework view: frameworks → controls → criteria mappings
 
 Examples:
-  prism maturity report spec.json                       # Markdown to stdout
-  prism maturity report spec.json -o report.md          # Markdown to file
-  prism maturity report spec.json --view domain         # Domain view only
-  prism maturity report spec.json --view framework      # Framework view only
-  prism maturity report spec.json --frameworks NIST_CSF_2,NIST_800_53`,
+  prism maturity model report model.json                       # Markdown to stdout
+  prism maturity model report model.json -o report.md          # Markdown to file
+  prism maturity model report model.json --view domain         # Domain view only
+  prism maturity model report model.json --view framework      # Framework view only
+  prism maturity model report model.json --frameworks NIST_CSF_2,NIST_800_53`,
 	Args: cobra.ExactArgs(1),
-	RunE: runMaturityReport,
+	RunE: runMaturityModelReport,
 }
 
 var (
@@ -55,22 +59,22 @@ var (
 )
 
 func init() {
-	maturityCmd.AddCommand(maturityReportCmd)
+	maturityModelCmd.AddCommand(maturityModelReportCmd)
 
-	maturityReportCmd.Flags().StringVarP(&maturityOutput, "output", "o", "", "Output file (default: stdout)")
-	maturityReportCmd.Flags().StringVarP(&maturityFormat, "format", "f", "markdown", "Output format: markdown, json")
-	maturityReportCmd.Flags().StringVarP(&maturityView, "view", "v", "both", "View type: both, domain, framework")
-	maturityReportCmd.Flags().StringVar(&maturityTitle, "title", "", "Report title (default: from metadata or 'Maturity Model')")
-	maturityReportCmd.Flags().StringVar(&maturityAuthor, "author", "", "Report author")
-	maturityReportCmd.Flags().BoolVar(&maturityNoMeta, "no-meta", false, "Omit YAML front matter")
-	maturityReportCmd.Flags().BoolVar(&maturityNoTOC, "no-toc", false, "Omit table of contents")
-	maturityReportCmd.Flags().BoolVar(&maturityNoDetail, "no-detail", false, "Omit criterion details (framework mappings)")
-	maturityReportCmd.Flags().StringVar(&maturityFrameworks, "frameworks", "", "Filter to specific frameworks (comma-separated)")
+	maturityModelReportCmd.Flags().StringVarP(&maturityOutput, "output", "o", "", "Output file (default: stdout)")
+	maturityModelReportCmd.Flags().StringVarP(&maturityFormat, "format", "f", "markdown", "Output format: markdown, json")
+	maturityModelReportCmd.Flags().StringVarP(&maturityView, "view", "v", "both", "View type: both, domain, framework")
+	maturityModelReportCmd.Flags().StringVar(&maturityTitle, "title", "", "Report title (default: from metadata or 'Maturity Model')")
+	maturityModelReportCmd.Flags().StringVar(&maturityAuthor, "author", "", "Report author")
+	maturityModelReportCmd.Flags().BoolVar(&maturityNoMeta, "no-meta", false, "Omit YAML front matter")
+	maturityModelReportCmd.Flags().BoolVar(&maturityNoTOC, "no-toc", false, "Omit table of contents")
+	maturityModelReportCmd.Flags().BoolVar(&maturityNoDetail, "no-detail", false, "Omit criterion details (framework mappings)")
+	maturityModelReportCmd.Flags().StringVar(&maturityFrameworks, "frameworks", "", "Filter to specific frameworks (comma-separated)")
 
 	rootCmd.AddCommand(maturityCmd)
 }
 
-func runMaturityReport(cmd *cobra.Command, args []string) error {
+func runMaturityModelReport(cmd *cobra.Command, args []string) error {
 	filename := args[0]
 
 	// Read and parse maturity spec
