@@ -69,21 +69,3 @@ const (
 	MaturityStateSchemaID = "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json"
 	MaturityPlanSchemaID  = "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json"
 )
-
-// Deprecated: Use MaturityPlanSchemaJSON instead.
-// PRISMSchemaJSON returns the raw JSON Schema bytes (alias for MaturityPlanSchemaJSON).
-func PRISMSchemaJSON() []byte {
-	return maturityPlanSchemaJSON
-}
-
-// Deprecated: Use MaturityPlanSchemaMap instead.
-// PRISMSchemaMap returns the schema as a map for programmatic access.
-func PRISMSchemaMap() (map[string]any, error) {
-	return MaturityPlanSchemaMap()
-}
-
-// Deprecated: Use MaturityPlanSchemaID instead.
-// SchemaID returns the schema ID.
-func SchemaID() string {
-	return MaturityPlanSchemaID
-}
