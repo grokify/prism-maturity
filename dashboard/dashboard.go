@@ -1094,6 +1094,11 @@ func (g *Generator) getSLIUnit(sliID string) string {
 }
 
 func formatThresholdValue(value float64, operator, unit string) string {
+	// Handle qualitative criteria
+	if operator == "exists" {
+		return "Tracked"
+	}
+
 	// Format the value with appropriate precision
 	var valStr string
 	if value == float64(int(value)) {
@@ -1167,12 +1172,15 @@ func (g *Generator) getOtherBullets(slisByType map[string][]sliInfo) []MaturityB
 			continue
 		}
 		for _, info := range infos {
-			bullets = append(bullets, NewMaturityBullet(
+			bullet := NewMaturityBulletWithDetails(
 				info.Name,
-				MaturityLevel(info.Level),
 				info.Level,
 				info.Target,
-			))
+				info.ActualValue,
+				info.Unit,
+				info.Thresholds,
+			)
+			bullets = append(bullets, bullet)
 		}
 	}
 
