@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/grokify/prism"
 	"github.com/grokify/prism/maturity"
 )
 
@@ -177,10 +178,11 @@ type TextConfig struct {
 
 // Generator creates dashboards from maturity specs.
 type Generator struct {
-	spec    *maturity.Spec
-	widgets []Widget
-	data    []DataSource
-	row     int
+	spec     *maturity.Spec
+	stateDoc *prism.PRISMDocument // Optional: PRISM Maturity State document
+	widgets  []Widget
+	data     []DataSource
+	row      int
 }
 
 // NewGenerator creates a dashboard generator for a maturity spec.
@@ -191,6 +193,151 @@ func NewGenerator(spec *maturity.Spec) *Generator {
 		data:    []DataSource{},
 		row:     0,
 	}
+}
+
+// WithStateDocument adds a PRISM Maturity State document for state tracking.
+// When set, state is read from this document instead of the legacy assessments.
+func (g *Generator) WithStateDocument(doc *prism.PRISMDocument) *Generator {
+	g.stateDoc = doc
+	return g
+}
+
+// domainState represents maturity state for a domain (from either source).
+type domainState struct {
+	CurrentLevel int
+	TargetLevel  int
+	AssessedAt   string
+	AssessedBy   string
+}
+
+// getDomainState returns maturity state for a domain.
+// Reads from PRISM Maturity State document first, falls back to legacy assessments.
+func (g *Generator) getDomainState(domainKey string) *domainState {
+	// Try new state document first
+	if g.stateDoc != nil && g.stateDoc.MaturityState != nil {
+		if state, ok := g.stateDoc.MaturityState[domainKey]; ok && state != nil {
+			ds := &domainState{
+				CurrentLevel: 1,
+				TargetLevel:  5,
+			}
+			if state.Current != nil {
+				ds.CurrentLevel = state.Current.Level
+				ds.AssessedAt = state.Current.AchievedAt
+				ds.AssessedBy = state.Current.AssessedBy
+			}
+			if state.Target != nil {
+				ds.TargetLevel = state.Target.Level
+			}
+			return ds
+		}
+	}
+
+	// Fall back to legacy assessments
+	if g.spec.Assessments != nil {
+		if assessment, ok := g.spec.Assessments[domainKey]; ok && assessment != nil {
+			return &domainState{
+				CurrentLevel: assessment.CurrentLevel,
+				TargetLevel:  assessment.TargetLevel,
+				AssessedAt:   assessment.AssessedAt,
+				AssessedBy:   assessment.AssessedBy,
+			}
+		}
+	}
+
+	// Default values
+	return &domainState{
+		CurrentLevel: 1,
+		TargetLevel:  5,
+	}
+}
+
+// getSLIValue returns the current value for an SLI.
+// Reads from PRISM Maturity State document first, falls back to legacy assessments.
+// Returns the value and whether it was found.
+func (g *Generator) getSLIValue(sliID string, window string) (float64, bool) {
+	// Try new state document first
+	if g.stateDoc != nil && g.stateDoc.SLIState != nil {
+		if state, ok := g.stateDoc.SLIState[sliID]; ok && state != nil {
+			// Try specific window first
+			if window != "" && state.Windows != nil {
+				if ws, ok := state.Windows[window]; ok && ws != nil {
+					return ws.Value, true
+				}
+			}
+			// Try default window (30d)
+			if state.Windows != nil {
+				if ws, ok := state.Windows["30d"]; ok && ws != nil {
+					return ws.Value, true
+				}
+				// Return any available window
+				for _, ws := range state.Windows {
+					if ws != nil {
+						return ws.Value, true
+					}
+				}
+			}
+		}
+	}
+
+	// Fall back to legacy assessments - search all domains for criterion value
+	if g.spec.Assessments != nil {
+		for _, assessment := range g.spec.Assessments {
+			if assessment != nil && assessment.CriteriaValues != nil {
+				// Match by SLI ID or criterion ID
+				if val, ok := assessment.CriteriaValues[sliID]; ok {
+					return val, true
+				}
+			}
+		}
+	}
+
+	return 0, false
+}
+
+// getSLIQualitativeState returns the qualitative state for an SLI.
+// Reads from PRISM Maturity State document first, falls back to legacy assessments.
+func (g *Generator) getSLIQualitativeState(sliID string) string {
+	// Try new state document first
+	if g.stateDoc != nil && g.stateDoc.SLIState != nil {
+		if state, ok := g.stateDoc.SLIState[sliID]; ok && state != nil {
+			return state.QualitativeState
+		}
+	}
+
+	// Fall back to legacy assessments - search all domains
+	if g.spec.Assessments != nil {
+		for _, assessment := range g.spec.Assessments {
+			if assessment != nil && assessment.CriteriaStatus != nil {
+				if status, ok := assessment.CriteriaStatus[sliID]; ok {
+					return status
+				}
+			}
+		}
+	}
+
+	return ""
+}
+
+// getCriterionValue returns the current value for a criterion.
+// Reads from PRISM Maturity State (by SLI ID) or legacy assessments (by criterion ID).
+func (g *Generator) getCriterionValue(domainKey string, criterion maturity.Criterion) (float64, bool) {
+	// Try by SLI ID from new state document
+	if criterion.SLIID != "" {
+		if val, ok := g.getSLIValue(criterion.SLIID, ""); ok {
+			return val, true
+		}
+	}
+
+	// Try by criterion ID from legacy assessments
+	if g.spec.Assessments != nil {
+		if assessment, ok := g.spec.Assessments[domainKey]; ok && assessment != nil {
+			if val, ok := assessment.CriteriaValues[criterion.ID]; ok {
+				return val, true
+			}
+		}
+	}
+
+	return 0, false
 }
 
 // Generate creates a complete dashboard.
@@ -276,20 +423,16 @@ func (g *Generator) addDomainSummaryRow() {
 
 	for i, domainKey := range domains {
 		domain := g.spec.Domains[domainKey]
-		assessment := g.spec.Assessments[domainKey]
+		state := g.getDomainState(domainKey)
 
 		// Create data source for this domain
 		dataID := fmt.Sprintf("domain-%s-data", domainKey)
-		currentLevel := 1
-		targetLevel := 5
+		currentLevel := state.CurrentLevel
+		targetLevel := state.TargetLevel
 		progressPercent := 0.0
 
-		if assessment != nil {
-			currentLevel = assessment.CurrentLevel
-			targetLevel = assessment.TargetLevel
-			if targetLevel > 1 {
-				progressPercent = float64(currentLevel-1) / float64(targetLevel-1) * 100
-			}
+		if targetLevel > 1 {
+			progressPercent = float64(currentLevel-1) / float64(targetLevel-1) * 100
 		}
 
 		dataRow := map[string]any{
@@ -340,10 +483,9 @@ func (g *Generator) addLevelProgressCharts() {
 
 	for _, domainKey := range domains {
 		domain := g.spec.Domains[domainKey]
-		assessment := g.spec.Assessments[domainKey]
 
 		// Build level progress data
-		levelData := g.buildLevelProgressData(domain, assessment)
+		levelData := g.buildLevelProgressData(domainKey, domain)
 		dataID := fmt.Sprintf("level-progress-%s", domainKey)
 		dataBytes, _ := json.Marshal(levelData)
 
@@ -408,7 +550,7 @@ func (g *Generator) addLevelProgressCharts() {
 	}
 }
 
-func (g *Generator) buildLevelProgressData(domain *maturity.DomainModel, assessment *maturity.DomainAssessment) []map[string]any {
+func (g *Generator) buildLevelProgressData(domainKey string, domain *maturity.DomainModel) []map[string]any {
 	var data []map[string]any
 
 	if domain == nil {
@@ -439,21 +581,19 @@ func (g *Generator) buildLevelProgressData(domain *maturity.DomainModel, assessm
 				}
 			}
 
-			// Check if criterion is met
-			if assessment != nil {
-				if val, ok := assessment.CriteriaValues[criterion.ID]; ok {
-					isMet := criterion.CheckMet(val)
-					if isMet {
-						sliProgress[sliID]["completed"] = 100.0
-						sliProgress[sliID]["inProgress"] = 0.0
-						sliProgress[sliID]["remaining"] = 0.0
-					} else {
-						// Partial progress
-						progress := calculateProgress(criterion, val)
-						sliProgress[sliID]["completed"] = 0.0
-						sliProgress[sliID]["inProgress"] = progress
-						sliProgress[sliID]["remaining"] = 100.0 - progress
-					}
+			// Check if criterion is met using dual-read helper
+			if val, ok := g.getCriterionValue(domainKey, criterion); ok {
+				isMet := criterion.CheckMet(val)
+				if isMet {
+					sliProgress[sliID]["completed"] = 100.0
+					sliProgress[sliID]["inProgress"] = 0.0
+					sliProgress[sliID]["remaining"] = 0.0
+				} else {
+					// Partial progress
+					progress := calculateProgress(criterion, val)
+					sliProgress[sliID]["completed"] = 0.0
+					sliProgress[sliID]["inProgress"] = progress
+					sliProgress[sliID]["remaining"] = 100.0 - progress
 				}
 			}
 		}
@@ -646,15 +786,10 @@ func (g *Generator) GenerateMaturityBullets() *MaturityBulletData {
 	bullets := []MaturityBullet{}
 
 	for domainKey, domain := range g.spec.Domains {
-		assessment := g.spec.Assessments[domainKey]
+		state := g.getDomainState(domainKey)
 
-		currentLevel := float64(1)
-		targetLevel := float64(5)
-
-		if assessment != nil {
-			currentLevel = float64(assessment.CurrentLevel)
-			targetLevel = float64(assessment.TargetLevel)
-		}
+		currentLevel := float64(state.CurrentLevel)
+		targetLevel := float64(state.TargetLevel)
 
 		bullets = append(bullets, NewMaturityBullet(
 			domain.Name,
@@ -672,10 +807,7 @@ func (g *Generator) GenerateMaturityBullets() *MaturityBulletData {
 				}
 
 				// Calculate current maturity level for this SLI
-				sliLevel := float64(1)
-				if assessment != nil {
-					sliLevel = g.calculateSLIMaturityLevel(domain, assessment, criterion.SLIID)
-				}
+				sliLevel := g.calculateSLIMaturityLevel(domainKey, domain, criterion.SLIID)
 
 				bullets = append(bullets, NewMaturityBullet(
 					sliName,
@@ -691,7 +823,8 @@ func (g *Generator) GenerateMaturityBullets() *MaturityBulletData {
 }
 
 // calculateSLIMaturityLevel determines the highest level achieved for an SLI.
-func (g *Generator) calculateSLIMaturityLevel(domain *maturity.DomainModel, assessment *maturity.DomainAssessment, sliID string) float64 {
+// Uses dual-read to get values from either PRISM Maturity State or legacy assessments.
+func (g *Generator) calculateSLIMaturityLevel(domainKey string, domain *maturity.DomainModel, sliID string) float64 {
 	highestLevel := float64(1)
 
 	for _, level := range domain.Levels {
@@ -700,7 +833,8 @@ func (g *Generator) calculateSLIMaturityLevel(domain *maturity.DomainModel, asse
 				continue
 			}
 
-			if val, ok := assessment.CriteriaValues[criterion.ID]; ok {
+			// Use dual-read helper to get criterion value
+			if val, ok := g.getCriterionValue(domainKey, criterion); ok {
 				if criterion.CheckMet(val) {
 					levelNum := float64(level.Level)
 					if levelNum > highestLevel {
@@ -770,20 +904,16 @@ func (g *Generator) addBulletWidgets() {
 
 	for _, domainKey := range domains {
 		domain := g.spec.Domains[domainKey]
-		assessment := g.spec.Assessments[domainKey]
+		state := g.getDomainState(domainKey)
 
-		currentLevel := float64(1)
-		targetLevel := float64(5)
-		if assessment != nil {
-			currentLevel = float64(assessment.CurrentLevel)
-			targetLevel = float64(assessment.TargetLevel)
-		}
+		currentLevel := float64(state.CurrentLevel)
+		targetLevel := float64(state.TargetLevel)
 
 		// Add domain overview bullet
 		g.addDomainOverviewBullet(domainKey, domain, currentLevel, targetLevel)
 
 		// Collect SLIs for this domain with their types
-		slisByType := g.collectSLIsByType(domain, assessment, targetLevel)
+		slisByType := g.collectSLIsByType(domainKey, domain, targetLevel)
 
 		// If no SLI types defined, skip methodology grouping and show flat list
 		if !hasSLITypes {
@@ -870,14 +1000,15 @@ func (g *Generator) addBulletWidgets() {
 
 // sliInfo holds SLI data for grouping.
 type sliInfo struct {
-	ID          string
-	Name        string
-	SLIType     string
-	Level       float64
-	Target      float64
-	ActualValue float64          // The actual SLI value (e.g., 65 for 65%)
-	Unit        string           // Unit of measurement (e.g., "%", "ms", "rps")
-	Thresholds  []LevelThreshold // Thresholds for each maturity level
+	ID               string
+	Name             string
+	SLIType          string
+	Level            float64
+	Target           float64
+	ActualValue      float64          // The actual SLI value (e.g., 65 for 65%)
+	Unit             string           // Unit of measurement (e.g., "%", "ms", "rps")
+	QualitativeState string           // For qualitative/hybrid SLIs (e.g., "tracked", "measured")
+	Thresholds       []LevelThreshold // Thresholds for each maturity level
 }
 
 func (g *Generator) addDomainOverviewBullet(domainKey string, domain *maturity.DomainModel, currentLevel, targetLevel float64) {
@@ -912,7 +1043,7 @@ func (g *Generator) addDomainOverviewBullet(domainKey string, domain *maturity.D
 	g.row += 2
 }
 
-func (g *Generator) collectSLIsByType(domain *maturity.DomainModel, assessment *maturity.DomainAssessment, targetLevel float64) map[string][]sliInfo {
+func (g *Generator) collectSLIsByType(domainKey string, domain *maturity.DomainModel, targetLevel float64) map[string][]sliInfo {
 	slisByType := make(map[string][]sliInfo)
 	seenSLIs := make(map[string]bool)
 
@@ -936,35 +1067,35 @@ func (g *Generator) collectSLIsByType(domain *maturity.DomainModel, assessment *
 					unit = sli.Unit
 				}
 
-				sliLevel := float64(1)
+				// Use dual-read helpers for level and value
+				sliLevel := g.calculateSLIMaturityLevel(domainKey, domain, sliID)
 				actualValue := float64(0)
-				if assessment != nil {
-					sliLevel = g.calculateSLIMaturityLevel(domain, assessment, sliID)
-					// Get actual value from first matching criterion
-					for _, lvl := range domain.Levels {
-						for _, c := range lvl.Criteria {
-							if c.SLIID == sliID {
-								if val, ok := assessment.CriteriaValues[c.ID]; ok {
-									actualValue = val
-									break
-								}
+
+				// Get actual value from first matching criterion using dual-read
+				for _, lvl := range domain.Levels {
+					for _, c := range lvl.Criteria {
+						if c.SLIID == sliID {
+							if val, ok := g.getCriterionValue(domainKey, c); ok {
+								actualValue = val
+								break
 							}
 						}
-						if actualValue != 0 {
-							break
-						}
+					}
+					if actualValue != 0 {
+						break
 					}
 				}
 
 				info := sliInfo{
-					ID:          sliID,
-					Name:        sliName,
-					SLIType:     sliType,
-					Level:       sliLevel,
-					Target:      targetLevel,
-					ActualValue: actualValue,
-					Unit:        unit,
-					Thresholds:  []LevelThreshold{},
+					ID:               sliID,
+					Name:             sliName,
+					SLIType:          sliType,
+					Level:            sliLevel,
+					Target:           targetLevel,
+					ActualValue:      actualValue,
+					Unit:             unit,
+					QualitativeState: g.getSLIQualitativeState(sliID),
+					Thresholds:       []LevelThreshold{},
 				}
 
 				slisByType[sliType] = append(slisByType[sliType], info)
