@@ -75,15 +75,21 @@ PRISM exports to [structured-plan](https://github.com/grokify/structured-plan) f
 
 ### Maturity Package (`maturity/`)
 
-Handles maturity model specifications and evaluation:
+Handles maturity model specifications and evaluation using a three-part schema:
+
+| Schema | Type | Purpose |
+|--------|------|---------|
+| `prism-maturity-model` | `Spec` | Defines what good looks like (M1-M5 levels) |
+| `prism-maturity-state` | `MaturityStateDocument` | Tracks current state and measurements |
+| `prism-maturity-plan` | `PRISMDocument` | Plans how to achieve target levels |
 
 ```go
-// Spec defines a complete maturity specification
+// Spec defines a maturity model specification
 type Spec struct {
-    Metadata      *SpecMetadata
-    KPIThresholds map[string][]KPIThreshold
-    Domains       map[string]*DomainModel
-    Assessments   map[string]*DomainAssessment
+    Schema   string                  `json:"$schema,omitempty"`
+    Metadata *SpecMetadata           `json:"metadata,omitempty"`
+    SLIs     map[string]*SLI         `json:"slis,omitempty"`
+    Domains  map[string]*DomainModel `json:"domains"`
 }
 
 // DomainModel defines maturity levels for a domain
@@ -107,6 +113,20 @@ type Level struct {
 - `ReadSpecFile()` - Load maturity specs from JSON
 - `Level.IsLevelAchieved()` - Check if criteria are met
 - `Level.CalculateLevelProgress()` - Calculate progress toward a level
+
+**State tracking:**
+
+State is tracked separately from the model using `MaturityStateDocument`:
+
+```go
+type MaturityStateDocument struct {
+    Schema        string                `json:"$schema,omitempty"`
+    Metadata      MaturityStateMetadata `json:"metadata"`
+    SLIState      SLIStateMap           `json:"sliState,omitempty"`
+    MaturityState MaturityStateMap      `json:"maturityState,omitempty"`
+    EnablerState  EnablerStateMap       `json:"enablerState,omitempty"`
+}
+```
 
 ### Output Package (`output/`)
 
