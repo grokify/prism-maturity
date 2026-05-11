@@ -1,12 +1,12 @@
 module github.com/grokify/prism
 
-go 1.26.1
+go 1.26.2
 
 require (
-	github.com/grokify/echartify v0.2.0
+	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.3.0
-	github.com/grokify/structured-plan v0.10.0
-	github.com/plexusone/dashforge v0.2.0
+	github.com/grokify/structured-plan v0.10.1
+	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
 	github.com/spf13/cobra v1.10.2
 	github.com/xuri/excelize/v2 v2.10.1
