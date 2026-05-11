@@ -297,6 +297,8 @@ prism maturity model report model.json -o report.md
 prism maturity model xlsx model.json -o report.xlsx
 prism maturity model dashboard model.json --state state.json -f html -o dashboard.html
 prism maturity model validate model.json
+prism maturity model lint model.json              # Check for dashboard display issues
+prism maturity model lint model.json --strict     # Treat warnings as errors
 
 # State commands - work with maturity state documents
 prism maturity state validate state.json --model model.json

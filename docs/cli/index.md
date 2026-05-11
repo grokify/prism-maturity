@@ -45,6 +45,7 @@ go install github.com/grokify/prism/cmd/prism@latest
 | [`prism maturity model xlsx`](maturity-xlsx.md) | Generate maturity model reports (Excel) |
 | `prism maturity model dashboard` | Generate model dashboards with state integration |
 | `prism maturity model validate` | Validate model documents |
+| [`prism maturity model lint`](maturity-lint.md) | Check for dashboard display issues and threshold gaps |
 
 #### State Commands
 
