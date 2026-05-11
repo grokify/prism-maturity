@@ -8,7 +8,7 @@ import (
 
 func TestGenerateXLSX(t *testing.T) {
 	// Read the security maturity model
-	specFile := filepath.Join("..", "examples", "maturity-models", "security", "model.json")
+	specFile := filepath.Join("..", "examples", "security", "model.json")
 	spec, err := ReadSpecFile(specFile)
 	if err != nil {
 		t.Fatalf("Failed to read spec file: %v", err)

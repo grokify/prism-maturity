@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prism/schema/maturity.schema.json",
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
   "metadata": {
     "name": "Operations Maturity Model",
     "description": "Operations domain maturity model with SLI-backed level criteria covering Golden Signals (latency, traffic, errors, saturation)",

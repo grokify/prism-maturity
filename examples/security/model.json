@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prism/schema/maturity.schema.json",
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
   "metadata": {
     "name": "Security Maturity Model",
     "description": "Security domain maturity model with SLI-backed level criteria and compliance framework mappings",

@@ -3,7 +3,7 @@
   "metadata": {
     "name": "Security Maturity State Q2 2026",
     "description": "Current state tracking for Security maturity model",
-    "maturityModelRef": "../maturity-models/security/model.json",
+    "maturityModelRef": "./model.json",
     "assessedAt": "2026-05-09",
     "assessedBy": "Security Team"
   },

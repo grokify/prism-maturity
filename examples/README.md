@@ -1,149 +1,181 @@
 # PRISM Examples
 
-This directory contains example documents demonstrating PRISM's two main document types.
+This directory contains example documents demonstrating PRISM's three-part document taxonomy.
 
 ## Document Types
 
-### 1. PRISM Maturity Model (`maturity-models/`)
+PRISM uses three document types that form a Model → State → Plan workflow:
+
+| Schema | Purpose | Question Answered |
+|--------|---------|-------------------|
+| `prism-maturity-model` | Definitions | What does good look like? |
+| `prism-maturity-state` | Measurement | Where are we now? |
+| `prism-maturity-plan` | Execution | How do we get there? |
+
+## Directory Structure
+
+Examples are organized by domain:
+
+```
+examples/
+├── operations/
+│   ├── model.json           # Maturity Model - level definitions
+│   ├── state-q2-2026.json   # Maturity State - current tracking
+│   ├── plan.json            # Maturity Plan - goals and roadmap
+│   └── plan-layers.json     # Alternative plan with layer organization
+├── security/
+│   ├── model.json
+│   └── state-q2-2026.json
+├── organization/
+│   ├── model.json
+│   └── state-q1-2026.json
+├── quality/
+│   └── plan.json            # Quality domain metrics and goals
+├── prism-documents/         # Additional plan examples
+│   ├── operations-metrics.json
+│   ├── operations-layers.json
+│   ├── goal-roadmap.json
+│   ├── project-scores.json
+│   ├── quality-metrics.json
+│   └── team-topology.json
+└── README.md
+```
+
+## Document Relationships
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    prism-maturity-model                         │
+│              "What does M4 availability mean?"                  │
+│         SLIs, domains, levels, criteria, enablers               │
+└─────────────────────────────────────────────────────────────────┘
+                              ▲
+                              │ references (maturityModelRef)
+┌─────────────────────────────┴───────────────────────────────────┐
+│                    prism-maturity-state                         │
+│              "We're at M3, availability is 99.7%"               │
+│       Current values, temporal windows, history, gaps           │
+└─────────────────────────────────────────────────────────────────┘
+                              ▲
+                              │ references (maturityStateRef)
+┌─────────────────────────────┴───────────────────────────────────┐
+│                    prism-maturity-plan                          │
+│              "Reach M4 by Q4 via these initiatives"             │
+│         Goals, phases, initiatives, teams, roadmap              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## 1. PRISM Maturity Model
 
 **Schema:** `prism-maturity-model.schema.json`
 
 Maturity Models define the **criteria for each maturity level (M1-M5)**. They are reference documents that describe what "good" looks like at each level. They contain no current state.
 
-**Structure:**
-
-```
-maturity-models/
-├── operations/
-│   ├── model.json      # Maturity level definitions
-│   └── dashboard.html  # Generated visualization
-├── security/
-│   └── model.json
-└── organization/
-    └── model.json
-```
-
-**Contents:**
-
-- `slis` - Service Level Indicators with thresholds for each level
-- `domains` - Domain areas (e.g., Reliability, Incident Management)
-- `levels` - M1 through M5 with criteria and thresholds
-- `qualitativeStates` - State progressions (e.g., "tracked" → "measured" → "alerting")
-
-**Example SLI with level thresholds and qualitative states:**
+**Example:** `operations/model.json`
 
 ```json
 {
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
+  "metadata": { "name": "Operations Maturity Model" },
   "slis": {
     "sli-availability": {
       "name": "Service Availability",
       "unit": "%",
       "sliType": "availability",
-      "measurementType": "hybrid",
-      "qualitativeStates": [
-        { "id": "none", "label": "Not tracked", "order": 0 },
-        { "id": "tracked", "label": "Tracked", "order": 1 },
-        { "id": "measured", "label": "Measured with SLO", "order": 2 },
-        { "id": "alerting", "label": "SLO + Alerting", "order": 3 }
-      ]
+      "measurementType": "quantitative"
     }
   },
   "domains": {
     "reliability": {
       "levels": [
-        {"level": 1, "criteria": [{"sliId": "sli-availability", "type": "qualitative", "target": "tracked"}]},
-        {"level": 2, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 95}]},
-        {"level": 3, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.5}]},
-        {"level": 4, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.9}]},
-        {"level": 5, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.99}]}
+        { "level": 1, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 95}] },
+        { "level": 2, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99}] },
+        { "level": 3, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.5}] },
+        { "level": 4, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.9}] },
+        { "level": 5, "criteria": [{"sliId": "sli-availability", "operator": ">=", "target": 99.99}] }
       ]
     }
   }
 }
 ```
 
-### 2. PRISM Maturity State (`maturity-state/`)
+## 2. PRISM Maturity State
 
 **Schema:** `prism-maturity-state.schema.json`
 
-Maturity State documents track the **current state** of your system, including historical values and future targets. They reference a Maturity Model to evaluate achievement.
+Maturity State documents track the **current state** of your system with temporal windows and historical values.
 
-**Structure:**
-
-```
-maturity-state/
-├── operations/
-│   └── state-q2-2026.json  # Q2 2026 state
-├── organization/
-│   └── state-q1-2026.json  # Q1 2026 state (multi-domain)
-└── security/
-    └── state-q2-2026.json  # Q2 2026 state
-```
-
-**Contents:**
-
-- `maturityModelRef` - Reference to the Maturity Model
-- `sliState` - Current values with temporal windows (7d, 30d, 90d, quarterly, annual)
-- `maturityState` - Current level, target level, and history per domain
-- `enablerState` - Progress on enablers/initiatives
-- `goals` - Strategic objectives with target levels
-- `phases` - Time-based planning periods
-- `initiatives` - Projects that drive improvement
-
-**Example state document:**
+**Example:** `operations/state-q2-2026.json`
 
 ```json
 {
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json",
   "metadata": {
-    "name": "Operations Q2 2026",
-    "maturityModelRef": "../maturity-models/operations/model.json"
+    "name": "Operations State Q2 2026",
+    "maturityModelRef": "./model.json"
   },
   "sloWindows": ["7d", "30d", "90d", "quarterly"],
   "sliState": {
     "sli-availability": {
-      "qualitativeState": "measured",
+      "qualitativeState": "alerting",
       "windows": {
-        "7d":  { "value": 99.97, "timestamp": "2026-05-10T00:00:00Z" },
-        "30d": { "value": 99.92, "timestamp": "2026-05-10T00:00:00Z" }
+        "7d":  { "value": 99.7, "timestamp": "2026-05-09T00:00:00Z" },
+        "30d": { "value": 99.5, "timestamp": "2026-05-09T00:00:00Z" }
       },
       "targets": {
-        "Q2_2026": { "value": 99.9 }
+        "Q2_2026": { "value": 99.5, "maturityLevel": 3 },
+        "Q4_2026": { "value": 99.9, "maturityLevel": 4 }
       }
     }
   },
   "maturityState": {
     "reliability": {
-      "current": { "level": 3, "achievedAt": "2026-03-15" },
-      "target": { "level": 4, "targetDate": "2026-06-30" }
+      "currentLevel": 3,
+      "targetLevel": 4
     }
   }
 }
 ```
 
-## How They Relate
+## 3. PRISM Maturity Plan
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   PRISM Maturity Model                          │
-│  Defines: "What does M3 availability look like? (≥99.5%)"       │
-│  Contains: SLI definitions, level criteria, qualitative states  │
-└─────────────────────────────────────────────────────────────────┘
-                              ▲
-                              │ references
-                              │
-┌─────────────────────────────────────────────────────────────────┐
-│                   PRISM Maturity State                          │
-│  Tracks: "Current availability is 99.7% → We're at M3"          │
-│  Plans: "Goal: Reach M4 (99.9%) by Q2"                          │
-│  History: "30d values: 99.88 → 99.90 → 99.92"                   │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              │ generates
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        Dashboard                                 │
-│  Visualizes: Progress, gaps, trends                             │
-└─────────────────────────────────────────────────────────────────┘
+**Schema:** `prism-maturity-plan.schema.json`
+
+Maturity Plan documents define **goals, phases, and initiatives** for achieving maturity targets.
+
+**Example:** `operations/plan.json`
+
+```json
+{
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
+  "metadata": {
+    "name": "Operations Improvement Plan 2026"
+  },
+  "goals": [
+    {
+      "id": "goal-reliability",
+      "name": "Achieve High Reliability",
+      "domain": "operations",
+      "targetLevel": 4,
+      "currentLevel": 3
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase-q2-2026",
+      "name": "Q2 2026",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30"
+    }
+  ],
+  "initiatives": [
+    {
+      "id": "init-observability",
+      "name": "Observability Platform",
+      "phaseId": "phase-q2-2026"
+    }
+  ]
+}
 ```
 
 ## Temporal Windows
@@ -158,9 +190,9 @@ PRISM Maturity State supports multiple SLO windows for tracking:
 | `quarterly` | Calendar quarter |
 | `annual` | Calendar year |
 
-## Qualitative vs Quantitative
+## Measurement Types
 
-PRISM supports three measurement types:
+SLIs can be classified by measurement type:
 
 | Type | Description | Example |
 |------|-------------|---------|
@@ -168,41 +200,37 @@ PRISM supports three measurement types:
 | `qualitative` | State-based only | Monitoring: "tracked" |
 | `hybrid` | Both numeric and state | Start with "tracked", progress to 99.9% |
 
-## Observability Methodologies
+## Qualitative States
 
-Maturity Models use standard observability methodologies to classify SLIs:
+Standard qualitative state progression:
 
-| Methodology | SLI Types | Focus |
-|-------------|-----------|-------|
-| **RED** | Rate, Errors, Duration | User experience (request-driven) |
-| **USE** | Utilization, Saturation, Errors | Infrastructure health |
-| **Golden Signals** | Latency, Traffic, Errors, Saturation | SRE overview |
+| State | Order | Description |
+|-------|-------|-------------|
+| `none` | 0 | Not started |
+| `adhoc` | 1 | Ad-hoc/informal |
+| `tracked` | 2 | Being tracked |
+| `measured` | 3 | Measured with targets |
+| `alerting` | 4 | Alerting enabled |
+| `optimized` | 5 | Continuously optimized |
 
 ## Example Domains
 
-| Domain | Model | Description |
+| Domain | Files | Description |
 |--------|-------|-------------|
-| Operations | `operations/model.json` | Reliability, deployment, monitoring |
-| Security | `security/model.json` | Prevention, detection, response |
-| Organization | `organization/model.json` | Team structure, processes |
+| Operations | `operations/` | Reliability, deployment, monitoring |
+| Security | `security/` | Prevention, detection, response |
+| Organization | `organization/` | Multi-domain organizational maturity |
+| Quality | `quality/` | Code quality, testing metrics |
 
-## Generating Dashboards
-
-To generate a dashboard from a maturity model:
+## CLI Commands
 
 ```bash
-# Using Go test (temporary)
-go test ./dashboard -run TestGenerateHTML
+# Validate a maturity model
+prism maturity report operations/model.json
 
-# Future CLI (planned)
-prism dashboard examples/maturity-models/operations/model.json \
-  -o examples/maturity-models/operations/dashboard.html
+# Generate XLSX report
+prism maturity xlsx operations/model.json -o report.xlsx
+
+# Validate a plan document
+prism validate prism-documents/operations-metrics.json
 ```
-
-## File Naming Conventions
-
-| File | Purpose |
-|------|---------|
-| `model.json` | PRISM Maturity Model definition |
-| `state-*.json` | PRISM Maturity State tracking |
-| `dashboard.html` | Generated visualization (gitignored) |

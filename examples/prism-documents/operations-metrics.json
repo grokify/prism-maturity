@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prism/schema/prism.schema.json",
+  "$schema": "https://github.com/grokify/prihttps://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
   "metadata": {
     "name": "Operations Metrics Example",
     "description": "Example PRISM document focused on operations and SRE metrics",

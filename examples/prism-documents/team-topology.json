@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prism/schema/prism.schema.json",
+  "$schema": "https://github.com/grokify/prihttps://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
   "metadata": {
     "name": "Team Topology Example",
     "description": "Example PRISM document demonstrating team topology with services and ownership",

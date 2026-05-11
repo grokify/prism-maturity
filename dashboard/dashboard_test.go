@@ -11,7 +11,7 @@ import (
 
 func TestGenerateDashboard(t *testing.T) {
 	// Load the operations maturity model
-	specFile := filepath.Join("..", "examples", "maturity-models", "operations", "model.json")
+	specFile := filepath.Join("..", "examples", "operations", "model.json")
 	spec, err := maturity.ReadSpecFile(specFile)
 	if err != nil {
 		t.Fatalf("Failed to read spec file: %v", err)
@@ -76,7 +76,7 @@ func TestGenerateDashboard(t *testing.T) {
 
 func TestGenerateSecurityDashboard(t *testing.T) {
 	// Load the security maturity model
-	specFile := filepath.Join("..", "examples", "maturity-models", "security", "model.json")
+	specFile := filepath.Join("..", "examples", "security", "model.json")
 	spec, err := maturity.ReadSpecFile(specFile)
 	if err != nil {
 		t.Fatalf("Failed to read spec file: %v", err)
@@ -139,7 +139,7 @@ func TestNilSpec(t *testing.T) {
 }
 
 func TestGenerateHTML(t *testing.T) {
-	specFile := filepath.Join("..", "examples", "maturity-models", "operations", "model.json")
+	specFile := filepath.Join("..", "examples", "operations", "model.json")
 	spec, err := maturity.ReadSpecFile(specFile)
 	if err != nil {
 		t.Fatalf("Failed to read spec file: %v", err)
@@ -262,7 +262,7 @@ func TestMaturityBulletCSS(t *testing.T) {
 }
 
 func TestGenerateBullets(t *testing.T) {
-	specFile := filepath.Join("..", "examples", "maturity-models", "operations", "model.json")
+	specFile := filepath.Join("..", "examples", "operations", "model.json")
 	spec, err := maturity.ReadSpecFile(specFile)
 	if err != nil {
 		t.Fatalf("Failed to read spec file: %v", err)

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prism/schema/maturity.schema.json",
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
   "metadata": {
     "name": "Organization Maturity Model",
     "description": "Complete organizational maturity model across Security, Operations, Quality, Product, and AI domains",

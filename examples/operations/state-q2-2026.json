@@ -3,7 +3,7 @@
   "metadata": {
     "name": "Operations Maturity State Q2 2026",
     "description": "Current state tracking for Operations maturity model",
-    "maturityModelRef": "../maturity-models/operations/model.json",
+    "maturityModelRef": "./model.json",
     "assessedAt": "2026-05-09",
     "assessedBy": "SRE Team"
   },

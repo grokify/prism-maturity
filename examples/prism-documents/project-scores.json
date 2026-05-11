@@ -1,5 +1,5 @@
 {
-  "$schema": "../schema/prism.schema.json",
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
   "metadata": {
     "name": "Project Scoring Example",
     "description": "Demonstrates project scoring framework with prioritized improvement initiatives",

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/grokify/prihttps://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
   "metadata": {
     "name": "Quality Metrics Example",
     "description": "Example PRISM document focused on quality domain and ISO 25010 verticals",
