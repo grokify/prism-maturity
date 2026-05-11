@@ -7,6 +7,46 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.6.0",
+      "date": "2026-05-10",
+      "highlights": [
+        { "description": "BREAKING: Three-part schema taxonomy: Model, State, Plan" },
+        { "description": "Domain-centric examples directory structure" },
+        { "description": "New MaturityStateDocument type for state tracking" },
+        { "description": "Consistent schema naming: prism-maturity-{model,state,plan}.schema.json" }
+      ],
+      "breaking": [
+        { "description": "Schema files renamed: `maturity.schema.json` → `prism-maturity-model.schema.json`" },
+        { "description": "Schema files renamed: `prism.schema.json` → `prism-maturity-plan.schema.json`" },
+        { "description": "Examples directory restructured to domain-centric layout" },
+        { "description": "Old schema embedding functions deprecated in favor of new names" }
+      ],
+      "added": [
+        { "description": "New `prism-maturity-state.schema.json` for state tracking documents" },
+        { "description": "`MaturityStateDocument` type for PRISM Maturity State documents" },
+        { "description": "`MaturityStateMetadata` type with maturityModelRef field" },
+        { "description": "`MaturityModelSchemaJSON()`, `MaturityStateSchemaJSON()`, `MaturityPlanSchemaJSON()` functions" },
+        { "description": "Schema constants: `MaturityModelSchemaID`, `MaturityStateSchemaID`, `MaturityPlanSchemaID`" },
+        { "description": "Domain directories: `examples/operations/`, `examples/security/`, `examples/organization/`, `examples/quality/`" },
+        { "description": "`schema/generate_state.go` for state schema generation" }
+      ],
+      "changed": [
+        { "description": "Examples organized by domain instead of by document type" },
+        { "description": "All example files updated with new schema references" },
+        { "description": "Test file paths updated for new examples structure" }
+      ],
+      "deprecated": [
+        { "description": "`PRISMSchemaJSON()` - use `MaturityPlanSchemaJSON()` instead" },
+        { "description": "`PRISMSchemaMap()` - use `MaturityPlanSchemaMap()` instead" },
+        { "description": "`SchemaID()` - use `MaturityPlanSchemaID` instead" }
+      ],
+      "documentation": [
+        { "description": "Updated README with three-schema taxonomy" },
+        { "description": "Updated examples/README.md with domain-centric structure" },
+        { "description": "Migration guide for v0.5.0 → v0.6.0" }
+      ]
+    },
+    {
       "version": "v0.5.0",
       "date": "2026-05-10",
       "highlights": [

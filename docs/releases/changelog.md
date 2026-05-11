@@ -4,6 +4,7 @@ For the complete changelog, see [CHANGELOG.md](https://github.com/grokify/prism/
 
 ## Recent Releases
 
+- [v0.6.0](./v0.6.0.md) - 2026-05-10 - Three-part schema taxonomy, domain-centric examples
 - [v0.5.0](./v0.5.0.md) - 2026-05-10 - Model/State separation, temporal windows
 - [v0.4.0](./v0.4.0.md) - 2026-05-09 - SLI type, framework expansion
 - [v0.3.0](./v0.3.0.md) - 2026-04-26 - Layers, teams, services, analysis

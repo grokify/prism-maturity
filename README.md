@@ -494,20 +494,28 @@ PRISM metrics can be mapped to external frameworks:
 
 ## JSON Schema
 
-The JSON Schema is auto-generated from Go types:
+PRISM uses three JSON Schemas representing the Model → State → Plan workflow:
+
+| Schema | Purpose | Question Answered |
+|--------|---------|-------------------|
+| `prism-maturity-model.schema.json` | Definitions | What does good look like? |
+| `prism-maturity-state.schema.json` | Measurement | Where are we now? |
+| `prism-maturity-plan.schema.json` | Execution | How do we get there? |
+
+Schemas are auto-generated from Go types:
 
 ```bash
-cd schema && go run generate.go
+cd schema && go run generate.go && go run generate_maturity.go && go run generate_state.go
 ```
-
-Schema location: `schema/prism.schema.json`
 
 Use in your editor for validation:
 
 ```json
 {
-  "$schema": "https://github.com/grokify/prism/schema/prism.schema.json",
-  "metrics": [...]
+  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
+  "metadata": { "name": "My Maturity Model" },
+  "slis": {...},
+  "domains": {...}
 }
 ```
 
@@ -662,33 +670,26 @@ prism export v2mom prism.json -o roadmap.v2mom.json
 
 ## Examples
 
-See the `examples/` directory for PRISM document types:
+See the `examples/` directory for PRISM document types organized by domain:
 
-### PRISM Documents (`examples/prism-documents/`)
+### Domain Examples
 
-Standard PRISM documents for metrics, goals, and roadmaps:
+Each domain directory contains Model, State, and Plan files:
 
-- `operations-metrics.json` - Operations-focused metrics (DORA metrics, SLOs, reliability)
-- `operations-layers.json` - Layer-based metric organization with golden signals
-- `team-topology.json` - Full team topology with services and ownership
+| Domain | Model | State | Plan |
+|--------|-------|-------|------|
+| `operations/` | Level definitions | Q2 2026 tracking | Goals & roadmap |
+| `security/` | Level definitions | Q2 2026 tracking | - |
+| `organization/` | Multi-domain model | Q1 2026 tracking | - |
+| `quality/` | - | - | Quality metrics plan |
+
+### Additional Plan Examples (`examples/prism-documents/`)
+
+- `operations-metrics.json` - Operations-focused metrics (DORA, SLOs)
+- `operations-layers.json` - Layer-based metric organization
+- `team-topology.json` - Full team topology with services
 - `quality-metrics.json` - Quality domain with ISO 25010 verticals
-- `goal-roadmap.json` - Goal-driven maturity roadmap with phases and initiatives
-
-### Maturity Models (`examples/maturity-models/`)
-
-PRISM Maturity Models define criteria for each maturity level (M1-M5):
-
-- `operations/model.json` - Reliability, deployment, monitoring maturity
-- `security/model.json` - Prevention, detection, response maturity
-- `organization/model.json` - Multi-domain organizational maturity
-
-### Maturity State (`examples/maturity-state/`)
-
-PRISM Maturity State documents track current state with temporal windows:
-
-- `operations/state-q2-2026.json` - Q2 2026 operations state
-- `organization/state-q1-2026.json` - Q1 2026 multi-domain state
-- `security/state-q2-2026.json` - Q2 2026 security state
+- `goal-roadmap.json` - Goal-driven maturity roadmap
 
 
 ## Library Usage
