@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json",
+  "$ref": "#/$defs/MaturityStateDocument",
+  "$defs": {
+    "DomainMaturityState": {
+      "properties": {
+        "domainId": {
+          "type": "string"
+        },
+        "current": {
+          "$ref": "#/$defs/MaturityLevelState"
+        },
+        "target": {
+          "$ref": "#/$defs/MaturityLevelTarget"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/MaturityLevelState"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "domainId",
+        "current"
+      ]
+    },
+    "EnablerState": {
+      "properties": {
+        "enablerId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "startedAt": {
+          "type": "string"
+        },
+        "completedAt": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "enablerId",
+        "status"
+      ]
+    },
+    "EnablerStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/EnablerState"
+      },
+      "type": "object"
+    },
+    "HistoricalValue": {
+      "properties": {
+        "window": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "window",
+        "value",
+        "timestamp"
+      ]
+    },
+    "MaturityLevelState": {
+      "properties": {
+        "level": {
+          "type": "integer"
+        },
+        "achievedAt": {
+          "type": "string"
+        },
+        "assessedBy": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "level"
+      ]
+    },
+    "MaturityLevelTarget": {
+      "properties": {
+        "level": {
+          "type": "integer"
+        },
+        "targetDate": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "level"
+      ]
+    },
+    "MaturityStateDocument": {
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/$defs/MaturityStateMetadata"
+        },
+        "sloWindows": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sliState": {
+          "$ref": "#/$defs/SLIStateMap"
+        },
+        "maturityState": {
+          "$ref": "#/$defs/MaturityStateMap"
+        },
+        "enablerState": {
+          "$ref": "#/$defs/EnablerStateMap"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "metadata"
+      ]
+    },
+    "MaturityStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/DomainMaturityState"
+      },
+      "type": "object"
+    },
+    "MaturityStateMetadata": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "maturityModelRef": {
+          "type": "string"
+        },
+        "assessedAt": {
+          "type": "string"
+        },
+        "assessedBy": {
+          "type": "string"
+        },
+        "organization": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name"
+      ]
+    },
+    "SLIState": {
+      "properties": {
+        "sliId": {
+          "type": "string"
+        },
+        "qualitativeState": {
+          "type": "string"
+        },
+        "windows": {
+          "additionalProperties": {
+            "$ref": "#/$defs/WindowState"
+          },
+          "type": "object"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/HistoricalValue"
+          },
+          "type": "array"
+        },
+        "targets": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TargetValue"
+          },
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "sliId"
+      ]
+    },
+    "SLIStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SLIState"
+      },
+      "type": "object"
+    },
+    "TargetValue": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "maturityLevel": {
+          "type": "integer"
+        },
+        "targetDate": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
+    "WindowState": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "target": {
+          "type": "number"
+        },
+        "met": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "title": "PRISM Maturity State",
+  "description": "PRISM Maturity State document tracking current values, temporal windows, and progress against a maturity model"
+}

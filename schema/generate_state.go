@@ -1,9 +1,9 @@
 //go:build ignore
 
-// This file generates the JSON Schema for maturity model types from Go struct definitions.
+// This file generates the JSON Schema for maturity state types from Go struct definitions.
 // Run from the schema directory:
 //
-//	cd schema && go run generate_maturity.go
+//	cd schema && go run generate_state.go
 //
 // Or generate all schemas:
 //
@@ -15,7 +15,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism"
 	"github.com/invopop/jsonschema"
 )
 
@@ -33,13 +33,13 @@ func run() error {
 		ExpandedStruct: false,
 	}
 
-	// Generate schema for maturity.Spec
-	schema := r.Reflect(&maturity.Spec{})
+	// Generate schema for MaturityStateDocument
+	schema := r.Reflect(&prism.MaturityStateDocument{})
 
 	// Set schema metadata
-	schema.ID = "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json"
-	schema.Title = "PRISM Maturity Model"
-	schema.Description = "PRISM Maturity Model specification defining what good looks like at each maturity level (M1-M5)"
+	schema.ID = "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json"
+	schema.Title = "PRISM Maturity State"
+	schema.Description = "PRISM Maturity State document tracking current values, temporal windows, and progress against a maturity model"
 
 	// Marshal to JSON with indentation
 	data, err := json.MarshalIndent(schema, "", "  ")
@@ -48,7 +48,7 @@ func run() error {
 	}
 
 	// Write to file
-	filename := "prism-maturity-model.schema.json"
+	filename := "prism-maturity-state.schema.json"
 	if err := os.WriteFile(filename, data, 0644); err != nil {
 		return fmt.Errorf("failed to write schema file: %w", err)
 	}

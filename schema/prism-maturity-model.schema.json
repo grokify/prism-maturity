@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/grokify/prism/schema/maturity.schema.json",
+  "$id": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
   "$ref": "#/$defs/Spec",
   "$defs": {
     "Criterion": {
@@ -24,12 +24,6 @@
           "type": "string"
         },
         "unit": {
-          "type": "string"
-        },
-        "layer": {
-          "type": "string"
-        },
-        "category": {
           "type": "string"
         },
         "operator": {
@@ -285,6 +279,29 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "QualitativeState": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "order"
+      ]
+    },
     "SLI": {
       "properties": {
         "id": {
@@ -305,14 +322,22 @@
         "type": {
           "type": "string"
         },
-        "sliType": {
-          "type": "string",
-          "enum": ["availability", "latency", "error_rate", "throughput", "saturation", "utilization", "quality", "freshness"]
+        "measurementType": {
+          "type": "string"
+        },
+        "qualitativeStates": {
+          "items": {
+            "$ref": "#/$defs/QualitativeState"
+          },
+          "type": "array"
         },
         "layer": {
           "type": "string"
         },
         "category": {
+          "type": "string"
+        },
+        "sliType": {
           "type": "string"
         },
         "frameworkMappings": {
@@ -397,6 +422,6 @@
       "type": "object"
     }
   },
-  "title": "Maturity Specification",
-  "description": "PRISM Maturity Model specification with domains, levels, criteria, and framework mappings"
+  "title": "PRISM Maturity Model",
+  "description": "PRISM Maturity Model specification defining what good looks like at each maturity level (M1-M5)"
 }

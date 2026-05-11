@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/grokify/prism/schema/prism.schema.json",
+  "$id": "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json",
   "$ref": "#/$defs/PRISMDocument",
   "$defs": {
     "CustomerAwarenessConfig": {
@@ -101,12 +101,86 @@
         "name"
       ]
     },
+    "DomainMaturityState": {
+      "properties": {
+        "domainId": {
+          "type": "string"
+        },
+        "current": {
+          "$ref": "#/$defs/MaturityLevelState"
+        },
+        "target": {
+          "$ref": "#/$defs/MaturityLevelTarget"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/MaturityLevelState"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "domainId",
+        "current"
+      ]
+    },
+    "EnablerState": {
+      "properties": {
+        "enablerId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "startedAt": {
+          "type": "string"
+        },
+        "completedAt": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "enablerId",
+        "status"
+      ]
+    },
+    "EnablerStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/EnablerState"
+      },
+      "type": "object"
+    },
     "FrameworkMapping": {
       "properties": {
         "framework": {
           "type": "string"
         },
         "reference": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "baseline": {
+          "type": "string"
+        },
+        "version": {
           "type": "string"
         }
       },
@@ -222,6 +296,30 @@
       },
       "additionalProperties": false,
       "type": "object"
+    },
+    "HistoricalValue": {
+      "properties": {
+        "window": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "window",
+        "value",
+        "timestamp"
+      ]
     },
     "Initiative": {
       "properties": {
@@ -365,6 +463,45 @@
         "name"
       ]
     },
+    "MaturityLevelState": {
+      "properties": {
+        "level": {
+          "type": "integer"
+        },
+        "achievedAt": {
+          "type": "string"
+        },
+        "assessedBy": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "level"
+      ]
+    },
+    "MaturityLevelTarget": {
+      "properties": {
+        "level": {
+          "type": "integer"
+        },
+        "targetDate": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "level"
+      ]
+    },
     "MaturityMapping": {
       "properties": {
         "level1": {
@@ -402,6 +539,12 @@
         }
       },
       "additionalProperties": false,
+      "type": "object"
+    },
+    "MaturityStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/DomainMaturityState"
+      },
       "type": "object"
     },
     "Metadata": {
@@ -642,6 +785,24 @@
         },
         "roadmap": {
           "$ref": "#/$defs/RoadmapConfig"
+        },
+        "maturityModelRef": {
+          "type": "string"
+        },
+        "sloWindows": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sliState": {
+          "$ref": "#/$defs/SLIStateMap"
+        },
+        "maturityState": {
+          "$ref": "#/$defs/MaturityStateMap"
+        },
+        "enablerState": {
+          "$ref": "#/$defs/EnablerStateMap"
         }
       },
       "additionalProperties": false,
@@ -739,13 +900,64 @@
         },
         "formula": {
           "type": "string"
+        },
+        "sliType": {
+          "type": "string"
         }
       },
       "additionalProperties": false,
       "type": "object"
     },
+    "SLIState": {
+      "properties": {
+        "sliId": {
+          "type": "string"
+        },
+        "qualitativeState": {
+          "type": "string"
+        },
+        "windows": {
+          "additionalProperties": {
+            "$ref": "#/$defs/WindowState"
+          },
+          "type": "object"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/HistoricalValue"
+          },
+          "type": "array"
+        },
+        "targets": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TargetValue"
+          },
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "sliId"
+      ]
+    },
+    "SLIStateMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SLIState"
+      },
+      "type": "object"
+    },
     "SLO": {
       "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
         "target": {
           "type": "string"
         },
@@ -760,6 +972,15 @@
         },
         "thresholds": {
           "$ref": "#/$defs/Thresholds"
+        },
+        "status": {
+          "type": "string"
+        },
+        "frameworkMappings": {
+          "items": {
+            "$ref": "#/$defs/FrameworkMapping"
+          },
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -848,6 +1069,24 @@
         "initiativeIds"
       ]
     },
+    "TargetValue": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "maturityLevel": {
+          "type": "integer"
+        },
+        "targetDate": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
     "Team": {
       "properties": {
         "id": {
@@ -914,8 +1153,30 @@
         "yellow",
         "red"
       ]
+    },
+    "WindowState": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "target": {
+          "type": "number"
+        },
+        "met": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "value"
+      ]
     }
   },
-  "title": "PRISM Document",
-  "description": "PRISM (Proactive Reliability \u0026 Security Maturity Model) document schema"
+  "title": "PRISM Maturity Plan",
+  "description": "PRISM Maturity Plan document defining goals, phases, initiatives, and roadmap for achieving maturity targets"
 }

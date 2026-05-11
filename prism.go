@@ -824,3 +824,57 @@ func CompareQualitativeStates(a, b string) int {
 func MeetsQualitativeTarget(current, target string) bool {
 	return CompareQualitativeStates(current, target) >= 0
 }
+
+// MaturityStateDocument is a PRISM Maturity State document that tracks
+// current state against a maturity model. This is the top-level document
+// type for prism-maturity-state.schema.json.
+type MaturityStateDocument struct {
+	// Schema is the JSON Schema reference.
+	Schema string `json:"$schema,omitempty"`
+
+	// Metadata contains document identification and references.
+	Metadata MaturityStateMetadata `json:"metadata"`
+
+	// SLOWindows defines which temporal windows are tracked in this state document.
+	SLOWindows []string `json:"sloWindows,omitempty"`
+
+	// SLIState tracks current values for each SLI.
+	SLIState SLIStateMap `json:"sliState,omitempty"`
+
+	// MaturityState tracks maturity level progression for each domain.
+	MaturityState MaturityStateMap `json:"maturityState,omitempty"`
+
+	// EnablerState tracks progress on enablers/initiatives.
+	EnablerState EnablerStateMap `json:"enablerState,omitempty"`
+}
+
+// MaturityStateMetadata contains identification and reference information.
+type MaturityStateMetadata struct {
+	// Name is the document name.
+	Name string `json:"name"`
+
+	// Description is an optional description.
+	Description string `json:"description,omitempty"`
+
+	// Version is the document version.
+	Version string `json:"version,omitempty"`
+
+	// MaturityModelRef is a reference to the maturity model this state tracks against.
+	MaturityModelRef string `json:"maturityModelRef,omitempty"`
+
+	// AssessedAt is when this state was assessed (ISO 8601).
+	AssessedAt string `json:"assessedAt,omitempty"`
+
+	// AssessedBy is who performed the assessment.
+	AssessedBy string `json:"assessedBy,omitempty"`
+
+	// Organization is the organization name.
+	Organization string `json:"organization,omitempty"`
+}
+
+// MaturityPlanDocument is a PRISM Maturity Plan document that defines
+// goals, phases, and initiatives for achieving maturity targets.
+// This is the top-level document type for prism-maturity-plan.schema.json.
+// Note: This is equivalent to the existing PRISMDocument type, which will
+// be aliased to MaturityPlanDocument in a future version.
+type MaturityPlanDocument = PRISMDocument

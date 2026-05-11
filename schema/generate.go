@@ -1,6 +1,6 @@
 //go:build ignore
 
-// This file generates the JSON Schema for PRISM types from Go struct definitions.
+// This file generates the JSON Schema for PRISM Maturity Plan types from Go struct definitions.
 // Run from the schema directory:
 //
 //	cd schema && go run generate.go
@@ -31,13 +31,13 @@ func run() error {
 		ExpandedStruct: false,
 	}
 
-	// Generate schema for PRISMDocument
+	// Generate schema for PRISMDocument (MaturityPlanDocument)
 	schema := r.Reflect(&prism.PRISMDocument{})
 
 	// Set schema metadata
-	schema.ID = "https://github.com/grokify/prism/schema/prism.schema.json"
-	schema.Title = "PRISM Document"
-	schema.Description = "PRISM (Proactive Reliability & Security Maturity Model) document schema"
+	schema.ID = "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json"
+	schema.Title = "PRISM Maturity Plan"
+	schema.Description = "PRISM Maturity Plan document defining goals, phases, initiatives, and roadmap for achieving maturity targets"
 
 	// Marshal to JSON with indentation
 	data, err := json.MarshalIndent(schema, "", "  ")
@@ -46,7 +46,7 @@ func run() error {
 	}
 
 	// Write to file
-	filename := "prism.schema.json"
+	filename := "prism-maturity-plan.schema.json"
 	if err := os.WriteFile(filename, data, 0644); err != nil {
 		return fmt.Errorf("failed to write schema file: %w", err)
 	}
