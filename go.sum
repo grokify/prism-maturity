@@ -19,8 +19,8 @@ github.com/pb33f/ordered-map/v2 v2.3.1 h1:5319HDO0aw4DA4gzi+zv4FXU9UlSs3xGZ40wcP
 github.com/pb33f/ordered-map/v2 v2.3.1/go.mod h1:qxFQgd0PkVUtOMCkTapqotNgzRhMPL7VvaHKbd1HnmQ=
 github.com/plexusone/dashforge v0.2.0 h1:AO/aXnvI7MSBz8TLHt8NtI01wsSdR6Ms7IgSVNhfrkY=
 github.com/plexusone/dashforge v0.2.0/go.mod h1:0qwyPQAvaA/bFFJcKa2wYaDhceL8kTqkcHw12ROQH0Q=
-github.com/plexusone/omniframe v0.1.0 h1:fwE9/ybJI2x3WRrHbAkRxr1zw0tl2u315Oe0y0xmJoc=
-github.com/plexusone/omniframe v0.1.0/go.mod h1:DbdnfqdQBGyMQvsS8sd0WLn6soj42oT+plRoW+8vXU0=
+github.com/plexusone/omniframe v0.1.1 h1:x62SABI4yAHjBB6GzCuviQfMHXMGUHNYY73opaReV0A=
+github.com/plexusone/omniframe v0.1.1/go.mod h1:ozcYJFREvWtU1cCD4DOKr17/AV1OexpzQCxnQgu/V+0=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 h1:Jamvg5psRIccs7FGNTlIRMkT8wgtp5eCXdBlqhYGL6U=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/richardlehane/mscfb v1.0.6 h1:eN3bvvZCp00bs7Zf52bxNwAx5lJDBK1tCuH19qq5aC8=
