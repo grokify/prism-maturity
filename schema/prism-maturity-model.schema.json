@@ -63,50 +63,6 @@
         "target"
       ]
     },
-    "DomainAssessment": {
-      "properties": {
-        "domain": {
-          "type": "string"
-        },
-        "assessedAt": {
-          "type": "string"
-        },
-        "assessedBy": {
-          "type": "string"
-        },
-        "currentLevel": {
-          "type": "integer"
-        },
-        "targetLevel": {
-          "type": "integer"
-        },
-        "criteriaValues": {
-          "additionalProperties": {
-            "type": "number"
-          },
-          "type": "object"
-        },
-        "criteriaStatus": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        },
-        "enablerStatus": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "domain",
-        "currentLevel",
-        "targetLevel"
-      ]
-    },
     "DomainModel": {
       "properties": {
         "name": {
@@ -206,36 +162,6 @@
         "reference"
       ]
     },
-    "KPIThreshold": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        },
-        "operator": {
-          "type": "string"
-        },
-        "thresholds": {
-          "$ref": "#/$defs/LevelThresholds"
-        },
-        "current": true
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "id",
-        "name",
-        "thresholds"
-      ]
-    },
     "Level": {
       "properties": {
         "level": {
@@ -267,17 +193,6 @@
         "name",
         "description"
       ]
-    },
-    "LevelThresholds": {
-      "properties": {
-        "m1": true,
-        "m2": true,
-        "m3": true,
-        "m4": true,
-        "m5": true
-      },
-      "additionalProperties": false,
-      "type": "object"
     },
     "QualitativeState": {
       "properties": {
@@ -369,24 +284,9 @@
           },
           "type": "object"
         },
-        "kpiThresholds": {
-          "additionalProperties": {
-            "items": {
-              "$ref": "#/$defs/KPIThreshold"
-            },
-            "type": "array"
-          },
-          "type": "object"
-        },
         "domains": {
           "additionalProperties": {
             "$ref": "#/$defs/DomainModel"
-          },
-          "type": "object"
-        },
-        "assessments": {
-          "additionalProperties": {
-            "$ref": "#/$defs/DomainAssessment"
           },
           "type": "object"
         }
