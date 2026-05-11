@@ -2,6 +2,23 @@
 
 PRISM uses a 5-level maturity model to assess organizational capability across domains and lifecycle stages.
 
+## Model vs State Separation (v0.5.0+)
+
+PRISM separates maturity **definitions** from **state tracking**:
+
+| Document | Purpose | Contains |
+|----------|---------|----------|
+| **Maturity Model** | What does good look like? | SLIs, domains, M1-M5 criteria, enablers |
+| **Maturity State** | Where are we now? | Current values, temporal windows, history |
+
+This separation enables:
+
+- **Reusable models** - One model can be used across multiple assessments
+- **Temporal tracking** - Track progress over time with historical snapshots
+- **Clean versioning** - Model definitions don't change with each measurement
+
+See [Model State Separation Design](../design/REFACTOR_MATURITY_STATE.md) for details.
+
 ## Maturity Levels
 
 | Level | Name | Score | Description |
@@ -257,4 +274,78 @@ The cell score formula is:
 
 ```
 CellScore = (0.4 × MaturityScore) + (0.6 × PerformanceScore)
+```
+
+## Temporal Windows (v0.5.0+)
+
+PRISM Maturity State documents support multiple SLO windows for tracking metrics over time:
+
+| Window | Description |
+|--------|-------------|
+| `7d` | Rolling 7-day window |
+| `30d` | Rolling 30-day window |
+| `90d` | Rolling 90-day window |
+| `quarterly` | Calendar quarter |
+| `annual` | Calendar year |
+
+### Example State with Temporal Windows
+
+```json
+{
+  "sliState": {
+    "sli-availability": {
+      "windows": {
+        "7d":  { "value": 99.97, "timestamp": "2026-05-10T00:00:00Z" },
+        "30d": { "value": 99.92, "timestamp": "2026-05-10T00:00:00Z" },
+        "90d": { "value": 99.88, "timestamp": "2026-05-10T00:00:00Z" }
+      },
+      "history": [
+        { "window": "30d", "value": 99.85, "timestamp": "2026-04-01T00:00:00Z" },
+        { "window": "30d", "value": 99.92, "timestamp": "2026-05-01T00:00:00Z" }
+      ]
+    }
+  }
+}
+```
+
+## Measurement Types (v0.5.0+)
+
+SLIs can be classified by measurement type:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `quantitative` | Numeric values only | Availability: 99.9% |
+| `qualitative` | State-based only | Monitoring: "tracked" |
+| `hybrid` | Both numeric and state | Start with "tracked", progress to 99.9% |
+
+### Qualitative State Progression
+
+For qualitative and hybrid SLIs, PRISM supports state progressions:
+
+| State | Order | Description |
+|-------|-------|-------------|
+| `none` | 0 | Not started |
+| `adhoc` | 1 | Ad-hoc/informal |
+| `tracked` | 2 | Being tracked |
+| `measured` | 3 | Measured with targets |
+| `alerting` | 4 | Alerting enabled |
+| `optimized` | 5 | Continuously optimized |
+
+### Example SLI with Qualitative States
+
+```json
+{
+  "slis": {
+    "sli-observability": {
+      "name": "Observability Coverage",
+      "measurementType": "hybrid",
+      "qualitativeStates": [
+        { "id": "none", "label": "Not tracked", "order": 0 },
+        { "id": "tracked", "label": "Tracked", "order": 1 },
+        { "id": "measured", "label": "Measured with SLO", "order": 2 },
+        { "id": "alerting", "label": "SLO + Alerting", "order": 3 }
+      ]
+    }
+  }
+}
 ```

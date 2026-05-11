@@ -27,6 +27,8 @@ An SLI defines what is being measured, including any compliance framework mappin
 | `metricName` | string | Yes | The metric being measured |
 | `unit` | string | No | Unit of measurement (%, hours, days) |
 | `type` | string | No | `quantitative` (default) or `qualitative` |
+| `measurementType` | string | No | `quantitative`, `qualitative`, or `hybrid` (v0.5.0+) |
+| `qualitativeStates` | array | No | Qualitative state progression (v0.5.0+) |
 | `layer` | string | No | Value stream layer (code, infra, runtime, etc.) |
 | `category` | string | No | Metric category (reliability, efficiency, security) |
 | `frameworkMappings` | array | No | Compliance framework references |
@@ -177,6 +179,37 @@ Common window values:
 | `90d` | 90-day rolling window |
 | `monthly` | Calendar month |
 | `quarterly` | Calendar quarter |
+| `annual` | Calendar year |
+
+### Temporal Window Tracking (v0.5.0+)
+
+PRISM Maturity State documents support tracking multiple windows simultaneously:
+
+```json
+{
+  "sliState": {
+    "sli-availability": {
+      "windows": {
+        "7d":  { "value": 99.97, "timestamp": "2026-05-10T00:00:00Z" },
+        "30d": { "value": 99.92, "timestamp": "2026-05-10T00:00:00Z" },
+        "90d": { "value": 99.88, "timestamp": "2026-05-10T00:00:00Z" }
+      },
+      "targets": {
+        "Q2_2026": { "value": 99.9, "maturityLevel": 4 }
+      },
+      "history": [
+        { "window": "30d", "value": 99.85, "timestamp": "2026-04-01T00:00:00Z" }
+      ]
+    }
+  }
+}
+```
+
+This enables:
+
+- **Multi-window comparison** - See 7d vs 30d vs 90d performance
+- **Historical tracking** - Track progress over time
+- **Target progression** - Define targets by quarter with maturity level mapping
 
 ## Programmatic SLO Checking
 
@@ -279,6 +312,81 @@ When exporting to XLSX, qualitative metrics display differently:
 | Service Availability | Quantitative | >=99.99% | 99.95 | No |
 | Incident Runbooks | Qualitative | Tracked | Documented | Yes |
 | Alerting Coverage | Qualitative | Tracked | Partial | No |
+
+## Measurement Types (v0.5.0+)
+
+SLIs can specify a `measurementType` to indicate how they are measured:
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| `quantitative` | Numeric values only (default) | Availability: 99.9%, Latency: 200ms |
+| `qualitative` | State-based only | Monitoring status: "tracked" |
+| `hybrid` | Both numeric and state | Start with "tracked", progress to numeric SLOs |
+
+### Hybrid Measurement Example
+
+Hybrid SLIs support progression from qualitative to quantitative:
+
+```json
+{
+  "slis": {
+    "sli-observability": {
+      "id": "sli-observability",
+      "name": "Observability Coverage",
+      "measurementType": "hybrid",
+      "qualitativeStates": [
+        { "id": "none", "label": "Not tracked", "order": 0 },
+        { "id": "adhoc", "label": "Ad-hoc monitoring", "order": 1 },
+        { "id": "tracked", "label": "Systematically tracked", "order": 2 },
+        { "id": "measured", "label": "Measured with SLO", "order": 3 },
+        { "id": "alerting", "label": "SLO with alerting", "order": 4 }
+      ]
+    }
+  }
+}
+```
+
+### Qualitative State Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique state identifier |
+| `label` | string | Yes | Human-readable label |
+| `description` | string | No | State description |
+| `order` | int | Yes | Sort order (0 = lowest maturity) |
+
+### Standard Qualitative States
+
+PRISM defines standard qualitative states for consistency:
+
+| State | Order | Description |
+|-------|-------|-------------|
+| `none` | 0 | Not started or not applicable |
+| `adhoc` | 1 | Ad-hoc or informal |
+| `tracked` | 2 | Being tracked systematically |
+| `measured` | 3 | Measured with defined targets |
+| `alerting` | 4 | Alerting enabled on thresholds |
+| `optimized` | 5 | Continuously optimized |
+
+### SLI Helper Methods
+
+```go
+sli := maturity.SLI{
+    MeasurementType: maturity.MeasurementTypeHybrid,
+    QualitativeStates: []maturity.QualitativeState{...},
+}
+
+// Check measurement type
+sli.IsQuantitative() // false
+sli.IsQualitative()  // false
+sli.IsHybrid()       // true
+
+// Get measurement type (defaults to quantitative)
+sli.GetMeasurementType() // "hybrid"
+
+// Get qualitative states
+states := sli.GetQualitativeStates()
+```
 
 ## Best Practices
 

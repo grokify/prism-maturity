@@ -116,15 +116,19 @@ nav:
       - Core:
           - PRD: design/core/PRD.md
       - Maturity:
+          - Model State Separation: design/REFACTOR_MATURITY_STATE.md
           - Codegen: design/maturity/FEAT_MATURITY_CODEGEN.md
           - SLO Design: design/maturity/FEAT_MATURITY_SLO_DESIGN.md
           - Roadmap Plan: design/maturity/FEAT_MATURITYROADMAP_PLAN.md
           - Roadmap PRD: design/maturity/FEAT_MATURITYROADMAP_PRD.md
+      - Maturity Plan:
+          - PRD: design/maturity-plan/PRD.md
   - API Reference:
       - Go Library: api/library.md
       - Types: api/types.md
   - Releases:
       - Changelog: releases/changelog.md
+      - v0.5.0: releases/v0.5.0.md
       - v0.4.0: releases/v0.4.0.md
       - v0.3.0: releases/v0.3.0.md
       - v0.2.0: releases/v0.2.0.md
