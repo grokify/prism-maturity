@@ -7,6 +7,40 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.5.0",
+      "date": "2026-05-10",
+      "highlights": [
+        { "description": "BREAKING: Separated PRISM Maturity Model (definition) from PRISM Maturity State (tracking)" },
+        { "description": "New temporal SLO window support: 7d, 30d, 90d, quarterly, annual" },
+        { "description": "Hybrid qualitative/quantitative criteria with measurement type classification" },
+        { "description": "Dashboard dual-read support for backward compatibility during migration" }
+      ],
+      "breaking": [
+        { "description": "Removed `assessments` field from maturity model files - state tracking now uses separate PRISM Maturity State documents" },
+        { "description": "`Spec.Assessments` field is deprecated and will be removed in a future release" },
+        { "description": "`DomainAssessment` type is deprecated in favor of the new PRISM Maturity State format" },
+        { "description": "Example maturity model files (`examples/maturity-models/*/model.json`) no longer contain assessment data" }
+      ],
+      "added": [
+        { "description": "`QualitativeState` type for qualitative progression tracking (none, adhoc, tracked, measured, alerting, optimized)" },
+        { "description": "`MeasurementType` constants: quantitative, qualitative, hybrid" },
+        { "description": "`SLI.MeasurementType` and `SLI.QualitativeStates` fields for hybrid metric support" },
+        { "description": "`SLI.GetMeasurementType()`, `GetQualitativeStates()`, `IsQuantitative()`, `IsQualitative()`, `IsHybrid()` helper methods" },
+        { "description": "`Generator.WithStateDocument()` method for dashboard dual-read support" },
+        { "description": "New PRISM Maturity State examples in `examples/maturity-state/` directory" },
+        { "description": "Temporal window support in state documents: 7d, 30d, 90d, quarterly, annual SLO tracking" }
+      ],
+      "changed": [
+        { "description": "XLSX generator handles nil assessments gracefully (no panic when assessments not present)" },
+        { "description": "Dashboard generator supports reading state from separate PRISM Maturity State document" }
+      ],
+      "documentation": [
+        { "description": "`docs/design/REFACTOR_MATURITY_STATE.md` with architecture for model/state separation" },
+        { "description": "Updated `examples/README.md` with new directory structure and naming conventions" },
+        { "description": "Migration guide for upgrading from v0.4.0 to v0.5.0" }
+      ]
+    },
+    {
       "version": "v0.4.0",
       "date": "2026-05-09",
       "highlights": [

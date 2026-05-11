@@ -662,13 +662,33 @@ prism export v2mom prism.json -o roadmap.v2mom.json
 
 ## Examples
 
-See the `examples/` directory:
+See the `examples/` directory for PRISM document types:
+
+### PRISM Documents (`examples/prism-documents/`)
+
+Standard PRISM documents for metrics, goals, and roadmaps:
 
 - `operations-metrics.json` - Operations-focused metrics (DORA metrics, SLOs, reliability)
 - `operations-layers.json` - Layer-based metric organization with golden signals
 - `team-topology.json` - Full team topology with services and ownership
 - `quality-metrics.json` - Quality domain with ISO 25010 verticals
 - `goal-roadmap.json` - Goal-driven maturity roadmap with phases and initiatives
+
+### Maturity Models (`examples/maturity-models/`)
+
+PRISM Maturity Models define criteria for each maturity level (M1-M5):
+
+- `operations/model.json` - Reliability, deployment, monitoring maturity
+- `security/model.json` - Prevention, detection, response maturity
+- `organization/model.json` - Multi-domain organizational maturity
+
+### Maturity State (`examples/maturity-state/`)
+
+PRISM Maturity State documents track current state with temporal windows:
+
+- `operations/state-q2-2026.json` - Q2 2026 operations state
+- `organization/state-q1-2026.json` - Q1 2026 multi-domain state
+- `security/state-q2-2026.json` - Q2 2026 security state
 
 
 ## Library Usage

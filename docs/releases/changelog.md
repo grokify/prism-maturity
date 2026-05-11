@@ -1,135 +1,34 @@
 # Changelog
 
-All notable changes to PRISM will be documented here.
+For the complete changelog, see [CHANGELOG.md](https://github.com/grokify/prism/blob/main/CHANGELOG.md) in the repository root.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
-and commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+## Recent Releases
 
-## [Unreleased]
+- [v0.5.0](./v0.5.0.md) - 2026-05-10 - Model/State separation, temporal windows
+- [v0.4.0](./v0.4.0.md) - 2026-05-09 - SLI type, framework expansion
+- [v0.3.0](./v0.3.0.md) - 2026-04-26 - Layers, teams, services, analysis
+- [v0.2.0](./v0.2.0.md) - 2026-04-18 - Goals, phases, roadmap
+- [v0.1.0](./v0.1.0.md) - 2026-03-30 - Initial release
 
-## [v0.2.0] - 2026-04-18
+## Versioning
 
-### Highlights
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html):
 
-- Goal-driven maturity roadmap with SLO-backed maturity levels
-- Phase-based planning with quarters, swimlanes, and initiative tracking
-- New CLI commands: goal, phase, roadmap, slo-report, dashboard
-- Dashforge integration for dashboard generation
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for backward-compatible functionality additions
+- **PATCH** version for backward-compatible bug fixes
 
-### Added
+## Commit Convention
 
-- Goal type with owner, priority, status, and maturity tracking
-- GoalMaturityModel with 5-level progression and SLO requirements
-- MetricCriterion for maturity level value requirements
-- Goal.CurrentMaturityLevel() calculates achieved level from metrics
-- Phase type for time-bounded planning periods (quarters)
-- PhaseGoalTarget for enter/exit maturity levels per goal
-- Swimlane for organizing initiatives by domain
-- PhaseMetrics for tracking progress at phase boundaries
-- GoalProgress with initiative completion and SLO compliance
-- CalculateGoalProgress(), CalculateInitiativeMetrics(), CalculateSLOCompliance()
-- RoadmapProgress for aggregated roadmap status
-- GetRoadmapProgress() generates full progress view
-- SLOReport with compliance rate and metric status breakdown
-- GenerateSLOReport() creates SLO compliance reports
-- ExecDashboard for high-level status views
-- Markdown report generation for executive summaries
-- Dashforge converter for PRISM to dashforge format
-- Widget generators for metrics, goals, and phases
-- `prism dashboard` command for executive dashboards
-- `prism dashforge` command for dashforge conversion
-- `prism report` command for markdown reports
-- `prism slo-report` command for SLO compliance reports
-- Initiative type with deployment tracking and customer adoption
-- Validation for goal, phase, and initiative references
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
 
-### Changed
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `refactor:` - Code refactoring
+- `test:` - Test additions/changes
+- `chore:` - Build/tooling changes
 
-- Refactored to extensible framework architecture with operations examples
-- PRISMDocument extended with Goals, Phases, Initiatives arrays
-- JSON Schema updated with goal, phase, and initiative types
+## Changelog Format
 
-### Documentation
-
-- Roadmap CLI documentation (goal, phase, roadmap commands)
-- Design notes for maturity roadmap implementation
-- Updated examples with operations-focused goal roadmap
-
-### Tests
-
-- Unit tests for Goal, GoalMaturityModel, CurrentMaturityLevel()
-- Unit tests for Phase, PhaseGoalTarget, Swimlane
-- Unit tests for PhaseMetrics calculations
-- Integration tests for SLO report generation
-
-### Infrastructure
-
-- Multi-agent orchestration specs for roadmap generation
-- Example executive dashboard configuration
-
-## [v0.1.0] - 2026-03-30
-
-### Highlights
-
-- PRISM (Proactive Reliability & Security Maturity Model) - a unified framework for B2B SaaS health metrics combining SLOs, DMAIC, OKRs, and maturity modeling
-- CLI tool for creating, validating, and scoring PRISM documents
-- Auto-generated JSON Schema from Go types for editor validation
-
-### Added
-
-- Core types: PRISMDocument, Metric, SLI, SLO, Thresholds, DataPoint
-- Domain constants: security, operations
-- Lifecycle stage constants: design, build, test, runtime, response
-- Category constants: prevention, detection, response, reliability, efficiency, quality
-- Metric types: coverage, rate, latency, ratio, count, distribution, score
-- Framework mapping support: NIST_CSF, MITRE_ATTACK, DORA, SRE
-- Validation functions for all constants and document structure
-- ValidationError and ValidationErrors types for detailed error reporting
-- 5-level maturity model: Reactive, Basic, Defined, Managed, Optimizing
-- MaturityModel, MaturityLevelDef, MaturityCell types
-- NewMaturityModelForDomains() for domain-filtered initialization
-- Customer awareness model with four states: unaware, aware_not_remediating, aware_remediating, aware_remediated
-- AwarenessScore() using mutually exclusive state weights (0.0 → 0.25 → 0.5 → 1.0)
-- PRISM score calculation combining maturity and performance
-- Configurable weights: maturity 40%, performance 60%, stage weights, domain weights
-- Score interpretation: Elite (≥0.9), Strong (≥0.75), Medium (≥0.5), Weak (≥0.25), Critical
-- SLO.Operator and SLO.Value fields for machine-evaluable targets
-- Metric.MeetsSLO() method for programmatic SLO checking
-- Metric.CalculateStatus() for threshold-based status calculation
-- Metric.ProgressToTarget() for progress tracking
-- `prism init` command with domain filtering (-d) and output path (-o)
-- `prism validate` command for document validation
-- `prism score` command with --detailed and --json flags
-- `prism catalog` command to list available constants
-- JSON Schema auto-generation from Go types using invopop/jsonschema
-- Embedded schema access via schema.PRISMSchemaJSON()
-
-### Dependencies
-
-- github.com/spf13/cobra v1.10.2 for CLI
-- github.com/invopop/jsonschema v0.13.0 for schema generation
-
-### Documentation
-
-- README with installation, CLI usage, schema overview, and examples
-- Example metrics for operations domain
-- Operations metrics example (8 DORA-aligned metrics: availability, latency, error rate, deployment frequency, lead time, MTTR, change failure rate, IaC coverage)
-- Score weight normalization behavior documented in ScoreConfig
-
-### Tests
-
-- Unit tests for validation, maturity, awareness, and scoring
-- Integration tests for example JSON files
-- DataPoint timestamp JSON round-trip tests
-- MeetsSLO() tests for all operators (gte, lte, gt, lt, eq)
-
-### Infrastructure
-
-- GitHub Actions workflows for CI, linting, and CodeQL
-- Dependabot configuration for automated dependency updates
-- golangci-lint configuration
-
-[unreleased]: https://github.com/grokify/prism/compare/v0.2.0...HEAD
-[v0.2.0]: https://github.com/grokify/prism/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/grokify/prism/releases/tag/v0.1.0
+The changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and is generated from [CHANGELOG.json](https://github.com/grokify/prism/blob/main/CHANGELOG.json) using [Structured Changelog](https://github.com/grokify/structured-changelog).
