@@ -3,6 +3,30 @@
   "$id": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
   "$ref": "#/$defs/Spec",
   "$defs": {
+    "Category": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "sliOrder": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id"
+      ]
+    },
     "Criterion": {
       "properties": {
         "id": {
@@ -255,6 +279,12 @@
         "sliType": {
           "type": "string"
         },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "frameworkMappings": {
           "items": {
             "$ref": "#/$defs/FrameworkMapping"
@@ -277,6 +307,12 @@
         },
         "metadata": {
           "$ref": "#/$defs/SpecMetadata"
+        },
+        "categories": {
+          "items": {
+            "$ref": "#/$defs/Category"
+          },
+          "type": "array"
         },
         "slis": {
           "additionalProperties": {
