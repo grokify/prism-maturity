@@ -225,9 +225,33 @@ const htmlTemplate = `<!DOCTYPE html>
     .bullet .range.s2 { fill: #fee2e2; }
     .bullet .measure.s0 { fill: #3b82f6; }
     .bullet .measure.s1 { fill: #60a5fa; }
-    .bullet .title { font-size: 14px; font-weight: bold; }
-    .bullet .subtitle { fill: #666; font-size: 12px; }
     .bullet-container { padding: 8px 0; }
+    .bullet-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+    .bullet-label {
+      flex: 0 0 auto;
+      text-align: left;
+    }
+    .bullet-label-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bullet-label-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .bullet-chart {
+      flex: 1 1 auto;
+      min-width: 200px;
+    }
     .bullet-legend {
       display: flex;
       gap: 16px;
@@ -341,9 +365,14 @@ const htmlTemplate = `<!DOCTYPE html>
     }
 
     function renderChart(el, widget, data) {
+      // Calculate chart height based on grid position (rowHeight=80, gap=16, minus title/padding)
+      const rowHeight = dashboard.layout?.rowHeight || 80;
+      const gap = dashboard.layout?.gap || 16;
+      const chartHeight = (widget.position.h * rowHeight) + ((widget.position.h - 1) * gap) - 60;
+
       el.innerHTML = ` + "`" + `
         <div class="widget-title">${widget.title}</div>
-        <div class="chart-container" id="chart-${widget.id}"></div>
+        <div class="chart-container" id="chart-${widget.id}" style="height: ${chartHeight}px;"></div>
       ` + "`" + `;
 
       setTimeout(() => {
@@ -465,35 +494,57 @@ const htmlTemplate = `<!DOCTYPE html>
         const container = document.getElementById('bullet-' + widget.id);
         if (!container || !Array.isArray(data)) return;
 
-        const margin = {top: 5, right: 50, bottom: 35, left: 160};
-        const width = container.offsetWidth - margin.left - margin.right;
-        const height = 32;
+        // Create bullet rows with HTML labels and SVG charts
+        data.forEach((d, i) => {
+          const row = document.createElement('div');
+          row.className = 'bullet-row';
+          row.innerHTML = ` + "`" + `
+            <div class="bullet-label">
+              <div class="bullet-label-title" title="${d.title}">${d.title}</div>
+              <div class="bullet-label-subtitle">${d.subtitle || ''}</div>
+            </div>
+            <div class="bullet-chart" id="bullet-chart-${widget.id}-${i}"></div>
+          ` + "`" + `;
+          container.appendChild(row);
+        });
 
-        // Use maturity-specific bullet chart with M1-M5 ticks
-        const chart = d3MaturityBullet().width(width).height(height);
+        // Calculate max label width and apply uniform width
+        setTimeout(() => {
+          const labels = container.querySelectorAll('.bullet-label');
+          let maxWidth = 0;
+          labels.forEach(label => {
+            maxWidth = Math.max(maxWidth, label.offsetWidth);
+          });
+          // Add padding and apply uniform width
+          const uniformWidth = Math.ceil(maxWidth) + 16;
+          labels.forEach(label => {
+            label.style.flex = '0 0 ' + uniformWidth + 'px';
+            label.style.width = uniformWidth + 'px';
+          });
 
-        const svg = d3.select('#bullet-' + widget.id).selectAll('svg')
-            .data(data)
-          .enter().append('svg')
-            .attr('class', 'bullet')
-            .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
-          .append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-            .call(chart);
+          // Render SVG bullet charts after layout is complete
+          setTimeout(() => {
+            data.forEach((d, i) => {
+              const chartContainer = document.getElementById(` + "`" + `bullet-chart-${widget.id}-${i}` + "`" + `);
+              if (!chartContainer) return;
 
-        const title = svg.append('g')
-            .style('text-anchor', 'end')
-            .attr('transform', 'translate(-6,' + height / 2 + ')');
+              const margin = {top: 5, right: 40, bottom: 35, left: 0};
+              const width = chartContainer.offsetWidth - margin.left - margin.right;
+              const height = 32;
 
-        title.append('text')
-            .attr('class', 'title')
-            .text(d => d.title);
+              const chart = d3MaturityBullet().width(width).height(height);
 
-        title.append('text')
-            .attr('class', 'subtitle')
-            .attr('dy', '1em')
-            .text(d => d.subtitle);
+              d3.select(chartContainer).append('svg')
+                  .attr('class', 'bullet')
+                  .attr('width', width + margin.left + margin.right)
+                  .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                  .datum(d)
+                  .call(chart);
+            });
+          }, 0);
+        }, 0);
       }, 0);
     }
 

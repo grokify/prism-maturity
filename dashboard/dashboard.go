@@ -494,15 +494,24 @@ func (g *Generator) addLevelProgressCharts() {
 			Tooltip: &Tooltip{Show: true, Trigger: "axis"},
 		})
 
+		// Calculate height based on number of SLIs (1 row per SLI + 2 for legend/padding)
+		height := len(levelData) + 2
+		if height < 4 {
+			height = 4
+		}
+		if height > 12 {
+			height = 12
+		}
+
 		g.widgets = append(g.widgets, Widget{
 			ID:           fmt.Sprintf("level-progress-%s", domainKey),
 			Type:         "chart",
 			Title:        fmt.Sprintf("%s - SLI Progress to Target", domain.Name),
-			Position:     Position{X: 0, Y: g.row, W: 12, H: 4},
+			Position:     Position{X: 0, Y: g.row, W: 12, H: height},
 			DataSourceID: dataID,
 			Config:       config,
 		})
-		g.row += 4
+		g.row += height
 	}
 }
 
@@ -513,55 +522,97 @@ func (g *Generator) buildLevelProgressData(domainKey string, domain *maturity.Do
 		return data
 	}
 
-	// Collect all SLIs used in criteria
-	sliProgress := make(map[string]map[string]any)
+	// First pass: collect unique SLIs
+	seenSLIs := make(map[string]bool)
+	var sliIDs []string
 
 	for _, level := range domain.Levels {
 		for _, criterion := range level.Criteria {
 			sliID := criterion.SLIID
 			if sliID == "" {
-				sliID = criterion.ID
+				continue
 			}
-
-			sliName := criterion.Name
-			if sli, ok := g.spec.SLIs[criterion.SLIID]; ok && sli != nil {
-				sliName = sli.Name
-			}
-
-			if _, exists := sliProgress[sliID]; !exists {
-				sliProgress[sliID] = map[string]any{
-					"sli":        sliName,
-					"completed":  0.0,
-					"inProgress": 0.0,
-					"remaining":  100.0,
-				}
-			}
-
-			// Check if criterion is met using dual-read helper
-			if val, ok := g.getCriterionValue(domainKey, criterion); ok {
-				isMet := criterion.CheckMet(val)
-				if isMet {
-					sliProgress[sliID]["completed"] = 100.0
-					sliProgress[sliID]["inProgress"] = 0.0
-					sliProgress[sliID]["remaining"] = 0.0
-				} else {
-					// Partial progress
-					progress := calculateProgress(criterion, val)
-					sliProgress[sliID]["completed"] = 0.0
-					sliProgress[sliID]["inProgress"] = progress
-					sliProgress[sliID]["remaining"] = 100.0 - progress
-				}
+			if !seenSLIs[sliID] {
+				seenSLIs[sliID] = true
+				sliIDs = append(sliIDs, sliID)
 			}
 		}
 	}
 
-	// Convert to slice
-	for _, v := range sliProgress {
-		data = append(data, v)
+	// Second pass: for each SLI, find its value and calculate progress
+	for _, sliID := range sliIDs {
+		sliName := sliID
+		category := "other"
+		if sli, ok := g.spec.SLIs[sliID]; ok && sli != nil {
+			sliName = sli.Name
+			if sli.Category != "" {
+				category = sli.Category
+			}
+		}
+
+		// Search through all criteria to find a value (same as collectSLIsByType)
+		var actualValue float64
+		var foundValue bool
+		var bestCriterion maturity.Criterion
+
+		for _, lvl := range domain.Levels {
+			for _, c := range lvl.Criteria {
+				if c.SLIID == sliID {
+					if val, ok := g.getCriterionValue(domainKey, c); ok {
+						actualValue = val
+						foundValue = true
+						bestCriterion = c
+						break
+					}
+				}
+			}
+			if foundValue {
+				break
+			}
+		}
+
+		row := map[string]any{
+			"sli":        sliName,
+			"category":   category,
+			"completed":  0.0,
+			"inProgress": 0.0,
+			"remaining":  100.0,
+		}
+
+		if foundValue {
+			isMet := bestCriterion.CheckMet(actualValue)
+			if isMet {
+				row["completed"] = 100.0
+				row["inProgress"] = 0.0
+				row["remaining"] = 0.0
+			} else {
+				progress := calculateProgress(bestCriterion, actualValue)
+				row["completed"] = 0.0
+				row["inProgress"] = progress
+				row["remaining"] = 100.0 - progress
+			}
+		}
+
+		data = append(data, row)
 	}
 
-	// Sort by SLI name
+	// Sort by category (NIST CSF order) then alphabetically by SLI name
+	catWeights := maturity.CategorySortWeight()
 	sort.Slice(data, func(i, j int) bool {
+		catI := data[i]["category"].(string)
+		catJ := data[j]["category"].(string)
+		weightI := catWeights[catI]
+		weightJ := catWeights[catJ]
+		if weightI == 0 {
+			weightI = 100 // Unknown categories sort last
+		}
+		if weightJ == 0 {
+			weightJ = 100
+		}
+		if weightI != weightJ {
+			return weightI < weightJ
+		}
+		// Within same category, sort alphabetically by SLI name
 		return data[i]["sli"].(string) < data[j]["sli"].(string)
 	})
 
@@ -613,18 +664,51 @@ func (g *Generator) addSLITables() {
 		byCategory[cat] = append(byCategory[cat], sli)
 	}
 
-	// Sort categories
+	// Sort categories by NIST CSF order
 	var categories []string
 	for cat := range byCategory {
 		categories = append(categories, cat)
 	}
-	sort.Strings(categories)
+	catWeights := maturity.CategorySortWeight()
+	sort.Slice(categories, func(i, j int) bool {
+		weightI := catWeights[categories[i]]
+		weightJ := catWeights[categories[j]]
+		if weightI == 0 {
+			weightI = 100 // Unknown categories sort last
+		}
+		if weightJ == 0 {
+			weightJ = 100
+		}
+		if weightI != weightJ {
+			return weightI < weightJ
+		}
+		return categories[i] < categories[j] // Alphabetical fallback
+	})
+
+	// Build SLI order map from spec categories
+	sliOrderMap := make(map[string]int)
+	for _, cat := range g.spec.Categories {
+		for idx, sliID := range cat.SLIOrder {
+			sliOrderMap[sliID] = idx
+		}
+	}
 
 	for _, category := range categories {
 		slis := byCategory[category]
 
-		// Sort SLIs by name
+		// Sort SLIs by custom order if defined, otherwise by name
 		sort.Slice(slis, func(i, j int) bool {
+			orderI, hasI := sliOrderMap[slis[i].ID]
+			orderJ, hasJ := sliOrderMap[slis[j].ID]
+			if hasI && hasJ {
+				return orderI < orderJ
+			}
+			if hasI {
+				return true
+			}
+			if hasJ {
+				return false
+			}
 			return slis[i].Name < slis[j].Name
 		})
 
@@ -709,16 +793,40 @@ func formatSLIType(sliType string) string {
 
 func formatCategory(category string) string {
 	switch category {
+	// NIST CSF 2.0 categories
+	case "govern":
+		return "Govern"
+	case "identify":
+		return "Identify"
+	case "protect":
+		return "Protect"
+	case "detect":
+		return "Detect"
+	case "respond":
+		return "Respond"
+	case "recover":
+		return "Recover"
+	// Legacy/alternative category names
+	case "governance":
+		return "Governance"
 	case "prevention":
 		return "Prevention"
 	case "detection":
 		return "Detection"
 	case "response":
 		return "Response"
+	case "recovery":
+		return "Recovery"
 	case "reliability":
 		return "Reliability"
 	case "efficiency":
 		return "Efficiency"
+	case "quality":
+		return "Quality"
+	case "availability":
+		return "Availability"
+	case "other":
+		return "Other"
 	default:
 		return category
 	}
@@ -811,97 +919,14 @@ func (g *Generator) calculateSLIMaturityLevel(domainKey string, domain *maturity
 	return highestLevel
 }
 
-// MethodologyInfo describes an observability methodology.
-type MethodologyInfo struct {
-	ID          string
-	Title       string
-	Subtitle    string
-	Description string
-	SLITypes    []string
-}
-
-// GetMethodologyInfos returns metadata for all observability methodologies.
-func GetMethodologyInfos() []MethodologyInfo {
-	return []MethodologyInfo{
-		// Operations/SRE methodologies
-		{
-			ID:          "RED",
-			Title:       "RED Metrics",
-			Subtitle:    "User Experience",
-			Description: "Rate, Errors, Duration - request-driven metrics measuring user-facing service quality",
-			SLITypes:    []string{"throughput", "error_rate", "latency"},
-		},
-		{
-			ID:          "USE",
-			Title:       "USE Metrics",
-			Subtitle:    "Infrastructure",
-			Description: "Utilization, Saturation, Errors - resource-focused metrics for infrastructure health",
-			SLITypes:    []string{"utilization", "saturation", "error_rate"},
-		},
-		{
-			ID:          "GOLDEN_SIGNALS",
-			Title:       "Golden Signals",
-			Subtitle:    "SRE Overview",
-			Description: "Google's four golden signals: Latency, Traffic, Errors, Saturation",
-			SLITypes:    []string{"latency", "throughput", "error_rate", "saturation"},
-		},
-		// Security methodologies (NIST CSF aligned)
-		{
-			ID:          "PREVENTION",
-			Title:       "Prevention",
-			Subtitle:    "Protect & Prevent",
-			Description: "Security controls that prevent threats: SAST, SCA, secrets scanning, container security",
-			SLITypes:    []string{"prevention"},
-		},
-		{
-			ID:          "DETECTION",
-			Title:       "Detection",
-			Subtitle:    "Detect & Monitor",
-			Description: "Security controls that detect threats: DAST, runtime detection, SIEM, threat intel",
-			SLITypes:    []string{"detection"},
-		},
-		{
-			ID:          "RESPONSE",
-			Title:       "Response",
-			Subtitle:    "Respond & Recover",
-			Description: "Security controls for incident response: MTTR, containment, remediation, recovery",
-			SLITypes:    []string{"response"},
-		},
-		// AI Security methodologies
-		{
-			ID:          "AI_PREVENTION",
-			Title:       "AI Prevention",
-			Subtitle:    "AI/ML Protection",
-			Description: "AI-specific prevention: ML pipeline integrity, model provenance, training data protection",
-			SLITypes:    []string{"ai_prevention"},
-		},
-		{
-			ID:          "AI_DETECTION",
-			Title:       "AI Detection",
-			Subtitle:    "AI/ML Monitoring",
-			Description: "AI-specific detection: adversarial input detection, model drift, anomaly detection",
-			SLITypes:    []string{"ai_detection"},
-		},
-		{
-			ID:          "AI_RESPONSE",
-			Title:       "AI Response",
-			Subtitle:    "AI/ML Recovery",
-			Description: "AI-specific response: model rollback, retraining triggers, incident escalation",
-			SLITypes:    []string{"ai_response"},
-		},
-	}
-}
-
-// addBulletWidgets adds maturity bullet chart widgets grouped by methodology.
+// addBulletWidgets adds maturity bullet chart widgets grouped by category.
+// Categories are sorted by NIST CSF order (govern → identify → protect → detect → respond → recover).
 // Works with any maturity model - gracefully handles missing SLIs, SLITypes, or assessments.
 func (g *Generator) addBulletWidgets() {
 	domains := g.getSortedDomains()
 	if len(domains) == 0 {
 		return
 	}
-
-	// Check if we have SLI type data for methodology grouping
-	hasSLITypes := g.hasSLITypeData()
 
 	for _, domainKey := range domains {
 		domain := g.spec.Domains[domainKey]
@@ -916,86 +941,8 @@ func (g *Generator) addBulletWidgets() {
 		// Collect SLIs for this domain with their types
 		slisByType := g.collectSLIsByType(domainKey, domain, targetLevel)
 
-		// If no SLI types defined, skip methodology grouping and show flat list
-		if !hasSLITypes {
-			g.addFlatBulletList(domainKey, domain, slisByType)
-			continue
-		}
-
-		// Add methodology-grouped bullet sections
-		for _, methodology := range GetMethodologyInfos() {
-			bullets := g.getBulletsForMethodology(methodology, slisByType)
-			if len(bullets) == 0 {
-				continue
-			}
-
-			// Create data source
-			dataID := fmt.Sprintf("bullet-%s-%s", domainKey, methodology.ID)
-			dataBytes, _ := json.Marshal(bullets)
-
-			g.data = append(g.data, DataSource{
-				ID:   dataID,
-				Type: "inline",
-				Data: dataBytes,
-			})
-
-			// Create bullet widget with methodology header
-			config, _ := json.Marshal(map[string]any{
-				"bulletType":  "maturity",
-				"methodology": methodology.ID,
-			})
-
-			// Calculate height based on number of bullets (min 2, ~1 row per bullet)
-			height := len(bullets) + 1
-			if height < 2 {
-				height = 2
-			}
-			if height > 6 {
-				height = 6
-			}
-
-			g.widgets = append(g.widgets, Widget{
-				ID:           fmt.Sprintf("bullet-%s-%s", domainKey, methodology.ID),
-				Type:         "bullet",
-				Title:        fmt.Sprintf("%s (%s)", methodology.Title, methodology.Subtitle),
-				Position:     Position{X: 0, Y: g.row, W: 12, H: height},
-				DataSourceID: dataID,
-				Config:       config,
-			})
-			g.row += height
-		}
-
-		// Add "Other" section for SLIs not in any methodology
-		otherBullets := g.getOtherBullets(slisByType)
-		if len(otherBullets) > 0 {
-			dataID := fmt.Sprintf("bullet-%s-other", domainKey)
-			dataBytes, _ := json.Marshal(otherBullets)
-
-			g.data = append(g.data, DataSource{
-				ID:   dataID,
-				Type: "inline",
-				Data: dataBytes,
-			})
-
-			config, _ := json.Marshal(map[string]any{
-				"bulletType": "maturity",
-			})
-
-			height := len(otherBullets) + 1
-			if height > 4 {
-				height = 4
-			}
-
-			g.widgets = append(g.widgets, Widget{
-				ID:           fmt.Sprintf("bullet-%s-other", domainKey),
-				Type:         "bullet",
-				Title:        "Other Metrics",
-				Position:     Position{X: 0, Y: g.row, W: 12, H: height},
-				DataSourceID: dataID,
-				Config:       config,
-			})
-			g.row += height
-		}
+		// Add bullets grouped by category (NIST CSF order)
+		g.addFlatBulletList(domainKey, domain, slisByType)
 	}
 }
 
@@ -1174,137 +1121,125 @@ func formatThresholdValue(value float64, operator, unit string) string {
 	}
 }
 
-func (g *Generator) getBulletsForMethodology(methodology MethodologyInfo, slisByType map[string][]sliInfo) []MaturityBullet {
-	var bullets []MaturityBullet
-	seen := make(map[string]bool)
-
-	for _, sliType := range methodology.SLITypes {
-		for _, info := range slisByType[sliType] {
-			if seen[info.ID] {
-				continue
-			}
-			seen[info.ID] = true
-
-			bullet := NewMaturityBulletWithDetails(
-				info.Name,
-				info.Level,
-				info.Target,
-				info.ActualValue,
-				info.Unit,
-				info.QualitativeState,
-				info.Thresholds,
-			)
-			bullets = append(bullets, bullet)
-		}
-	}
-
-	return bullets
-}
-
-func (g *Generator) getOtherBullets(slisByType map[string][]sliInfo) []MaturityBullet {
-	var bullets []MaturityBullet
-
-	// SLI types covered by methodologies
-	coveredTypes := map[string]bool{
-		"throughput":  true,
-		"error_rate":  true,
-		"latency":     true,
-		"utilization": true,
-		"saturation":  true,
-	}
-
-	for sliType, infos := range slisByType {
-		if coveredTypes[sliType] {
-			continue
-		}
-		for _, info := range infos {
-			bullet := NewMaturityBulletWithDetails(
-				info.Name,
-				info.Level,
-				info.Target,
-				info.ActualValue,
-				info.Unit,
-				info.QualitativeState,
-				info.Thresholds,
-			)
-			bullets = append(bullets, bullet)
-		}
-	}
-
-	return bullets
-}
-
-// hasSLITypeData checks if any SLIs have SLIType defined for methodology grouping.
-func (g *Generator) hasSLITypeData() bool {
-	if g.spec.SLIs == nil {
-		return false
-	}
-	for _, sli := range g.spec.SLIs {
-		if sli != nil && sli.SLIType != "" {
-			return true
-		}
-	}
-	return false
-}
-
-// addFlatBulletList adds bullets without methodology grouping (for models without SLIType).
+// addFlatBulletList adds bullets grouped by category with section headers.
+// Categories are sorted by NIST CSF order (govern → identify → protect → detect → respond → recover).
 func (g *Generator) addFlatBulletList(domainKey string, domain *maturity.DomainModel, slisByType map[string][]sliInfo) {
-	var bullets []MaturityBullet
-
-	// Collect all SLIs into a flat list
+	// Collect all SLIs and group by category
+	slisByCategory := make(map[string][]sliInfo)
 	for _, infos := range slisByType {
 		for _, info := range infos {
-			bullet := NewMaturityBulletWithDetails(
-				info.Name,
-				info.Level,
-				info.Target,
-				info.ActualValue,
-				info.Unit,
-				info.QualitativeState,
-				info.Thresholds,
-			)
-			bullets = append(bullets, bullet)
+			// Get category from SLI definition
+			category := "other"
+			if sli, ok := g.spec.SLIs[info.ID]; ok && sli != nil && sli.Category != "" {
+				category = sli.Category
+			}
+			slisByCategory[category] = append(slisByCategory[category], info)
 		}
 	}
 
-	if len(bullets) == 0 {
+	if len(slisByCategory) == 0 {
 		return
 	}
 
-	// Sort bullets by name for consistent ordering
-	sort.Slice(bullets, func(i, j int) bool {
-		return bullets[i].Title < bullets[j].Title
-	})
-
-	dataID := fmt.Sprintf("bullet-%s-all", domainKey)
-	dataBytes, _ := json.Marshal(bullets)
-
-	g.data = append(g.data, DataSource{
-		ID:   dataID,
-		Type: "inline",
-		Data: dataBytes,
-	})
-
-	config, _ := json.Marshal(map[string]any{
-		"bulletType": "maturity",
-	})
-
-	// Calculate height based on number of bullets
-	height := len(bullets) + 1
-	if height < 2 {
-		height = 2
+	// Sort categories by NIST CSF order
+	var categories []string
+	for cat := range slisByCategory {
+		categories = append(categories, cat)
 	}
-	if height > 8 {
-		height = 8
+	catWeights := maturity.CategorySortWeight()
+	sort.Slice(categories, func(i, j int) bool {
+		weightI := catWeights[categories[i]]
+		weightJ := catWeights[categories[j]]
+		if weightI == 0 {
+			weightI = 100 // Unknown categories sort last
+		}
+		if weightJ == 0 {
+			weightJ = 100
+		}
+		if weightI != weightJ {
+			return weightI < weightJ
+		}
+		return categories[i] < categories[j] // Alphabetical fallback
+	})
+
+	// Build SLI order map from spec categories
+	sliOrderMap := make(map[string]int)
+	for _, cat := range g.spec.Categories {
+		for idx, sliID := range cat.SLIOrder {
+			sliOrderMap[sliID] = idx
+		}
 	}
 
-	g.widgets = append(g.widgets, Widget{
-		ID:           fmt.Sprintf("bullet-%s-all", domainKey),
-		Type:         "bullet",
-		Title:        fmt.Sprintf("%s - Maturity Metrics", domain.Name),
-		Position:     Position{X: 0, Y: g.row, W: 12, H: height},
-		DataSourceID: dataID,
-		Config:       config,
-	})
-	g.row += height
+	// Add bullet section for each category
+	for _, category := range categories {
+		infos := slisByCategory[category]
+
+		// Sort SLIs by custom order if defined, otherwise by name
+		sort.Slice(infos, func(i, j int) bool {
+			orderI, hasI := sliOrderMap[infos[i].ID]
+			orderJ, hasJ := sliOrderMap[infos[j].ID]
+			if hasI && hasJ {
+				return orderI < orderJ
+			}
+			if hasI {
+				return true
+			}
+			if hasJ {
+				return false
+			}
+			return infos[i].Name < infos[j].Name
+		})
+
+		// Build bullets for this category
+		var bullets []MaturityBullet
+		for _, info := range infos {
+			bullet := NewMaturityBulletWithDetails(
+				info.Name,
+				info.Level,
+				info.Target,
+				info.ActualValue,
+				info.Unit,
+				info.QualitativeState,
+				info.Thresholds,
+			)
+			bullets = append(bullets, bullet)
+		}
+
+		if len(bullets) == 0 {
+			continue
+		}
+
+		dataID := fmt.Sprintf("bullet-%s-%s", domainKey, category)
+		dataBytes, _ := json.Marshal(bullets)
+
+		g.data = append(g.data, DataSource{
+			ID:   dataID,
+			Type: "inline",
+			Data: dataBytes,
+		})
+
+		config, _ := json.Marshal(map[string]any{
+			"bulletType": "maturity",
+			"category":   category,
+		})
+
+		// Calculate height based on number of bullets
+		height := len(bullets) + 1
+		if height < 2 {
+			height = 2
+		}
+		if height > 8 {
+			height = 8
+		}
+
+		g.widgets = append(g.widgets, Widget{
+			ID:           fmt.Sprintf("bullet-%s-%s", domainKey, category),
+			Type:         "bullet",
+			Title:        fmt.Sprintf("%s - %s", domain.Name, formatCategory(category)),
+			Position:     Position{X: 0, Y: g.row, W: 12, H: height},
+			DataSourceID: dataID,
+			Config:       config,
+		})
+		g.row += height
+	}
 }
