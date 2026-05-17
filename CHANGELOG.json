@@ -7,6 +7,47 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.7.0",
+      "date": "2026-05-17",
+      "highlights": [
+        { "description": "Threshold Matrix XLSX sheet with M1-M5 threshold columns" },
+        { "description": "SLI tags with kebab-case validation for multi-dimensional classification" },
+        { "description": "NIST CSF category ordering: govern → identify → protect → detect → respond → recover" },
+        { "description": "Dashboard bullet charts grouped by category with section headers" }
+      ],
+      "added": [
+        { "description": "Threshold Matrix XLSX sheet showing SLIs with Category, Tags, Frameworks, and M1-M5 threshold columns" },
+        { "description": "`Tags` field on SLI for multi-dimensional classification orthogonal to category" },
+        { "description": "Tag validation: lowercase kebab-case, 1-32 characters, starts with letter" },
+        { "description": "`ValidateTag()`, `NormalizeTags()`, `GetNormalizedTags()` functions for tag handling" },
+        { "description": "Recommended tag constants: ai, shift-left, supply-chain, runtime-defense, vulnerability-management, incident-response" },
+        { "description": "`Category` struct with ID, Name, Description, and SLIOrder for custom ordering" },
+        { "description": "`Categories` array in Spec for custom category and SLI display order" },
+        { "description": "`CategorySortWeight()` returns NIST CSF canonical order with common variations" },
+        { "description": "`DefaultCategoryOrder()` returns govern, identify, protect, detect, respond, recover" },
+        { "description": "`GetCategoryOrder()`, `GetCategoryByID()`, `GetSLIOrderForCategory()` helper methods" },
+        { "description": "Dashboard bullet charts grouped by category with NIST CSF sort order" },
+        { "description": "Dashboard flexbox layout for bullet labels with auto-calculated width" },
+        { "description": "Dashboard progress chart height scales dynamically based on SLI count" }
+      ],
+      "changed": [
+        { "description": "Dashboard bullet charts grouped by category instead of methodology (RED, USE, etc.)" },
+        { "description": "Threshold Matrix sorted by category (NIST CSF order) then alphabetically by SLI name" },
+        { "description": "Dashboard SLI tables sorted by category (NIST CSF order)" },
+        { "description": "Dashboard progress chart sorted by category then alphabetically by SLI name" },
+        { "description": "Chart heights calculated explicitly from grid layout for proper sizing" }
+      ],
+      "fixed": [
+        { "description": "Progress chart uses same data retrieval logic as bullet charts for consistency" },
+        { "description": "Bullet chart labels no longer truncated for long SLI names" }
+      ],
+      "documentation": [
+        { "description": "SLI tags documentation in docs/schema/slos.md" },
+        { "description": "Threshold Matrix documentation in docs/cli/maturity-xlsx.md" },
+        { "description": "v0.7.0 release notes" }
+      ]
+    },
+    {
       "version": "v0.6.0",
       "date": "2026-05-10",
       "highlights": [
