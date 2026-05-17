@@ -114,6 +114,7 @@ nav:
       - Architecture: developer/architecture.md
       - Contributing: developer/contributing.md
   - Design:
+      - Roadmap: design/ROADMAP.md
       - Core:
           - PRD: design/core/PRD.md
       - Maturity:
