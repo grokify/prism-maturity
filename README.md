@@ -8,20 +8,20 @@
 [![Docs][docs-mkdoc-svg]][docs-mkdoc-url]
 [![License][license-svg]][license-url]
 
- [go-ci-svg]: https://github.com/grokify/prism/actions/workflows/go-ci.yaml/badge.svg?branch=main
- [go-ci-url]: https://github.com/grokify/prism/actions/workflows/go-ci.yaml
- [go-lint-svg]: https://github.com/grokify/prism/actions/workflows/go-lint.yaml/badge.svg?branch=main
- [go-lint-url]: https://github.com/grokify/prism/actions/workflows/go-lint.yaml
- [go-sast-svg]: https://github.com/grokify/prism/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
- [go-sast-url]: https://github.com/grokify/prism/actions/workflows/go-sast-codeql.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/prism
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/prism
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/prism
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/prism
+ [go-ci-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-ci.yaml/badge.svg?branch=main
+ [go-ci-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-ci.yaml
+ [go-lint-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-lint.yaml/badge.svg?branch=main
+ [go-lint-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-lint.yaml
+ [go-sast-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
+ [go-sast-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-sast-codeql.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/prism-intelligence
+ [goreport-url]: https://goreportcard.com/report/github.com/grokify/prism-intelligence
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/prism-intelligence
+ [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/prism-intelligence
  [docs-mkdoc-svg]: https://img.shields.io/badge/docs-guide-blue.svg
  [docs-mkdoc-url]: https://grokify.dev/prism
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/prism/blob/main/LICENSE
+ [license-url]: https://github.com/grokify/prism-intelligence/blob/main/LICENSE
 
 **Platform for Reliability, Improvement, and Strategic Maturity**
 
@@ -127,13 +127,13 @@ Team owns → Service has → Metrics with → SLOs required by → Goals tracke
 ## Installation
 
 ```bash
-go install github.com/grokify/prism/cmd/prism@latest
+go install github.com/grokify/prism-intelligence/cmd/prism@latest
 ```
 
 Or add as a library dependency:
 
 ```bash
-go get github.com/grokify/prism
+go get github.com/grokify/prism-intelligence
 ```
 
 ## CLI Usage
@@ -500,7 +500,7 @@ Use in your editor for validation:
 
 ```json
 {
-  "$schema": "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json",
+  "$schema": "https://github.com/grokify/prism-intelligence/schema/prism-maturity-model.schema.json",
   "metadata": { "name": "My Maturity Model" },
   "slis": {...},
   "domains": {...}
@@ -589,7 +589,7 @@ Initiatives link to goals and phases with deployment tracking:
 
 ## Integration with Structured-Plan
 
-PRISM integrates with [structured-plan](https://github.com/grokify/structured-plan) to provide a complete operational planning workflow. PRISM serves as the source of truth for requirements (maturity models, SLOs), while structured-plan handles execution tracking (OKRs, roadmaps).
+PRISM integrates with [prism-execution](https://github.com/grokify/prism-execution) to provide a complete operational planning workflow. PRISM serves as the source of truth for requirements (maturity models, SLOs), while prism-execution handles execution tracking (OKRs, roadmaps).
 
 ### Architecture
 
@@ -642,14 +642,14 @@ PRISM integrates with [structured-plan](https://github.com/grokify/structured-pl
 
 1. **Define requirements in PRISM** - Goals, maturity models, SLOs
 2. **Analyze with LLM** - Generate initiative recommendations to achieve targets
-3. **Export to structured-plan** - OKR/V2MOM/Roadmap format
+3. **Export to prism-execution** - OKR/V2MOM/Roadmap format
 4. **Track execution** - Monitor progress against phase targets
 
 ```bash
 # Analyze PRISM document and suggest initiatives
 prism analyze prism.json
 
-# Export as OKR document for structured-plan
+# Export as OKR document for prism-execution
 prism export okr prism.json -o roadmap.okr.json
 
 # Export as V2MOM document
@@ -690,7 +690,7 @@ import (
     "fmt"
     "os"
 
-    "github.com/grokify/prism"
+    "github.com/grokify/prism-intelligence"
 )
 
 func main() {
