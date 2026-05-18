@@ -14,8 +14,7 @@
         { "description": "Part of PRISM ecosystem consolidation with prism-capability and prism-execution" }
       ],
       "breaking": [
-        { "description": "Go module path changed from github.com/grokify/prism to github.com/grokify/prism-intelligence", "commit": "1f520bd" },
-        { "description": "Dependency renamed from structured-plan to prism-execution (temporary replace directive)", "commit": "1f520bd" }
+        { "description": "Go module path changed from github.com/grokify/prism to github.com/grokify/prism-intelligence", "commit": "1f520bd" }
       ],
       "changed": [
         { "description": "All import paths updated to github.com/grokify/prism-intelligence", "commit": "1f520bd" },
@@ -24,6 +23,9 @@
       ],
       "documentation": [
         { "description": "Updated README with new repository URLs and installation commands", "commit": "3cd2863" }
+      ],
+      "dependencies": [
+        { "description": "Update prism-execution to v0.11.0 (renamed from structured-plan)", "commit": "896d97d" }
       ]
     },
     {
