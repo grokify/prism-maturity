@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/analysis"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/analysis"
 	"github.com/spf13/cobra"
 )
 

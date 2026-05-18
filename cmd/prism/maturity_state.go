@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/maturity"
 	"github.com/spf13/cobra"
 )
 

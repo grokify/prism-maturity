@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 	"github.com/plexusone/dashforge/dashboardir"
 )
 

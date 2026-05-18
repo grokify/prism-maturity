@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism-intelligence/maturity"
 )
 
 func main() {

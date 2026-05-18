@@ -1,11 +1,14 @@
-module github.com/grokify/prism
+module github.com/grokify/prism-intelligence
 
 go 1.26.2
+
+// TODO: Remove this replace directive once prism-execution is tagged
+replace github.com/grokify/prism-execution => github.com/grokify/structured-plan v0.10.1
 
 require (
 	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.3.0
-	github.com/grokify/structured-plan v0.10.1
+	github.com/grokify/prism-execution v0.10.1
 	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
 	github.com/spf13/cobra v1.10.2

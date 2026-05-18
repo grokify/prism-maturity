@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 )
 
 func TestConvertToV2MOMEmpty(t *testing.T) {

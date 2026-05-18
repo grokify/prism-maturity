@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/grokify/prism/fileutil"
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism-intelligence/fileutil"
+	"github.com/grokify/prism-intelligence/maturity"
 	"github.com/spf13/cobra"
 )
 

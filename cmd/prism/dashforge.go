@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/dashforge"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/dashforge"
 	"github.com/spf13/cobra"
 )
 

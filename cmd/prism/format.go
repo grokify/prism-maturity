@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/grokify/prism/output"
+	"github.com/grokify/prism-intelligence/output"
 )
 
 // Re-export types from output package for CLI use

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/maturity"
 )
 
 // Dashboard represents a Dashforge-compatible dashboard.

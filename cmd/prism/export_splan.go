@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/grokify/prism/export"
+	"github.com/grokify/prism-intelligence/export"
 	"github.com/spf13/cobra"
 )
 

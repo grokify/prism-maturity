@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/grokify/prism/maturity"
+	"github.com/grokify/prism-intelligence/maturity"
 )
 
 func TestGenerateDashboard(t *testing.T) {

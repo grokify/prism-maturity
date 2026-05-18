@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )

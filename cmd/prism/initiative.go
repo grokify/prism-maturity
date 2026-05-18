@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 	"github.com/spf13/cobra"
 )
 

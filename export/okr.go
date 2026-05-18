@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/output"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/output"
 )
 
 // OKRDocument represents a structured-plan OKR document.

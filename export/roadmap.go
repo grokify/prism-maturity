@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/grokify/prism"
-	"github.com/grokify/prism/output"
-	"github.com/grokify/structured-plan/goals/okr"
-	"github.com/grokify/structured-plan/roadmap"
+	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-intelligence/output"
+	"github.com/grokify/prism-execution/goals/okr"
+	"github.com/grokify/prism-execution/roadmap"
 )
 
 // RoadmapExport contains both the roadmap and associated OKRs.

@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/grokify/oscompat/testutil"
-	"github.com/grokify/prism/analysis"
+	"github.com/grokify/prism-intelligence/analysis"
 )
 
 // getExampleFile returns the path to the goal-roadmap.json example file

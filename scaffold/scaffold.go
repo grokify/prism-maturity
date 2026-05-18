@@ -2,7 +2,7 @@
 package scaffold
 
 import (
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 )
 
 // NewDocument creates a new PRISM document with the specified domains.
@@ -32,7 +32,7 @@ func NewDocument(domains ...string) *prism.PRISMDocument {
 	}
 
 	doc := &prism.PRISMDocument{
-		Schema: "https://github.com/grokify/prism/schema/prism.schema.json",
+		Schema: "https://github.com/grokify/prism-intelligence/schema/prism.schema.json",
 		Metadata: &prism.Metadata{
 			Name:        "My PRISM Document",
 			Description: "PRISM metrics for SaaS health monitoring",
