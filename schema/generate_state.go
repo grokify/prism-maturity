@@ -15,7 +15,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism"
+	"github.com/grokify/prism-intelligence"
 	"github.com/invopop/jsonschema"
 )
 
@@ -37,7 +37,7 @@ func run() error {
 	schema := r.Reflect(&prism.MaturityStateDocument{})
 
 	// Set schema metadata
-	schema.ID = "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json"
+	schema.ID = "https://github.com/grokify/prism-intelligence/schema/prism-maturity-state.schema.json"
 	schema.Title = "PRISM Maturity State"
 	schema.Description = "PRISM Maturity State document tracking current values, temporal windows, and progress against a maturity model"
 

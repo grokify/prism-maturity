@@ -65,7 +65,7 @@ func MaturityPlanSchemaMap() (map[string]any, error) {
 
 // Schema IDs
 const (
-	MaturityModelSchemaID = "https://github.com/grokify/prism/schema/prism-maturity-model.schema.json"
-	MaturityStateSchemaID = "https://github.com/grokify/prism/schema/prism-maturity-state.schema.json"
-	MaturityPlanSchemaID  = "https://github.com/grokify/prism/schema/prism-maturity-plan.schema.json"
+	MaturityModelSchemaID = "https://github.com/grokify/prism-intelligence/schema/prism-maturity-model.schema.json"
+	MaturityStateSchemaID = "https://github.com/grokify/prism-intelligence/schema/prism-maturity-state.schema.json"
+	MaturityPlanSchemaID  = "https://github.com/grokify/prism-intelligence/schema/prism-maturity-plan.schema.json"
 )
