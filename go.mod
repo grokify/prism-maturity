@@ -6,7 +6,7 @@ require (
 	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.3.0
 	github.com/grokify/prism-core v0.1.0
-	github.com/grokify/prism-execution v0.11.0
+	github.com/grokify/prism-execution v0.12.0
 	github.com/grokify/structureddocs v0.1.0
 	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
