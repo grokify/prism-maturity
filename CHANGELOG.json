@@ -7,6 +7,33 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.9.0",
+      "date": "2026-05-18",
+      "highlights": [
+        { "description": "DMAIC (Define, Measure, Analyze, Improve, Control) metrics framework for structured improvement cycles" },
+        { "description": "prism-core integration for shared primitives across PRISM ecosystem" }
+      ],
+      "added": [
+        { "description": "DMAIC package with Cycle type for structured improvement tracking", "commit": "e66d9a6" },
+        { "description": "DMAIC phase constants: Define, Measure, Analyze, Improve, Control", "commit": "e66d9a6" },
+        { "description": "DMAIC Pandoc and Marp rendering support via structureddocs", "commit": "e66d9a6" }
+      ],
+      "changed": [
+        { "description": "Import Domain, Layer, Stage types from prism-core", "commit": "6b231de" },
+        { "description": "Import MaturityLevel and TeamType from prism-core", "commit": "6b231de" },
+        { "description": "Import TrendDirection from prism-core", "commit": "6b231de" },
+        { "description": "Update MaturityLevelName test expectations for prism-core behavior", "commit": "46b5e19" }
+      ],
+      "dependencies": [
+        { "description": "Add github.com/grokify/prism-core v0.1.0", "commit": "ad78714" },
+        { "description": "Add github.com/grokify/structureddocs v0.1.0 for DMAIC rendering", "commit": "fd50960" },
+        { "description": "Update github.com/grokify/prism-execution to v0.12.0", "commit": "6167cbf" }
+      ],
+      "documentation": [
+        { "description": "Add v0.9.0 release notes documenting DMAIC and prism-core integration" }
+      ]
+    },
+    {
       "version": "v0.8.0",
       "date": "2026-05-17",
       "highlights": [

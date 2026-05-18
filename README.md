@@ -592,6 +592,15 @@ Initiatives link to goals and phases with deployment tracking:
 PRISM Intelligence is part of the [PRISM ecosystem](https://github.com/grokify/prism), a unified framework for capability-driven organizational intelligence.
 
 ```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           prism-core                                │
+│      Shared primitives: Domain, Layer, Stage, MaturityLevel,        │
+│      TeamType, TrendDirection, Person, Status, Priority             │
+└─────────────────────────────────────────────────────────────────────┘
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         │                         │                         │
+         ▼                         ▼                         ▼
 ┌───────────────────┐    ┌───────────────────┐    ┌───────────────────┐
 │ PRISM Capability  │    │ PRISM Intelligence│    │ PRISM Execution   │
 │                   │    │                   │    │                   │
@@ -605,6 +614,7 @@ PRISM Intelligence is part of the [PRISM ecosystem](https://github.com/grokify/p
 
 | Module | Purpose | Key Artifacts |
 |--------|---------|---------------|
+| [prism-core](https://github.com/grokify/prism-core) | Shared primitives | Domain, Layer, Stage, MaturityLevel, TeamType |
 | [prism-capability](https://github.com/grokify/prism-capability) | What capabilities exist | Capability stacks, layers, dependencies |
 | [prism-intelligence](https://github.com/grokify/prism-intelligence) | How we measure maturity | SLI/SLO definitions, maturity state |
 | [prism-execution](https://github.com/grokify/prism-execution) | How we improve | OKRs, V2MOM, roadmaps, initiatives |
