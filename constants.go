@@ -1,6 +1,10 @@
 package prism
 
-import core "github.com/grokify/prism-core"
+import (
+	"strconv"
+
+	core "github.com/grokify/prism-core"
+)
 
 // Domain constants represent the three primary domains in PRISM.
 // Note: prism-core has 10 domains; prism-intelligence uses these 3 primary ones.
@@ -539,5 +543,5 @@ func PriorityRationale(importance string, currentLevel, targetLevel int) string 
 		rationale = "Low priority enhancement"
 	}
 
-	return rationale + ": " + importance + " importance with " + string(rune('0'+gap)) + "-level gap"
+	return rationale + ": " + importance + " importance with " + strconv.Itoa(gap) + "-level gap"
 }
