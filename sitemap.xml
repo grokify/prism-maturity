@@ -1,351 +1,363 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/api/library/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/api/library/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/api/types/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/api/types/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/analyze/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/analyze/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/catalog/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/catalog/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/conventions/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/conventions/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/dashboard/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/dashboard/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/export/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/export/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/goal/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/goal/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/init/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/init/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/initiative/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/initiative/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/layer/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/layer/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/maturity-lint/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/maturity-lint/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/maturity-report/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/maturity-report/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/maturity-xlsx/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/maturity-xlsx/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/phase/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/phase/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/report/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/report/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/roadmap/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/roadmap/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/score/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/score/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/service/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/service/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/slo-report/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/site-generate/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/team/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/slo-report/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/cli/validate/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/team/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/cli/validate/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/awareness/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/frameworks/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/awareness/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/goals/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/frameworks/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/layers/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/goals/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/maturity-strategies/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/layer-views/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/maturity/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/layers/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/phases/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/maturity-strategies/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/project-scoring/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/maturity/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/scoring/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/phases/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/services/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/project-scoring/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/concepts/teams/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/scoring/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/REFACTOR_MATURITY_STATE/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/services/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/ROADMAP/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/concepts/teams/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/core/PRD/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/REFACTOR_MATURITY_STATE/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/maturity/FEAT_MATURITYROADMAP_PLAN/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/ROADMAP/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/maturity/FEAT_MATURITYROADMAP_PRD/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/core/PRD/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/maturity/FEAT_MATURITY_CODEGEN/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/maturity/FEAT_MATURITYROADMAP_PLAN/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/maturity/FEAT_MATURITY_SLO_DESIGN/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/maturity/FEAT_MATURITYROADMAP_PRD/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/design/maturity-plan/PRD/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/maturity/FEAT_MATURITY_CODEGEN/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/developer/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/maturity/FEAT_MATURITY_SLO_DESIGN/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/developer/architecture/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/design/maturity-plan/PRD/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/developer/contributing/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/developer/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/developer/architecture/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/goal-roadmap/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/developer/contributing/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/operations-layers/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/operations/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/goal-roadmap/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/quality-metrics/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/operations-layers/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/examples/team-topology/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/operations/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/getting-started/first-document/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/quality-metrics/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/getting-started/installation/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/examples/team-topology/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/getting-started/maturity-workflow/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/getting-started/first-document/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/getting-started/quickstart/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/getting-started/installation/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/integrations/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/getting-started/maturity-workflow/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/integrations/dashforge/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/getting-started/quickstart/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/integrations/excel/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/integrations/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/integrations/marp/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/integrations/dashforge/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/integrations/prism-execution/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/integrations/excel/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/Organization-Maturity-Model/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/integrations/marp/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/elt-overview/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/integrations/prism-execution/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/operations-domain/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/Organization-Maturity-Model/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/organization-maturity-generated/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/elt-overview/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/product-domain/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/operations-domain/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/quality-domain/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/organization-maturity-generated/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/presentations/security-domain/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/product-domain/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/changelog/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/quality-domain/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.1.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/presentations/security-domain/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.2.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/changelog/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.3.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.1.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.4.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.10.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.5.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.2.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.6.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.3.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.7.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.4.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.8.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.5.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/releases/v0.9.0/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.6.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.7.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/categories/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.8.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/domains/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.9.0/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/metrics/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/schema/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/quality/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/schema/categories/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/slos/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/schema/domains/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/stages/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/schema/metrics/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://grokify.github.io/prism-intelligence/schema/thresholds/</loc>
-         <lastmod>2026-05-18</lastmod>
+         <loc>https://grokify.github.io/prism-maturity/schema/quality/</loc>
+         <lastmod>2026-05-24</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/prism-maturity/schema/slos/</loc>
+         <lastmod>2026-05-24</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/prism-maturity/schema/stages/</loc>
+         <lastmod>2026-05-24</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/prism-maturity/schema/thresholds/</loc>
+         <lastmod>2026-05-24</lastmod>
     </url>
 </urlset>
