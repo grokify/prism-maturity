@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 	"github.com/spf13/cobra"
 )
 

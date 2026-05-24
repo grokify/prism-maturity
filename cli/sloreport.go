@@ -1,11 +1,11 @@
-package main
+package cli
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,6 @@ var sloReportFormat string
 
 func init() {
 	sloReportCmd.Flags().StringVarP(&sloReportFormat, "format", "f", "json", "Output format: json, markdown, marp, matrix")
-	rootCmd.AddCommand(sloReportCmd)
 }
 
 func runSLOReport(cmd *cobra.Command, args []string) error {

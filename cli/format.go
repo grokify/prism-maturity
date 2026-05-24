@@ -1,10 +1,10 @@
-package main
+package cli
 
 import (
 	"io"
 	"os"
 
-	"github.com/grokify/prism-intelligence/output"
+	"github.com/grokify/prism-maturity/output"
 )
 
 // Re-export types from output package for CLI use

@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/prism-intelligence/maturity"
+	"github.com/grokify/prism-maturity/maturity"
 	"github.com/spf13/cobra"
 )
 
@@ -70,8 +70,6 @@ func init() {
 	maturityModelReportCmd.Flags().BoolVar(&maturityNoTOC, "no-toc", false, "Omit table of contents")
 	maturityModelReportCmd.Flags().BoolVar(&maturityNoDetail, "no-detail", false, "Omit criterion details (framework mappings)")
 	maturityModelReportCmd.Flags().StringVar(&maturityFrameworks, "frameworks", "", "Filter to specific frameworks (comma-separated)")
-
-	rootCmd.AddCommand(maturityCmd)
 }
 
 func runMaturityModelReport(cmd *cobra.Command, args []string) error {

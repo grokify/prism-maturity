@@ -1,13 +1,14 @@
-package main
+package cli
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism-intelligence"
-	"github.com/grokify/prism-intelligence/dashboard"
-	"github.com/grokify/prism-intelligence/maturity"
+	capstack "github.com/grokify/prism-capability"
+	"github.com/grokify/prism-maturity"
+	"github.com/grokify/prism-maturity/dashboard"
+	"github.com/grokify/prism-maturity/maturity"
 	"github.com/spf13/cobra"
 )
 
@@ -27,9 +28,11 @@ Model documents contain:
 
 // Model subcommand flags.
 var (
-	modelStateFile  string // --state flag for state document
-	modelOutputFile string // -o flag
-	modelFormat     string // -f flag for dashboard
+	modelStateFile   string // --state flag for state document
+	modelOutputFile  string // -o flag
+	modelFormat      string // -f flag for dashboard
+	modelCapStack    string // --capstack flag for capability stack
+	modelAggregation string // --aggregation flag for aggregation method
 )
 
 var maturityModelDashboardCmd = &cobra.Command{
@@ -46,6 +49,15 @@ The dashboard displays:
 When a state document is provided (--state), current values are read from
 the state document instead of relying on inline values in the model.
 
+When a capability stack is provided (--capstack), additional views are generated:
+  - Layer-based maturity overview with aggregate maturity per layer
+  - Layer summary cards showing capability counts and maturity
+  - Capability bullets grouped by layer
+
+Aggregation methods (--aggregation):
+  min    Use the minimum value across SLIs/capabilities (conservative)
+  avg    Use the average value across SLIs/capabilities
+
 Output formats:
   --format json    JSON data (Dashforge format)
   --format html    Standalone HTML dashboard (default)
@@ -54,7 +66,8 @@ Examples:
   prism maturity model dashboard model.json
   prism maturity model dashboard model.json --state state.json
   prism maturity model dashboard model.json --state state.json -o dashboard.html
-  prism maturity model dashboard model.json -f json -o dashboard.json`,
+  prism maturity model dashboard model.json -f json -o dashboard.json
+  prism maturity model dashboard model.json --capstack capstack.json --aggregation min`,
 	Args: cobra.ExactArgs(1),
 	RunE: runMaturityModelDashboard,
 }
@@ -117,6 +130,8 @@ func init() {
 	maturityModelDashboardCmd.Flags().StringVar(&modelStateFile, "state", "", "State document to read current values from")
 	maturityModelDashboardCmd.Flags().StringVarP(&modelOutputFile, "output", "o", "", "Output file (default: stdout)")
 	maturityModelDashboardCmd.Flags().StringVarP(&modelFormat, "format", "f", "html", "Output format: html, json")
+	maturityModelDashboardCmd.Flags().StringVar(&modelCapStack, "capstack", "", "Capability stack document for layer-based views")
+	maturityModelDashboardCmd.Flags().StringVar(&modelAggregation, "aggregation", "min", "Aggregation method: min, avg")
 
 	// Lint flags
 	maturityModelLintCmd.Flags().BoolVar(&lintStrict, "strict", false, "Treat warnings as errors")
@@ -145,6 +160,25 @@ func runMaturityModelDashboard(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("failed to parse state: %w", err)
 		}
 		gen.WithStateDocument(&stateDoc)
+	}
+
+	// Optionally load capability stack for layer-based views
+	if modelCapStack != "" {
+		cs, err := capstack.LoadFromFile(modelCapStack)
+		if err != nil {
+			return fmt.Errorf("failed to read capstack: %w", err)
+		}
+		gen.WithCapabilityStack(cs)
+
+		// Set aggregation method
+		switch modelAggregation {
+		case "min":
+			gen.WithAggregationMethod(dashboard.AggregationMin)
+		case "avg":
+			gen.WithAggregationMethod(dashboard.AggregationAvg)
+		default:
+			return fmt.Errorf("invalid aggregation method: %s (must be: min, avg)", modelAggregation)
+		}
 	}
 
 	// Generate dashboard

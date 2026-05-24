@@ -1,12 +1,12 @@
-package main
+package cli
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/grokify/prism-intelligence"
-	"github.com/grokify/prism-intelligence/analysis"
+	"github.com/grokify/prism-maturity"
+	"github.com/grokify/prism-maturity/analysis"
 	"github.com/spf13/cobra"
 )
 

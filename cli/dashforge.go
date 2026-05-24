@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"encoding/json"
@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/grokify/prism-intelligence"
-	"github.com/grokify/prism-intelligence/dashforge"
+	"github.com/grokify/prism-maturity"
+	"github.com/grokify/prism-maturity/dashforge"
 	"github.com/spf13/cobra"
 )
 
@@ -44,7 +44,6 @@ func init() {
 	dashforgeCmd.Flags().StringVar(&dashforgeBaseID, "base-id", "prism", "Base ID for dashboard IDs")
 	dashforgeCmd.Flags().StringVar(&dashforgeDataPath, "data-path", "./data/prism.json", "Path to PRISM data file (for URL data source)")
 	dashforgeCmd.Flags().BoolVar(&dashforgeNoGoals, "no-goals", false, "Skip generating individual goal dashboards")
-	rootCmd.AddCommand(dashforgeCmd)
 }
 
 func runDashforge(cmd *cobra.Command, args []string) error {
