@@ -7,6 +7,41 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.10.0",
+      "date": "2026-05-24",
+      "highlights": [
+        { "description": "Module renamed from prism-intelligence to prism-maturity" },
+        { "description": "CLI package extraction for reusable command embedding" },
+        { "description": "Maturity aggregation for capability stacks with min/avg methods" }
+      ],
+      "breaking": [
+        { "description": "Module path changed from github.com/grokify/prism-intelligence to github.com/grokify/prism-maturity", "commit": "ab52b75" }
+      ],
+      "added": [
+        { "description": "MaturityAggregator for computing aggregate maturity across capabilities and layers", "commit": "07a05d5" },
+        { "description": "AggregationMethod type with min (conservative) and avg (average) options", "commit": "07a05d5" },
+        { "description": "BuildMaturityOverlay and BuildLayerOverlay for capability stack rendering", "commit": "32a459d" },
+        { "description": "Importance constants: critical, high, medium, low with numeric weights", "commit": "a6b5018" },
+        { "description": "Priority constants: P0-P3 with CalculatePriority() based on importance and maturity gap", "commit": "a6b5018" },
+        { "description": "PriorityRationale() for human-readable priority explanations", "commit": "a6b5018" },
+        { "description": "cli/ package with exported RootCmd for embedding in other tools", "commit": "eda257c" },
+        { "description": "capstack command for capability stack rendering with maturity overlay", "commit": "eda257c" }
+      ],
+      "changed": [
+        { "description": "All internal import paths updated to github.com/grokify/prism-maturity", "commit": "ab52b75" },
+        { "description": "cmd/prism/main.go simplified to thin wrapper importing cli.RootCmd", "commit": "eda257c" }
+      ],
+      "dependencies": [
+        { "description": "Add github.com/grokify/prism-capability v0.4.0", "commit": "ab52b75" },
+        { "description": "Update github.com/grokify/prism-roadmap to v0.13.0 (renamed from prism-execution)", "commit": "ab52b75" }
+      ],
+      "documentation": [
+        { "description": "Add docs/cli/site-generate.md CLI reference", "commit": "5e58f20" },
+        { "description": "Add docs/concepts/layer-views.md explaining layer aggregation", "commit": "5e58f20" },
+        { "description": "Add docs/releases/v0.10.0.md release notes", "commit": "5e58f20" }
+      ]
+    },
+    {
       "version": "v0.9.0",
       "date": "2026-05-18",
       "highlights": [
