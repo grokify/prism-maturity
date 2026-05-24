@@ -1,8 +1,8 @@
-site_name: PRISM Intelligence
+site_name: PRISM Maturity
 site_description: Platform for Reliability, Improvement, and Strategic Maturity - Operational Product Management
-site_url: https://grokify.github.io/prism-intelligence/
-repo_url: https://github.com/grokify/prism-intelligence
-repo_name: grokify/prism-intelligence
+site_url: https://grokify.github.io/prism-maturity/
+repo_url: https://github.com/grokify/prism-maturity
+repo_name: grokify/prism-maturity
 
 theme:
   name: material
@@ -74,6 +74,7 @@ nav:
       - prism export: cli/export.md
       - prism maturity report: cli/maturity-report.md
       - prism maturity xlsx: cli/maturity-xlsx.md
+      - prism site generate: cli/site-generate.md
   - Schema:
       - Overview: schema/index.md
       - Domains: schema/domains.md
@@ -86,6 +87,7 @@ nav:
   - Concepts:
       - Overview: concepts/index.md
       - Layers: concepts/layers.md
+      - Layer Views: concepts/layer-views.md
       - Teams: concepts/teams.md
       - Services: concepts/services.md
       - Goals: concepts/goals.md
@@ -105,7 +107,7 @@ nav:
       - Goal Roadmap: examples/goal-roadmap.md
   - Integrations:
       - Overview: integrations/index.md
-      - PRISM Execution: integrations/prism-execution.md
+      - PRISM Roadmap: integrations/prism-roadmap.md
       - Dashforge: integrations/dashforge.md
       - Marp Presentations: integrations/marp.md
       - Excel Export: integrations/excel.md
@@ -130,6 +132,7 @@ nav:
       - Types: api/types.md
   - Releases:
       - Changelog: releases/changelog.md
+      - v0.10.0: releases/v0.10.0.md
       - v0.9.0: releases/v0.9.0.md
       - v0.8.0: releases/v0.8.0.md
       - v0.7.0: releases/v0.7.0.md
@@ -143,4 +146,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/grokify/prism-intelligence
+      link: https://github.com/grokify/prism-maturity
