@@ -2,7 +2,7 @@
 // to various output formats including Marp slides.
 package render
 
-import "github.com/grokify/prism-intelligence/dmaic"
+import "github.com/grokify/prism-maturity/dmaic"
 
 // Renderer defines the interface for output format renderers.
 type Renderer interface {

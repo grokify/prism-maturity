@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/grokify/prism-intelligence/dmaic"
-	"github.com/grokify/prism-intelligence/dmaic/render"
+	"github.com/grokify/prism-maturity/dmaic"
+	"github.com/grokify/prism-maturity/dmaic/render"
 )
 
 func TestRenderer_Format(t *testing.T) {

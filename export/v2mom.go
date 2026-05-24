@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/grokify/prism-intelligence"
-	"github.com/grokify/prism-intelligence/output"
+	"github.com/grokify/prism-maturity"
+	"github.com/grokify/prism-maturity/output"
 )
 
 // V2MOMDocument represents a structured-plan V2MOM document.

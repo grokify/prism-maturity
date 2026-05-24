@@ -1,12 +1,13 @@
-module github.com/grokify/prism-intelligence
+module github.com/grokify/prism-maturity
 
 go 1.26.2
 
 require (
 	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.3.0
+	github.com/grokify/prism-capability v0.4.0
 	github.com/grokify/prism-core v0.1.0
-	github.com/grokify/prism-execution v0.12.0
+	github.com/grokify/prism-roadmap v0.13.0
 	github.com/grokify/structureddocs v0.1.0
 	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
@@ -28,6 +29,6 @@ require (
 	github.com/xuri/efp v0.0.1 // indirect
 	github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9 // indirect
 	go.yaml.in/yaml/v4 v4.0.0-rc.4 // indirect
-	golang.org/x/crypto v0.51.0 // indirect
-	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 )

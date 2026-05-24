@@ -14,8 +14,8 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/grokify/prism-intelligence/dmaic"
-	"github.com/grokify/prism-intelligence/dmaic/render"
+	"github.com/grokify/prism-maturity/dmaic"
+	"github.com/grokify/prism-maturity/dmaic/render"
 )
 
 // Renderer implements the render.Renderer interface for Pandoc Markdown output.

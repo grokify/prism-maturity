@@ -4,8 +4,8 @@ package analysis
 import (
 	"fmt"
 
-	"github.com/grokify/prism-intelligence"
-	"github.com/grokify/prism-intelligence/output"
+	"github.com/grokify/prism-maturity"
+	"github.com/grokify/prism-maturity/output"
 )
 
 // Result holds the structured analysis of a PRISM document.

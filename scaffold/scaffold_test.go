@@ -3,7 +3,7 @@ package scaffold
 import (
 	"testing"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 )
 
 func TestNewDocument(t *testing.T) {

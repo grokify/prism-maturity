@@ -3,7 +3,7 @@ package analysis
 import (
 	"testing"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 )
 
 func TestAnalyzeEmptyDocument(t *testing.T) {

@@ -10,8 +10,8 @@ import (
 
 	sdmarp "github.com/grokify/structureddocs/marp"
 
-	"github.com/grokify/prism-intelligence/dmaic"
-	"github.com/grokify/prism-intelligence/dmaic/render"
+	"github.com/grokify/prism-maturity/dmaic"
+	"github.com/grokify/prism-maturity/dmaic/render"
 )
 
 // Renderer implements the render.Renderer interface for DMAIC Marp output.

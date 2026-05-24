@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/grokify/echartify/chartir"
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 )
 
 // Helper to create float64 pointer

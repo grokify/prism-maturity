@@ -3,8 +3,8 @@ package export
 import (
 	"testing"
 
-	"github.com/grokify/prism-execution/roadmap"
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-roadmap/roadmap"
+	"github.com/grokify/prism-maturity"
 )
 
 func TestConvertToRoadmap(t *testing.T) {

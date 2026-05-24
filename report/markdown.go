@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 )
 
 // MarkdownOptions configures markdown report generation.

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/grokify/prism-intelligence"
+	"github.com/grokify/prism-maturity"
 )
 
 func TestConvertToOKREmpty(t *testing.T) {
