@@ -1,4 +1,4 @@
-# PRISM Intelligence
+# PRISM Maturity
 
 [![Go CI][go-ci-svg]][go-ci-url]
 [![Go Lint][go-lint-svg]][go-lint-url]
@@ -8,20 +8,20 @@
 [![Docs][docs-mkdoc-svg]][docs-mkdoc-url]
 [![License][license-svg]][license-url]
 
- [go-ci-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-ci.yaml/badge.svg?branch=main
- [go-ci-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-ci.yaml
- [go-lint-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-lint.yaml/badge.svg?branch=main
- [go-lint-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-lint.yaml
- [go-sast-svg]: https://github.com/grokify/prism-intelligence/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
- [go-sast-url]: https://github.com/grokify/prism-intelligence/actions/workflows/go-sast-codeql.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/prism-intelligence
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/prism-intelligence
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/prism-intelligence
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/prism-intelligence
+ [go-ci-svg]: https://github.com/grokify/prism-maturity/actions/workflows/go-ci.yaml/badge.svg?branch=main
+ [go-ci-url]: https://github.com/grokify/prism-maturity/actions/workflows/go-ci.yaml
+ [go-lint-svg]: https://github.com/grokify/prism-maturity/actions/workflows/go-lint.yaml/badge.svg?branch=main
+ [go-lint-url]: https://github.com/grokify/prism-maturity/actions/workflows/go-lint.yaml
+ [go-sast-svg]: https://github.com/grokify/prism-maturity/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
+ [go-sast-url]: https://github.com/grokify/prism-maturity/actions/workflows/go-sast-codeql.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/prism-maturity
+ [goreport-url]: https://goreportcard.com/report/github.com/grokify/prism-maturity
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/prism-maturity
+ [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/prism-maturity
  [docs-mkdoc-svg]: https://img.shields.io/badge/docs-guide-blue.svg
  [docs-mkdoc-url]: https://grokify.dev/prism-intelligence
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/prism-intelligence/blob/main/LICENSE
+ [license-url]: https://github.com/grokify/prism-maturity/blob/main/LICENSE
 
 **Platform for Reliability, Improvement, and Strategic Maturity**
 
@@ -127,13 +127,13 @@ Team owns → Service has → Metrics with → SLOs required by → Goals tracke
 ## Installation
 
 ```bash
-go install github.com/grokify/prism-intelligence/cmd/prism@latest
+go install github.com/grokify/prism-maturity/cmd/prism@latest
 ```
 
 Or add as a library dependency:
 
 ```bash
-go get github.com/grokify/prism-intelligence
+go get github.com/grokify/prism-maturity
 ```
 
 ## CLI Usage
@@ -459,6 +459,71 @@ PRISM uses a 5-level maturity model:
 | 4 | Managed | Data-driven, measured and controlled |
 | 5 | Optimizing | Continuous improvement, automated optimization |
 
+## Dynamic Priority (P0-P3)
+
+Dynamic priority is calculated from static importance and maturity gap. This helps prioritize improvement initiatives based on both the inherent importance of a capability and how far it is from its target maturity level.
+
+### Importance Levels
+
+Static importance weights for capabilities (defined in prism-capability):
+
+| Level | Weight | Description |
+|-------|--------|-------------|
+| `critical` | 4 | Critical "-ilities" (security, availability) |
+| `high` | 3 | High importance capabilities |
+| `medium` | 2 | Standard importance (default) |
+| `low` | 1 | Nice-to-have capabilities |
+
+### Priority Calculation
+
+```
+Priority Score = Importance Weight × (Target Level - Current Level)
+```
+
+| Score | Priority | Description |
+|-------|----------|-------------|
+| ≥8 | P0 | Immediate action required |
+| ≥4 | P1 | High priority improvement |
+| ≥2 | P2 | Scheduled improvement |
+| <2 | P3 | Low priority enhancement |
+
+### SLI State Priority Fields
+
+The SLI state document tracks dynamic priority:
+
+```json
+{
+  "sliStates": [
+    {
+      "sliId": "sli-sast-coverage",
+      "currentLevel": 2,
+      "targetLevel": 4,
+      "priority": 0,
+      "priorityRationale": "Critical security capability with 2-level gap (4 × 2 = 8 → P0)"
+    }
+  ]
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `priority` | int | Dynamic priority (0-3, where 0=P0 highest) |
+| `priorityRationale` | string | Explanation of priority calculation |
+
+### Usage
+
+```go
+import prism "github.com/grokify/prism-maturity"
+
+// Calculate priority from importance and maturity gap
+priority := prism.CalculatePriority("critical", 2, 4) // Returns "P0"
+priority := prism.CalculatePriority("medium", 3, 4)   // Returns "P2"
+
+// Get rationale
+rationale := prism.PriorityRationale("critical", 2, 4)
+// "Immediate action required: critical importance with 2-level gap"
+```
+
 ## Framework Mappings
 
 PRISM metrics can be mapped to external frameworks:
@@ -500,7 +565,7 @@ Use in your editor for validation:
 
 ```json
 {
-  "$schema": "https://github.com/grokify/prism-intelligence/schema/prism-maturity-model.schema.json",
+  "$schema": "https://github.com/grokify/prism-maturity/schema/prism-maturity-model.schema.json",
   "metadata": { "name": "My Maturity Model" },
   "slis": {...},
   "domains": {...}
@@ -589,7 +654,7 @@ Initiatives link to goals and phases with deployment tracking:
 
 ## PRISM Ecosystem
 
-PRISM Intelligence is part of the [PRISM ecosystem](https://github.com/grokify/prism), a unified framework for capability-driven organizational intelligence.
+PRISM Maturity is part of the [PRISM ecosystem](https://github.com/grokify/prism), a unified framework for capability-driven organizational intelligence.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -602,7 +667,7 @@ PRISM Intelligence is part of the [PRISM ecosystem](https://github.com/grokify/p
          │                         │                         │
          ▼                         ▼                         ▼
 ┌───────────────────┐    ┌───────────────────┐    ┌───────────────────┐
-│ PRISM Capability  │    │ PRISM Intelligence│    │ PRISM Execution   │
+│ PRISM Capability  │    │ PRISM Maturity│    │ PRISM Roadmap   │
 │                   │    │                   │    │                   │
 │  "What we need"   │───▶│ "How we measure"  │───▶│  "How we act"     │
 │                   │    │                   │    │                   │
@@ -616,18 +681,18 @@ PRISM Intelligence is part of the [PRISM ecosystem](https://github.com/grokify/p
 |--------|---------|---------------|
 | [prism-core](https://github.com/grokify/prism-core) | Shared primitives | Domain, Layer, Stage, MaturityLevel, TeamType |
 | [prism-capability](https://github.com/grokify/prism-capability) | What capabilities exist | Capability stacks, layers, dependencies |
-| [prism-intelligence](https://github.com/grokify/prism-intelligence) | How we measure maturity | SLI/SLO definitions, maturity state |
-| [prism-execution](https://github.com/grokify/prism-execution) | How we improve | OKRs, V2MOM, roadmaps, initiatives |
+| [prism-intelligence](https://github.com/grokify/prism-maturity) | How we measure maturity | SLI/SLO definitions, maturity state |
+| [prism-roadmap](https://github.com/grokify/prism-roadmap) | How we improve | OKRs, V2MOM, roadmaps, initiatives |
 
-## Integration with PRISM Execution
+## Integration with PRISM Roadmap
 
-PRISM Intelligence integrates with [prism-execution](https://github.com/grokify/prism-execution) to provide a complete operational planning workflow. PRISM Intelligence serves as the source of truth for requirements (maturity models, SLOs), while PRISM Execution handles execution tracking (OKRs, roadmaps).
+PRISM Maturity integrates with [prism-roadmap](https://github.com/grokify/prism-roadmap) to provide a complete operational planning workflow. PRISM Maturity serves as the source of truth for requirements (maturity models, SLOs), while PRISM Roadmap handles execution tracking (OKRs, roadmaps).
 
 ### Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│               PRISM Intelligence (Source of Truth)              │
+│               PRISM Maturity (Source of Truth)              │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
 │  │    Goals     │  │   Maturity   │  │     SLOs     │           │
 │  │              │  │    Models    │  │              │           │
@@ -650,7 +715,7 @@ PRISM Intelligence integrates with [prism-execution](https://github.com/grokify/
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                   PRISM Execution (Execution)                   │
+│                   PRISM Roadmap (Execution)                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
 │  │     OKR      │  │   V2MOM      │  │   Roadmap    │           │
 │  │              │  │              │  │              │           │
@@ -662,7 +727,7 @@ PRISM Intelligence integrates with [prism-execution](https://github.com/grokify/
 
 ### Data Flow
 
-| PRISM Intelligence | PRISM Execution |
+| PRISM Maturity | PRISM Roadmap |
 |--------------------|-----------------|
 | Goal | OKR Objective |
 | Goal.TargetLevel | Objective Target |
@@ -672,16 +737,16 @@ PRISM Intelligence integrates with [prism-execution](https://github.com/grokify/
 
 ### Workflow
 
-1. **Define requirements in PRISM Intelligence** - Goals, maturity models, SLOs
+1. **Define requirements in PRISM Maturity** - Goals, maturity models, SLOs
 2. **Analyze with LLM** - Generate initiative recommendations to achieve targets
-3. **Export to PRISM Execution** - OKR/V2MOM/Roadmap format
+3. **Export to PRISM Roadmap** - OKR/V2MOM/Roadmap format
 4. **Track execution** - Monitor progress against phase targets
 
 ```bash
 # Analyze PRISM document and suggest initiatives
 prism analyze prism.json
 
-# Export as OKR document for prism-execution
+# Export as OKR document for prism-roadmap
 prism export okr prism.json -o roadmap.okr.json
 
 # Export as V2MOM document
@@ -722,7 +787,7 @@ import (
     "fmt"
     "os"
 
-    "github.com/grokify/prism-intelligence"
+    "github.com/grokify/prism-maturity"
 )
 
 func main() {

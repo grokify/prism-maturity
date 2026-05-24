@@ -1,7 +1,7 @@
 {
   "irVersion": "1.0",
-  "project": "prism-intelligence",
-  "repository": "https://github.com/grokify/prism-intelligence",
+  "project": "prism-maturity",
+  "repository": "https://github.com/grokify/prism-maturity",
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["grokify"],
