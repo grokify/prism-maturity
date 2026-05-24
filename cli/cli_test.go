@@ -13,7 +13,7 @@ import (
 // getExampleFile returns the path to the goal-roadmap.json example file
 func getExampleFile() string {
 	wd, _ := os.Getwd()
-	return filepath.Join(wd, "..", "..", "examples", "goal-roadmap.json")
+	return filepath.Join(wd, "..", "examples", "prism-documents", "goal-roadmap.json")
 }
 
 func TestGoalListCommand(t *testing.T) {

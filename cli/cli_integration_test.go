@@ -12,13 +12,13 @@ import (
 // getTeamTopologyFile returns the path to the team-topology.json example file
 func getTeamTopologyFile() string {
 	wd, _ := os.Getwd()
-	return filepath.Join(wd, "..", "..", "examples", "team-topology.json")
+	return filepath.Join(wd, "..", "examples", "prism-documents", "team-topology.json")
 }
 
 // getOperationsLayersFile returns the path to the operations-layers.json example file
 func getOperationsLayersFile() string {
 	wd, _ := os.Getwd()
-	return filepath.Join(wd, "..", "..", "examples", "operations-layers.json")
+	return filepath.Join(wd, "..", "examples", "prism-documents", "operations-layers.json")
 }
 
 // TestLayerListCommand tests the layer list command
