@@ -7,6 +7,28 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.11.0",
+      "date": "2026-06-07",
+      "highlights": [
+        { "description": "Lit HTML rendering with maturity overlay for web-based capability stack visualizations" },
+        { "description": "PRISM ecosystem dependency upgrades to latest versions" }
+      ],
+      "added": [
+        { "description": "LitOptionsWithMaturity() creates LitOptions with maturity overlay data", "commit": "b62d161" },
+        { "description": "RenderLitHTMLWithMaturity() renders capability stack with maturity to Lit HTML page", "commit": "b62d161" },
+        { "description": "RenderJSONWithMaturity() renders capability stack with maturity as JSON", "commit": "b62d161" },
+        { "description": "ToLitGridDataWithMaturity() converts CapabilityStack to LitGridData with maturity overlay", "commit": "b62d161" }
+      ],
+      "dependencies": [
+        { "description": "Update github.com/grokify/prism-roadmap to v0.14.0", "commit": "2c07e3c" },
+        { "description": "Update github.com/grokify/prism-capability to v0.5.0", "commit": "2c07e3c" },
+        { "description": "Update github.com/grokify/prism-core to v0.2.0", "commit": "2c07e3c" }
+      ],
+      "documentation": [
+        { "description": "Add docs/releases/v0.11.0.md release notes" }
+      ]
+    },
+    {
       "version": "v0.10.0",
       "date": "2026-05-24",
       "highlights": [
