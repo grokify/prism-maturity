@@ -7,6 +7,32 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.12.0",
+      "date": "2026-06-28",
+      "highlights": [
+        { "description": "Add developer productivity frameworks (SPACE, AI-DORA, AI-SPACE)" },
+        { "description": "PRISM ecosystem dependency updates to latest versions" }
+      ],
+      "added": [
+        { "description": "FrameworkSPACE constant for SPACE developer productivity framework", "commit": "a54f4ab" },
+        { "description": "FrameworkAIDORA constant for AI-Modified DORA metrics", "commit": "a54f4ab" },
+        { "description": "FrameworkAISPACE constant for AI-Modified SPACE framework", "commit": "a54f4ab" },
+        { "description": "OperationsFrameworks() function returning DORA, SRE, AI-DORA", "commit": "a54f4ab" },
+        { "description": "DeveloperProductivityFrameworks() function returning SPACE, AI-SPACE", "commit": "a54f4ab" },
+        { "description": "AIFrameworks() function returning AI-enhanced frameworks", "commit": "a54f4ab" }
+      ],
+      "dependencies": [
+        { "description": "Update github.com/grokify/prism-core to v0.3.0", "commit": "419d813" },
+        { "description": "Update github.com/grokify/prism-capability to v0.6.0", "commit": "419d813" },
+        { "description": "Update github.com/grokify/prism-roadmap to v0.14.1", "commit": "419d813" },
+        { "description": "Update golang.org/x/text to v0.38.0", "commit": "6e68ec7" },
+        { "description": "Update github.com/grokify/oscompat to v0.4.0", "commit": "cdc601b" }
+      ],
+      "documentation": [
+        { "description": "Add SPACE, AI-DORA, AI-SPACE to README and docs/concepts/frameworks.md", "commit": "ca20fd9" }
+      ]
+    },
+    {
       "version": "v0.11.0",
       "date": "2026-06-07",
       "highlights": [
