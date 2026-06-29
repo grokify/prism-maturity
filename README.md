@@ -544,6 +544,9 @@ PRISM metrics can be mapped to external frameworks:
 | ISO 27001 | `ISO_27001` | Information Security Management |
 | DORA | `DORA` | DevOps Research and Assessment |
 | SRE | `SRE` | Site Reliability Engineering |
+| SPACE | `SPACE` | Developer Productivity (Forsgren et al.) |
+| AI-DORA | `AI_DORA` | AI-Modified DORA metrics |
+| AI-SPACE | `AI_SPACE` | AI-Modified SPACE framework |
 
 ## JSON Schema
 

@@ -40,6 +40,14 @@ PRISM metrics and SLOs can be mapped to industry frameworks to provide context a
 | DORA | `DORA` | DevOps Research and Assessment |
 | SRE | `SRE` | Site Reliability Engineering |
 
+### Developer Productivity Frameworks
+
+| Framework | Constant | Description |
+|-----------|----------|-------------|
+| SPACE | `SPACE` | Satisfaction, Performance, Activity, Communication, Efficiency (Forsgren et al., 2021) |
+| AI-DORA | `AI_DORA` | AI-Modified DORA metrics for AI-assisted development |
+| AI-SPACE | `AI_SPACE` | AI-Modified SPACE framework for AI-enhanced productivity |
+
 ## Framework Mapping Structure
 
 Metrics and SLOs can have multiple framework mappings:
