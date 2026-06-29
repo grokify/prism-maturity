@@ -178,6 +178,11 @@ const (
 	// Engineering Frameworks
 	FrameworkDORA = core.FrameworkDORA
 	FrameworkSRE  = core.FrameworkSRE
+
+	// Developer Productivity Frameworks
+	FrameworkSPACE   = core.FrameworkSPACE
+	FrameworkAIDORA  = core.FrameworkAIDORA
+	FrameworkAISPACE = core.FrameworkAISPACE
 )
 
 // Framework baseline/impact levels for NIST 800-53 and FedRAMP.
@@ -206,7 +211,25 @@ func AllFrameworks() []string {
 		FrameworkISO27001,
 		FrameworkDORA,
 		FrameworkSRE,
+		FrameworkSPACE,
+		FrameworkAIDORA,
+		FrameworkAISPACE,
 	}
+}
+
+// OperationsFrameworks returns operations-focused frameworks.
+func OperationsFrameworks() []string {
+	return core.OperationsFrameworks()
+}
+
+// DeveloperProductivityFrameworks returns developer productivity frameworks.
+func DeveloperProductivityFrameworks() []string {
+	return core.DeveloperProductivityFrameworks()
+}
+
+// AIFrameworks returns AI-enhanced frameworks.
+func AIFrameworks() []string {
+	return core.AIFrameworks()
 }
 
 // NISTFrameworks returns NIST-specific frameworks.
