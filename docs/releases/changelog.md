@@ -1,15 +1,15 @@
 # Changelog
 
-For the complete changelog, see [CHANGELOG.md](https://github.com/grokify/prism-intelligence/blob/main/CHANGELOG.md) in the repository root.
+For the complete changelog, see [CHANGELOG.md](https://github.com/grokify/prism-maturity/blob/main/CHANGELOG.md) in the repository root.
 
 ## Recent Releases
 
-- [v0.6.0](./v0.6.0.md) - 2026-05-10 - Three-part schema taxonomy, domain-centric examples
-- [v0.5.0](./v0.5.0.md) - 2026-05-10 - Model/State separation, temporal windows
-- [v0.4.0](./v0.4.0.md) - 2026-05-09 - SLI type, framework expansion
-- [v0.3.0](./v0.3.0.md) - 2026-04-26 - Layers, teams, services, analysis
-- [v0.2.0](./v0.2.0.md) - 2026-04-18 - Goals, phases, roadmap
-- [v0.1.0](./v0.1.0.md) - 2026-03-30 - Initial release
+- [v0.12.0](./v0.12.0.md) - 2026-06-28 - Developer productivity frameworks (SPACE, AI-DORA, AI-SPACE)
+- [v0.11.0](./v0.11.0.md) - 2026-06-07 - Lit HTML rendering with maturity overlay
+- [v0.10.0](./v0.10.0.md) - 2026-05-24 - Module renamed to prism-maturity, CLI extraction
+- [v0.9.0](./v0.9.0.md) - 2026-05-18 - DMAIC metrics framework, prism-core integration
+- [v0.8.0](./v0.8.0.md) - 2026-05-17 - Overlay rendering, dashboard enhancements
+- [v0.7.0](./v0.7.0.md) - 2026-05-11 - Excel output, maturity radar charts
 
 ## Versioning
 
@@ -32,4 +32,4 @@ Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.
 
 ## Changelog Format
 
-The changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and is generated from [CHANGELOG.json](https://github.com/grokify/prism-intelligence/blob/main/CHANGELOG.json) using [Structured Changelog](https://github.com/grokify/structured-changelog).
+The changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and is generated from [CHANGELOG.json](https://github.com/grokify/prism-maturity/blob/main/CHANGELOG.json) using [Structured Changelog](https://github.com/grokify/structured-changelog).
