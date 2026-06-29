@@ -5,9 +5,9 @@ go 1.26.2
 require (
 	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.4.0
-	github.com/grokify/prism-capability v0.5.0
-	github.com/grokify/prism-core v0.2.0
-	github.com/grokify/prism-roadmap v0.14.0
+	github.com/grokify/prism-capability v0.6.0
+	github.com/grokify/prism-core v0.3.0
+	github.com/grokify/prism-roadmap v0.14.1
 	github.com/grokify/structureddocs v0.1.0
 	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
