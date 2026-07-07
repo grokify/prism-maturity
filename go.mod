@@ -13,7 +13,7 @@ require (
 	github.com/plexusone/omniframe v0.1.1
 	github.com/spf13/cobra v1.10.2
 	github.com/xuri/excelize/v2 v2.10.1
-	golang.org/x/text v0.38.0
+	golang.org/x/text v0.39.0
 )
 
 require (
