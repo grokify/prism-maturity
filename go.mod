@@ -12,7 +12,7 @@ require (
 	github.com/plexusone/dashforge v0.3.0
 	github.com/plexusone/omniframe v0.1.1
 	github.com/spf13/cobra v1.10.2
-	github.com/xuri/excelize/v2 v2.10.1
+	github.com/xuri/excelize/v2 v2.11.0
 	golang.org/x/text v0.40.0
 )
 
