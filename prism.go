@@ -113,6 +113,10 @@ type SLI struct {
 	Description string `json:"description,omitempty"`
 	Formula     string `json:"formula,omitempty"`
 	SLIType     string `json:"sliType,omitempty"` // Observability type: availability, latency, error_rate, etc.
+
+	// SCALE framework integration
+	SCALEAspect          string `json:"scaleAspect,omitempty"`          // SCALE aspect: standards, consumption, automation, leverage, effectiveness
+	SCALEConsumptionKind string `json:"scaleConsumptionKind,omitempty"` // For consumption aspect: adoption or conformance
 }
 
 // IsGoldenSignal returns true if the SLI type is part of Google's Golden Signals.
@@ -160,6 +164,26 @@ func (s *SLI) Methodologies() []string {
 		return nil
 	}
 	return MethodologiesForSLIType(s.SLIType)
+}
+
+// HasSCALEAspect returns true if this SLI has a SCALE aspect assigned.
+func (s *SLI) HasSCALEAspect() bool {
+	return s != nil && s.SCALEAspect != ""
+}
+
+// IsSCALEConsumption returns true if this SLI is tagged with the SCALE consumption aspect.
+func (s *SLI) IsSCALEConsumption() bool {
+	return s != nil && s.SCALEAspect == "consumption"
+}
+
+// IsSCALEAdoption returns true if this is a SCALE consumption/adoption metric.
+func (s *SLI) IsSCALEAdoption() bool {
+	return s.IsSCALEConsumption() && s.SCALEConsumptionKind == "adoption"
+}
+
+// IsSCALEConformance returns true if this is a SCALE consumption/conformance metric.
+func (s *SLI) IsSCALEConformance() bool {
+	return s.IsSCALEConsumption() && s.SCALEConsumptionKind == "conformance"
 }
 
 // SLO represents a Service Level Objective.
