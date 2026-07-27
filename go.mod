@@ -5,7 +5,7 @@ go 1.26.2
 require (
 	github.com/grokify/echartify v0.2.1
 	github.com/grokify/oscompat v0.5.0
-	github.com/grokify/prism-capability v0.6.0
+	github.com/grokify/prism-capability v0.7.0
 	github.com/grokify/prism-core v0.3.0
 	github.com/grokify/prism-roadmap v0.16.0
 	github.com/grokify/structureddocs v0.1.0
