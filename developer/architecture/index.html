@@ -2390,7 +2390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/dashforge/" class="md-nav__link">
+      <a href="../../integrations/dashforge.md" class="md-nav__link">
         
   
   
@@ -2704,10 +2704,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dashforge-package-dashforge" class="md-nav__link">
+  <a href="#uiforge-package-uiforge" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashforge Package (dashforge/)
+        UIForge Package (uiforge/)
       
     </span>
   </a>
@@ -4025,10 +4025,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dashforge-package-dashforge" class="md-nav__link">
+  <a href="#uiforge-package-uiforge" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashforge Package (dashforge/)
+        UIForge Package (uiforge/)
       
     </span>
   </a>
@@ -4427,10 +4427,10 @@
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">OperationsMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SecurityMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">prism</span><span class="p">.</span><span class="nx">Metric</span>
 </code></pre></div>
-<h3 id="dashforge-package-dashforge">Dashforge Package (<code>dashforge/</code>)</h3>
+<h3 id="uiforge-package-uiforge">UIForge Package (<code>uiforge/</code>)</h3>
 <p>Converts PRISM data to dashboard format:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Convert to Dashforge format</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Convert</span><span class="p">(</span><span class="nx">doc</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">dashforge</span><span class="p">.</span><span class="nx">Dashboard</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Convert to UIForge format</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Convert</span><span class="p">(</span><span class="nx">doc</span><span class="w"> </span><span class="o">*</span><span class="nx">prism</span><span class="p">.</span><span class="nx">PRISMDocument</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">uiforge</span><span class="p">.</span><span class="nx">Dashboard</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1">// Generate specific chart types</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kd">func</span><span class="w"> </span><span class="nx">GaugeChart</span><span class="p">(</span><span class="nx">score</span><span class="w"> </span><span class="kt">float64</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">echartify</span><span class="p">.</span><span class="nx">Chart</span>
@@ -4449,8 +4449,8 @@
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>                          │
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>                          ▼
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│                   PRISMDocument (Core)                       │
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>│  - Validate()                                                │
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│                   PRISMDocument (Core)                      │
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>│  - Validate()                                               │
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>│  - CalculatePRISMScore()                                    │
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>│  - GetMetricByID(), GetGoalByID(), etc.                     │
 <a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>└─────────────────────────┬───────────────────────────────────┘
@@ -4459,7 +4459,7 @@
 <a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>         │               │               │
 <a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>         ▼               ▼               ▼
 <a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>│  analysis/  │  │   export/   │  │  dashforge/ │
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>│  analysis/  │  │   export/   │  │  uiforge/   │
 <a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>│             │  │             │  │             │
 <a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>│ - Analyze() │  │ - ToOKR()   │  │ - Convert() │
 <a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>│ - Gaps      │  │ - ToV2MOM() │  │ - Charts    │
@@ -4467,8 +4467,8 @@
 <a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>         │               │               │
 <a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>         ▼               ▼               ▼
 <a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>│                    output/ (Formatter)                       │
-<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>│  - text, json, markdown, toon                                │
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>│                    output/ (Formatter)                      │
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>│  - text, json, markdown, toon                               │
 <a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>└─────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <h2 id="design-principles">Design Principles</h2>
@@ -4536,7 +4536,7 @@
 <td>OKR/V2MOM/Roadmap formats</td>
 </tr>
 <tr>
-<td><code>github.com/plexusone/dashforge</code></td>
+<td><code>github.com/plexusone/uiforge</code></td>
 <td>Dashboard generation</td>
 </tr>
 <tr>

@@ -16,7 +16,7 @@
         <link rel="prev" href="../examples/goal-roadmap/">
       
       
-        <link rel="next" href="dashforge/">
+        <link rel="next" href="marp/">
       
       
         
@@ -2481,10 +2481,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dashforge-integration" class="md-nav__link">
+  <a href="#uiforge-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashforge Integration
+        UIForge Integration
       
     </span>
   </a>
@@ -2584,7 +2584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="dashforge/" class="md-nav__link">
+      <a href="dashforge.md" class="md-nav__link">
         
   
   
@@ -3937,10 +3937,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dashforge-integration" class="md-nav__link">
+  <a href="#uiforge-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashforge Integration
+        UIForge Integration
       
     </span>
   </a>
@@ -4034,7 +4034,7 @@
 <td>Roadmap, OKR, and V2MOM export</td>
 </tr>
 <tr>
-<td><a href="dashforge/">Dashforge</a></td>
+<td><a href="uiforge/">UIForge</a></td>
 <td>Planned</td>
 <td>Dashboard generation and embedding</td>
 </tr>
@@ -4052,20 +4052,20 @@
 </table>
 <h2 id="integration-architecture">Integration Architecture</h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                 PRISM Intelligence Document                  │
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                 PRISM Intelligence Document                 │
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                       (prism.json)                          │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└─────────────────────────────────────────────────────────────┘
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                              │
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                              ▼
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│                 PRISM Intelligence Library                   │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│                 PRISM Intelligence Library                  │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│          (github.com/grokify/prism-intelligence)            │
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>└─────────────────────────────────────────────────────────────┘
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                              │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>     ┌────────────┬───────────┼───────────┬────────────┐
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>     ▼            ▼           ▼           ▼            ▼
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>┌──────────┐┌──────────┐┌──────────┐┌──────────┐┌──────────┐
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│  PRISM   ││ Dashforge││   Marp   ││   Excel  ││   CLI    │
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│  PRISM   ││ UIForge  ││   Marp   ││   Excel  ││   CLI    │
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│Execution ││Dashboard ││  Slides  ││   XLSX   ││ Reports  │
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└──────────┘└──────────┘└──────────┘└──────────┘└──────────┘
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>     │            │           │           │            │
@@ -4098,7 +4098,7 @@
 <li>Generate audit-ready documentation</li>
 </ol>
 <h2 id="planned-features">Planned Features</h2>
-<h3 id="dashforge-integration">Dashforge Integration</h3>
+<h3 id="uiforge-integration">UIForge Integration</h3>
 <ul>
 <li>Standalone PRISM dashboard pages</li>
 <li>Embedded dashboard widgets</li>
@@ -4128,7 +4128,7 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">},</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">],</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">&quot;integrations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;dashforge&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;uiforge&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">      </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="nt">&quot;theme&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;corporate&quot;</span><span class="p">,</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">      </span><span class="nt">&quot;refreshInterval&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1h&quot;</span>
