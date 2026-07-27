@@ -7,6 +7,42 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.14.0",
+      "date": "2026-07-27",
+      "highlights": [
+        { "description": "Goal categories with category-specific target types (RevenueTarget, AdoptionTarget)" },
+        { "description": "JSON Schema validation with --schema flag on validate command" },
+        { "description": "MCP (Model Context Protocol) server for AI assistant integration" }
+      ],
+      "added": [
+        { "description": "category/ package with GoalCategory type for organizing goals by business domain", "commit": "7da9a08" },
+        { "description": "RevenueTarget type with ARR tracking, progress calculation, and dollar conversion methods", "commit": "7da9a08" },
+        { "description": "AdoptionTarget type with MAU/DAU/retention/NPS metrics and progress tracking", "commit": "7da9a08" },
+        { "description": "CLI `prism category list` command to list all goal categories", "commit": "7da9a08" },
+        { "description": "CLI `prism category target revenue` command to create revenue targets", "commit": "7da9a08" },
+        { "description": "CLI `prism category target adoption` command to create adoption targets", "commit": "7da9a08" },
+        { "description": "schema.Validator for compiling and validating against embedded JSON schemas", "commit": "6d5353e" },
+        { "description": "schema.ValidationResult with path-based error reporting", "commit": "6d5353e" },
+        { "description": "CLI --schema flag on validate command for JSON Schema validation", "commit": "6d5353e" },
+        { "description": "CLI --type flag on validate command for schema type selection (maturity-plan, maturity-state, maturity-model)", "commit": "6d5353e" },
+        { "description": "mcp/ package with MCP server for AI assistant integration", "commit": "443b9f9" },
+        { "description": "MCP category tools: category_list, category_validate, category_revenue_target, category_adoption_target", "commit": "443b9f9" },
+        { "description": "MCP goal tools: goal_list, goal_get, goal_create, goal_update", "commit": "443b9f9" },
+        { "description": "MCP maturity tools: maturity_score, maturity_gaps, maturity_roadmap", "commit": "443b9f9" }
+      ],
+      "dependencies": [
+        { "description": "Add github.com/modelcontextprotocol/go-sdk v1.6.1 for MCP server", "commit": "1f9d817" },
+        { "description": "Add github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 for JSON Schema validation", "commit": "1f9d817" }
+      ],
+      "documentation": [
+        { "description": "Add docs/schema/goal-categories.md with category types and target examples", "commit": "57f3190" },
+        { "description": "Add docs/integrations/mcp.md for MCP server integration guide", "commit": "57f3190" },
+        { "description": "Update docs/cli/validate.md with --schema and --type flags", "commit": "57f3190" },
+        { "description": "Update docs/integrations/index.md with MCP integration", "commit": "57f3190" },
+        { "description": "Update README.md with Goal Categories section and code examples", "commit": "57f3190" }
+      ]
+    },
+    {
       "version": "v0.13.0",
       "date": "2026-07-27",
       "highlights": [
