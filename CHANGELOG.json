@@ -7,6 +7,43 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.13.0",
+      "date": "2026-07-27",
+      "highlights": [
+        { "description": "Renamed dashforge dependency, package, and CLI command to uiforge" },
+        { "description": "Add SCALE aspect tagging fields to SLI type for AI/tooling adoption metrics" },
+        { "description": "PRISM ecosystem dependency updates to latest versions" }
+      ],
+      "breaking": [
+        { "description": "CLI command renamed from `prism dashforge` to `prism uiforge`", "commit": "b543cae" }
+      ],
+      "added": [
+        { "description": "SCALEAspect and SCALEConsumptionKind fields on SLI type", "commit": "b32c227" },
+        { "description": "HasSCALEAspect(), IsSCALEConsumption(), IsSCALEAdoption(), IsSCALEConformance() helper methods", "commit": "b32c227" }
+      ],
+      "changed": [
+        { "description": "Renamed local dashforge/ package to uiforge/, updating imports to github.com/plexusone/uiforge/dashboardir", "commit": "1993997" },
+        { "description": "Renamed cli/dashforge.go to cli/uiforge.go and prism dashforge command to prism uiforge", "commit": "b543cae" },
+        { "description": "Updated schema URL and CLI help text references from dashforge to uiforge", "commit": "26694d7" }
+      ],
+      "dependencies": [
+        { "description": "Replace github.com/plexusone/dashforge v0.3.0 with github.com/plexusone/uiforge v0.4.0", "commit": "3a5c439" },
+        { "description": "Update github.com/grokify/prism-capability to v0.7.0", "commit": "fb46ccd" },
+        { "description": "Update github.com/grokify/prism-roadmap to v0.16.0", "commit": "e663d1d" },
+        { "description": "Update github.com/grokify/oscompat to v0.5.0", "commit": "6267de6" },
+        { "description": "Update github.com/xuri/excelize/v2 to v2.11.0", "commit": "bf8ea89" },
+        { "description": "Update golang.org/x/text to v0.40.0", "commit": "133f34e" }
+      ],
+      "documentation": [
+        { "description": "Rename docs/integrations/dashforge.md to uiforge.md and update CLI reference, architecture, and design docs", "commit": "2154424" },
+        { "description": "Update README, CHANGELOG, and REVIEW for uiforge rename", "commit": "cadaab4" },
+        { "description": "Update config and data files (.claude/settings.local.json, dashboards/, viewer/package.json) for uiforge rename", "commit": "8f63b81" },
+        { "description": "Document SCALE aspect tagging in schema/slos.md and concepts/frameworks.md" },
+        { "description": "Fix broken mkdocs.yml navigation link left over from uiforge rename" },
+        { "description": "Update README.md shields", "commit": "f4e6f35" }
+      ]
+    },
+    {
       "version": "v0.12.0",
       "date": "2026-06-28",
       "highlights": [
