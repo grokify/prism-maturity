@@ -41,7 +41,7 @@ The example shows "Weak" at 27.5% despite metrics performing well (SAST at 95%, 
 
 #### 4. No Visual/Export Output
 
-The PRD defers visual rendering to dashforge, but there's no markdown, HTML, or slide export for roadmap views.
+The PRD defers visual rendering to uiforge, but there's no markdown, HTML, or slide export for roadmap views.
 
 ## Strengths for Maturity-Based Roadmap
 

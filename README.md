@@ -229,8 +229,8 @@ prism initiative show prism.json init-monitoring
 # Generate SLO compliance report
 prism slo-report prism.json
 
-# Convert to dashforge format
-prism dashforge prism.json -o dashforge.json
+# Convert to UIForge format
+prism uiforge prism.json -o dashboards/
 ```
 
 ### Layer commands (v0.3.0)
