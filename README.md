@@ -107,18 +107,55 @@ Services are deployable units owned by teams with associated metrics:
 }
 ```
 
+### Goal Categories
+
+Goals are organized by category with category-specific target types:
+
+| Category | Description | Target Type |
+|----------|-------------|-------------|
+| `operations` | Reliability, efficiency, DORA metrics | Standard SLO targets |
+| `revenue` | ARR growth, monetization | `RevenueTarget` |
+| `adoption` | MAU, retention, NPS | `AdoptionTarget` |
+| `growth` | Market expansion, user acquisition | Standard targets |
+| `quality` | Testing, defect management | Standard SLO targets |
+| `security` | Security posture, compliance | Standard SLO targets |
+| `compliance` | Regulatory requirements | Standard targets |
+
+```go
+import "github.com/grokify/prism-maturity/category"
+
+// Revenue goal with ARR target
+revenueTarget := &category.RevenueTarget{
+    TargetARR:     10000000000, // $100M in cents
+    CurrentARR:    80000000000, // $80M in cents
+    GrowthPercent: 25.0,
+    Currency:      "USD",
+}
+progress := revenueTarget.Progress() // 0.8 (80%)
+
+// Adoption goal with user engagement metrics
+adoptionTarget := &category.AdoptionTarget{
+    TargetMAU:        1000000,
+    CurrentMAU:       750000,
+    TargetRetention:  0.85,
+    CurrentRetention: 0.78,
+    TargetNPS:        50,
+    CurrentNPS:       42,
+}
+```
+
 ### Connecting to SLOs and Maturity
 
 The organizational model connects to SLOs and maturity roadmaps:
 
 1. **Metrics** belong to a domain, layer, and optionally a service
 2. **SLOs** are defined on metrics with machine-evaluable targets
-3. **Goals** aggregate SLO requirements into maturity levels
+3. **Goals** aggregate SLO requirements into maturity levels (with category-specific targets)
 4. **Teams** own services and are accountable for their SLOs
 5. **Phases** organize goal progression over time (quarters)
 
 ```
-Team owns → Service has → Metrics with → SLOs required by → Goals tracked in → Phases
+Team owns → Service has → Metrics with → SLOs required by → Goals (by Category) tracked in → Phases
 ```
 
 ## Installation

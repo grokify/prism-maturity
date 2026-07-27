@@ -81,6 +81,7 @@ nav:
       - Quality Domain: schema/quality.md
       - Lifecycle Stages: schema/stages.md
       - Categories: schema/categories.md
+      - Goal Categories: schema/goal-categories.md
       - Metric Types: schema/metrics.md
       - SLIs & SLOs: schema/slos.md
       - Thresholds: schema/thresholds.md
