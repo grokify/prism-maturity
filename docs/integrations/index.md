@@ -1,13 +1,14 @@
 # Integrations Overview
 
-PRISM Intelligence integrates with various tools and platforms for reporting, visualization, and export.
+PRISM Maturity integrates with various tools and platforms for reporting, visualization, and export.
 
 ## Available Integrations
 
 | Integration | Status | Description |
 |-------------|--------|-------------|
-| [PRISM Execution](prism-execution.md) | Available | Roadmap, OKR, and V2MOM export |
-| [UIForge](uiforge.md) | Planned | Dashboard generation and embedding |
+| [PRISM Roadmap](prism-roadmap.md) | Available | Roadmap, OKR, and V2MOM export |
+| [UIForge](uiforge.md) | Available | Dashboard generation and embedding |
+| [MCP](mcp.md) | Available | AI assistant integration via Model Context Protocol |
 | [Marp](marp.md) | Planned | Presentation generation |
 | [Excel](excel.md) | Planned | XLSX export for stakeholders |
 
@@ -21,8 +22,8 @@ PRISM Intelligence integrates with various tools and platforms for reporting, vi
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 PRISM Intelligence Library                  │
-│          (github.com/grokify/prism-intelligence)            │
+│                   PRISM Maturity Library                    │
+│            (github.com/grokify/prism-maturity)              │
 └─────────────────────────────────────────────────────────────┘
                               │
      ┌────────────┬───────────┼───────────┬────────────┐
@@ -119,4 +120,4 @@ Future integrations will be configured in the PRISM document:
 
 ## Coming Soon
 
-These integrations are in development. Check the [GitHub repository](https://github.com/grokify/prism-intelligence) for updates.
+These integrations are in development. Check the [GitHub repository](https://github.com/grokify/prism-maturity) for updates.

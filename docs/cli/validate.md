@@ -6,6 +6,8 @@ Validate a PRISM document for structural and semantic correctness.
 
 ```bash
 prism validate <file>
+prism validate --schema <file>
+prism validate --schema --type <schema-type> <file>
 ```
 
 ## Description
@@ -19,11 +21,20 @@ Validates a PRISM document by checking:
 - Threshold consistency
 - Maturity level ranges (1-5)
 
+With `--schema`, also validates the document against the JSON Schema.
+
 ## Arguments
 
 | Argument | Description |
 |----------|-------------|
 | `file` | Path to the PRISM JSON document |
+
+## Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--schema` | `false` | Also validate against JSON Schema |
+| `--type` | `maturity-plan` | Schema type: `maturity-plan`, `maturity-state`, `maturity-model` |
 
 ## Examples
 
@@ -39,6 +50,25 @@ Success output:
 ✓ prism.json is valid
 ```
 
+### Validate with JSON Schema
+
+```bash
+prism validate --schema prism.json
+```
+
+Success output:
+
+```
+✓ JSON Schema validation passed (maturity-plan)
+✓ prism.json is valid
+```
+
+### Validate a Maturity State File
+
+```bash
+prism validate --schema --type maturity-state state.json
+```
+
 ### Validation Errors
 
 If the document has errors:
@@ -47,6 +77,16 @@ If the document has errors:
 ✗ prism.json has 2 validation errors:
   - metrics[0].domain: invalid domain "sec" (valid: security, operations)
   - metrics[2].stage: invalid stage "deployment" (valid: design, build, test, runtime, response)
+```
+
+### JSON Schema Errors
+
+If JSON Schema validation fails:
+
+```
+JSON Schema validation errors:
+  - /metrics/0/domain: value must be one of: security, operations, quality
+  - /metadata/version: missing required property
 ```
 
 ## Validation Rules
