@@ -1,9 +1,9 @@
-package dashforge
+package uiforge
 
 import (
 	"encoding/json"
 
-	"github.com/plexusone/dashforge/dashboardir"
+	"github.com/plexusone/uiforge/dashboardir"
 )
 
 // createMetricWidget creates a single-value metric widget.

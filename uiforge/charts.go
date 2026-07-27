@@ -1,4 +1,4 @@
-package dashforge
+package uiforge
 
 import (
 	"fmt"

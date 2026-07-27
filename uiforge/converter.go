@@ -1,12 +1,12 @@
-// Package dashforge provides conversion from PRISM documents to Dashforge dashboard IR.
-package dashforge
+// Package uiforge provides conversion from PRISM documents to UIForge dashboard IR.
+package uiforge
 
 import (
 	"encoding/json"
 	"fmt"
 
 	"github.com/grokify/prism-maturity"
-	"github.com/plexusone/dashforge/dashboardir"
+	"github.com/plexusone/uiforge/dashboardir"
 )
 
 // DashboardSet contains all generated dashboards for a PRISM document.
@@ -59,7 +59,7 @@ func DefaultConvertOptions() *ConvertOptions {
 	}
 }
 
-// Convert generates Dashforge dashboards from a PRISM document.
+// Convert generates UIForge dashboards from a PRISM document.
 func Convert(doc *prism.PRISMDocument, opts *ConvertOptions) (*DashboardSet, error) {
 	if opts == nil {
 		opts = DefaultConvertOptions()
