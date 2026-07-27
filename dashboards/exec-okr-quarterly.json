@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/plexusone/dashforge/schema/dashboard.schema.json",
+  "$schema": "https://github.com/plexusone/uiforge/schema/dashboard.schema.json",
   "id": "exec-okr-quarterly",
   "title": "Executive OKR Dashboard",
   "description": "Quarterly OKR progress with PRISM health metrics",

@@ -1,7 +1,7 @@
 {
   "name": "@grokify/prism-maturity",
   "version": "0.1.0",
-  "description": "PRISM Maturity Model viewer and types - renders maturity reports using Dashforge",
+  "description": "PRISM Maturity Model viewer and types - renders maturity reports using UIForge",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,7 +49,7 @@
     "maturity-model",
     "slo",
     "compliance",
-    "dashforge",
+    "uiforge",
     "nist",
     "fedramp"
   ],
