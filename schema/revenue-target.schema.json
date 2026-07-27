@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grokify/prism-maturity/schema/revenue-target.schema.json",
+  "$ref": "#/$defs/RevenueTarget",
+  "$defs": {
+    "RevenueTarget": {
+      "properties": {
+        "target_arr": {
+          "type": "integer"
+        },
+        "current_arr": {
+          "type": "integer"
+        },
+        "growth_percent": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "target_arr",
+        "current_arr",
+        "growth_percent",
+        "currency"
+      ]
+    }
+  },
+  "title": "Revenue Target",
+  "description": "Revenue-specific goal targets with ARR tracking"
+}

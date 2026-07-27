@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grokify/prism-maturity/schema/adoption-target.schema.json",
+  "$ref": "#/$defs/AdoptionTarget",
+  "$defs": {
+    "AdoptionTarget": {
+      "properties": {
+        "target_mau": {
+          "type": "integer"
+        },
+        "current_mau": {
+          "type": "integer"
+        },
+        "target_dau": {
+          "type": "integer"
+        },
+        "current_dau": {
+          "type": "integer"
+        },
+        "target_retention": {
+          "type": "number"
+        },
+        "current_retention": {
+          "type": "number"
+        },
+        "target_nps": {
+          "type": "integer"
+        },
+        "current_nps": {
+          "type": "integer"
+        },
+        "period": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "title": "Adoption Target",
+  "description": "Adoption-specific goal targets with user engagement metrics"
+}
