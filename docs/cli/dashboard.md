@@ -98,12 +98,12 @@ Generate dashboards from a maturity model with optional state document:
 prism maturity model dashboard model.json --state state.json -f html -o dashboard.html
 ```
 
-### prism dashforge
+### prism uiforge
 
-Convert a PRISM document to dashforge format for dashboard generation.
+Convert a PRISM document to uiforge format for dashboard generation.
 
 ```bash
-prism dashforge <file> [options]
+prism uiforge <file> [options]
 ```
 
 **Options:**
@@ -116,15 +116,15 @@ prism dashforge <file> [options]
 **Examples:**
 
 ```bash
-# Convert to dashforge format
-prism dashforge prism.json -o dashforge.json
+# Convert to uiforge format
+prism uiforge prism.json -o uiforge.json
 
 # Generate metrics widgets only
-prism dashforge prism.json --widgets metrics
+prism uiforge prism.json --widgets metrics
 ```
 
 ## See Also
 
 - [prism maturity plan report](report.md) - Roadmap reports
 - [prism slo-report](slo-report.md) - SLO compliance reports
-- [Dashforge Integration](../integrations/dashforge.md) - Dashforge integration guide
+- [UIForge Integration](../integrations/uiforge.md) - UIForge integration guide

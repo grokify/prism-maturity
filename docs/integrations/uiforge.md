@@ -1,14 +1,14 @@
-# Dashforge Integration
+# UIForge Integration
 
 !!! note "Coming Soon"
-    Dashforge integration is planned for a future release.
+    UIForge integration is planned for a future release.
 
 ## Overview
 
-Dashforge integration enables PRISM dashboards as:
+UIForge integration enables PRISM dashboards as:
 
 - **Standalone pages** - Full-page PRISM dashboards
-- **Embedded widgets** - PRISM components in dashforge sites
+- **Embedded widgets** - PRISM components in UIForge sites
 - **Trend visualization** - Historical score tracking
 
 ## Planned Features
@@ -25,7 +25,7 @@ A full-page dashboard showing:
 
 ### Dashboard Widgets
 
-Embeddable components for dashforge sites:
+Embeddable components for UIForge sites:
 
 | Widget | Description |
 |--------|-------------|
@@ -174,7 +174,7 @@ Operations │  🟡 68 │ 🟢 85 │ 🟡 75│  🟢 95  │   🟢 82  │
 ```json
 {
   "integrations": {
-    "dashforge": {
+    "uiforge": {
       "enabled": true,
       "theme": "default",
       "refreshInterval": "1h",
@@ -184,10 +184,10 @@ Operations │  🟡 68 │ 🟢 85 │ 🟡 75│  🟢 95  │   🟢 82  │
 }
 ```
 
-### Dashforge Site Configuration
+### UIForge Site Configuration
 
 ```yaml
-# dashforge.yml
+# uiforge.yml
 pages:
   - name: PRISM Dashboard
     type: prism
@@ -208,19 +208,19 @@ pages:
 # Generate standalone dashboard
 prism dashboard prism.json -o dashboard.html
 
-# Generate dashforge widget data
-prism dashboard prism.json --format dashforge -o prism-widget.json
+# Generate UIForge widget data
+prism dashboard prism.json --format uiforge -o prism-widget.json
 
 # Start live dashboard server
 prism serve prism.json --port 8080
 ```
 
-## Integration with Dashforge
+## Integration with UIForge
 
-### Embedding in Dashforge Site
+### Embedding in UIForge Site
 
 ```markdown
-<!-- In a dashforge page -->
+<!-- In a UIForge page -->
 # Platform Health
 
 {{< prism-score source="prism.json" >}}
@@ -235,20 +235,20 @@ prism serve prism.json --port 8080
 ```go
 import (
     "github.com/grokify/prism"
-    "github.com/grokify/dashforge"
+    "github.com/plexusone/uiforge"
 )
 
 // Load PRISM document
 doc, _ := prism.LoadDocument("prism.json")
 
-// Generate dashforge widget
-widget := dashforge.NewPRISMWidget(doc)
+// Generate UIForge widget
+widget := uiforge.NewPRISMWidget(doc)
 widget.Render(w)
 ```
 
 ## Roadmap
 
 1. **Phase 1**: Static dashboard generation
-2. **Phase 2**: Dashforge widget integration
+2. **Phase 2**: UIForge widget integration
 3. **Phase 3**: Live data refresh
 4. **Phase 4**: Historical trend storage

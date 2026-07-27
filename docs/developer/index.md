@@ -43,7 +43,7 @@ golangci-lint run
 prism/
 ├── cmd/prism/           # CLI commands
 ├── analysis/            # Document analysis and gap detection
-├── dashforge/           # Dashboard generation
+├── uiforge/           # Dashboard generation
 ├── export/              # Format converters (OKR, V2MOM, Roadmap)
 ├── maturity/            # Maturity model types and evaluation
 ├── output/              # Output formatting utilities

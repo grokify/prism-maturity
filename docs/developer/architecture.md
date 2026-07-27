@@ -174,13 +174,13 @@ func OperationsMetrics() []prism.Metric
 func SecurityMetrics() []prism.Metric
 ```
 
-### Dashforge Package (`dashforge/`)
+### UIForge Package (`uiforge/`)
 
 Converts PRISM data to dashboard format:
 
 ```go
-// Convert to Dashforge format
-func Convert(doc *prism.PRISMDocument) *dashforge.Dashboard
+// Convert to UIForge format
+func Convert(doc *prism.PRISMDocument) *uiforge.Dashboard
 
 // Generate specific chart types
 func GaugeChart(score float64, title string) *echartify.Chart
@@ -203,8 +203,8 @@ Generates various report formats:
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                   PRISMDocument (Core)                       │
-│  - Validate()                                                │
+│                   PRISMDocument (Core)                      │
+│  - Validate()                                               │
 │  - CalculatePRISMScore()                                    │
 │  - GetMetricByID(), GetGoalByID(), etc.                     │
 └─────────────────────────┬───────────────────────────────────┘
@@ -213,7 +213,7 @@ Generates various report formats:
          │               │               │
          ▼               ▼               ▼
 ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
-│  analysis/  │  │   export/   │  │  dashforge/ │
+│  analysis/  │  │   export/   │  │  uiforge/   │
 │             │  │             │  │             │
 │ - Analyze() │  │ - ToOKR()   │  │ - Convert() │
 │ - Gaps      │  │ - ToV2MOM() │  │ - Charts    │
@@ -221,8 +221,8 @@ Generates various report formats:
          │               │               │
          ▼               ▼               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    output/ (Formatter)                       │
-│  - text, json, markdown, toon                                │
+│                    output/ (Formatter)                      │
+│  - text, json, markdown, toon                               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -298,5 +298,5 @@ Key external dependencies:
 | `github.com/spf13/cobra` | CLI framework |
 | `github.com/xuri/excelize/v2` | Excel export |
 | `github.com/grokify/structured-plan` | OKR/V2MOM/Roadmap formats |
-| `github.com/plexusone/dashforge` | Dashboard generation |
+| `github.com/plexusone/uiforge` | Dashboard generation |
 | `github.com/grokify/echartify` | Chart definitions |

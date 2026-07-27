@@ -7,7 +7,7 @@ PRISM Intelligence integrates with various tools and platforms for reporting, vi
 | Integration | Status | Description |
 |-------------|--------|-------------|
 | [PRISM Execution](prism-execution.md) | Available | Roadmap, OKR, and V2MOM export |
-| [Dashforge](dashforge.md) | Planned | Dashboard generation and embedding |
+| [UIForge](uiforge.md) | Planned | Dashboard generation and embedding |
 | [Marp](marp.md) | Planned | Presentation generation |
 | [Excel](excel.md) | Planned | XLSX export for stakeholders |
 
@@ -15,20 +15,20 @@ PRISM Intelligence integrates with various tools and platforms for reporting, vi
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                 PRISM Intelligence Document                  │
+│                 PRISM Intelligence Document                 │
 │                       (prism.json)                          │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 PRISM Intelligence Library                   │
+│                 PRISM Intelligence Library                  │
 │          (github.com/grokify/prism-intelligence)            │
 └─────────────────────────────────────────────────────────────┘
                               │
      ┌────────────┬───────────┼───────────┬────────────┐
      ▼            ▼           ▼           ▼            ▼
 ┌──────────┐┌──────────┐┌──────────┐┌──────────┐┌──────────┐
-│  PRISM   ││ Dashforge││   Marp   ││   Excel  ││   CLI    │
+│  PRISM   ││ UIForge  ││   Marp   ││   Excel  ││   CLI    │
 │Execution ││Dashboard ││  Slides  ││   XLSX   ││ Reports  │
 └──────────┘└──────────┘└──────────┘└──────────┘└──────────┘
      │            │           │           │            │
@@ -67,7 +67,7 @@ Generate framework-specific reports:
 
 ## Planned Features
 
-### Dashforge Integration
+### UIForge Integration
 
 - Standalone PRISM dashboard pages
 - Embedded dashboard widgets
@@ -100,7 +100,7 @@ Future integrations will be configured in the PRISM document:
   },
   "metrics": [...],
   "integrations": {
-    "dashforge": {
+    "uiforge": {
       "enabled": true,
       "theme": "corporate",
       "refreshInterval": "1h"

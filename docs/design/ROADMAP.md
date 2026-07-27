@@ -96,7 +96,7 @@ PRISM uses a three-part document model:
 - Phase-based planning with quarters and swimlanes
 - Initiative tracking with deployment status
 - CLI commands: goal, phase, roadmap, slo-report, dashboard
-- Dashforge integration
+- UIForge integration
 
 ### v0.1.0 (March 2026)
 
@@ -145,7 +145,7 @@ PRISM uses a three-part document model:
 
 ### Dependencies
 
-- [ ] Publish echartify, dashforge, omniframe packages
+- [ ] Publish echartify, uiforge, omniframe packages
 - [ ] Remove local replace directives from go.mod
 
 ## Related Projects

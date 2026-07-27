@@ -74,7 +74,7 @@ The SLI state tracks priority and rationale:
 
 ## Enterprise Features
 
-- **Dashforge Integration** - Embed PRISM dashboards in dashforge sites or standalone pages
+- **UIForge Integration** - Embed PRISM dashboards in UIForge sites or standalone pages
 - **Marp Presentations** - Generate executive presentations from PRISM documents
 - **Excel Export** - Export metrics and scores to XLSX for stakeholder reporting
 

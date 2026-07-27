@@ -458,7 +458,7 @@ See `examples/goal-roadmap.json` for a complete example.
 
 ## Out of Scope (Future)
 
-- Visual roadmap rendering (defer to dashforge)
+- Visual roadmap rendering (defer to uiforge)
 - Dependency tracking between initiatives
 - Resource/capacity planning
 - Automated SLO target suggestions

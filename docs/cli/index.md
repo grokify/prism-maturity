@@ -33,7 +33,7 @@ go install github.com/grokify/prism/cmd/prism@latest
 | Command | Description |
 |---------|-------------|
 | [`prism slo-report`](slo-report.md) | Generate SLO compliance reports |
-| `prism dashforge` | Convert to dashforge format |
+| `prism uiforge` | Convert to uiforge format |
 
 ### Maturity Commands (v0.6.0)
 
