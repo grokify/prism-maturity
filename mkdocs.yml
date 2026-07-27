@@ -108,7 +108,7 @@ nav:
   - Integrations:
       - Overview: integrations/index.md
       - PRISM Roadmap: integrations/prism-roadmap.md
-      - Dashforge: integrations/dashforge.md
+      - UIForge: integrations/uiforge.md
       - Marp Presentations: integrations/marp.md
       - Excel Export: integrations/excel.md
   - Developer:
@@ -132,6 +132,7 @@ nav:
       - Types: api/types.md
   - Releases:
       - Changelog: releases/changelog.md
+      - v0.13.0: releases/v0.13.0.md
       - v0.12.0: releases/v0.12.0.md
       - v0.11.0: releases/v0.11.0.md
       - v0.10.0: releases/v0.10.0.md

@@ -68,6 +68,9 @@ For standalone metrics (not maturity model), SLIs can be embedded:
 | `name` | string | No | SLI name |
 | `description` | string | No | SLI description |
 | `formula` | string | No | Calculation formula |
+| `sliType` | string | No | Observability type (availability, latency, error_rate, etc.) |
+| `scaleAspect` | string | No | SCALE aspect (v0.13.0+): `standards`, `consumption`, `automation`, `leverage`, `effectiveness` |
+| `scaleConsumptionKind` | string | No | For `consumption` aspect only (v0.13.0+): `adoption` or `conformance` |
 
 ### Example (Embedded SLI)
 
@@ -79,6 +82,38 @@ For standalone metrics (not maturity model), SLIs can be embedded:
     "formula": "successful_requests / total_requests * 100"
   }
 }
+```
+
+### SCALE Aspect Tagging (v0.13.0+)
+
+SLIs can be tagged with a **SCALE** aspect to classify how the metric relates to AI/tooling adoption across an organization: **S**tandards, **C**onsumption, **A**utomation, **L**everage, **E**ffectiveness. This is a lightweight classification field, independent of `frameworkMappings` (see [Framework Mappings](../concepts/frameworks.md)).
+
+For the `consumption` aspect, `scaleConsumptionKind` further distinguishes whether the SLI measures **adoption** (are people using the tool) or **conformance** (are they using it as intended).
+
+```json
+{
+  "sli": {
+    "name": "AI Code Review Adoption",
+    "description": "Percentage of PRs reviewed with AI assistance",
+    "formula": "ai_reviewed_prs / total_prs * 100",
+    "scaleAspect": "consumption",
+    "scaleConsumptionKind": "adoption"
+  }
+}
+```
+
+**Helper methods:**
+
+```go
+sli := prism.SLI{
+    SCALEAspect:          "consumption",
+    SCALEConsumptionKind: "adoption",
+}
+
+sli.HasSCALEAspect()     // true
+sli.IsSCALEConsumption() // true
+sli.IsSCALEAdoption()    // true
+sli.IsSCALEConformance() // false
 ```
 
 ## SLO (Service Level Objective)

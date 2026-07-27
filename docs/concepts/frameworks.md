@@ -48,6 +48,9 @@ PRISM metrics and SLOs can be mapped to industry frameworks to provide context a
 | AI-DORA | `AI_DORA` | AI-Modified DORA metrics for AI-assisted development |
 | AI-SPACE | `AI_SPACE` | AI-Modified SPACE framework for AI-enhanced productivity |
 
+!!! note "SCALE Aspect Tagging (v0.13.0+)"
+    SLIs can also be tagged with a `scaleAspect` (Standards, Consumption, Automation, Leverage, Effectiveness) to classify AI/tooling adoption metrics. Unlike the frameworks above, this is a direct field on the SLI rather than a `frameworkMappings` entry. See [SLIs & SLOs](../schema/slos.md#scale-aspect-tagging-v0130).
+
 ## Framework Mapping Structure
 
 Metrics and SLOs can have multiple framework mappings:
