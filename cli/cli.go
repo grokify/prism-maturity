@@ -44,4 +44,7 @@ func init() {
 
 	// Capability stack with maturity overlay
 	RootCmd.AddCommand(capstackCmd)
+
+	// Category commands
+	RootCmd.AddCommand(categoryCmd)
 }
