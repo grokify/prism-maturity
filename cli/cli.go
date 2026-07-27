@@ -38,7 +38,7 @@ func init() {
 
 	// Export and reporting commands
 	RootCmd.AddCommand(exportCmd)
-	RootCmd.AddCommand(dashforgeCmd)
+	RootCmd.AddCommand(uiforgeCmd)
 	RootCmd.AddCommand(maturityCmd)
 	RootCmd.AddCommand(sloReportCmd)
 

@@ -7,14 +7,14 @@ import (
 	"path/filepath"
 
 	"github.com/grokify/prism-maturity"
-	"github.com/grokify/prism-maturity/dashforge"
+	"github.com/grokify/prism-maturity/uiforge"
 	"github.com/spf13/cobra"
 )
 
-var dashforgeCmd = &cobra.Command{
-	Use:   "dashforge <file>",
-	Short: "Generate Dashforge dashboards from a PRISM document",
-	Long: `Generate a set of Dashforge dashboard JSON files from a PRISM document.
+var uiforgeCmd = &cobra.Command{
+	Use:   "uiforge <file>",
+	Short: "Generate UIForge dashboards from a PRISM document",
+	Long: `Generate a set of UIForge dashboard JSON files from a PRISM document.
 
 This creates a multi-page dashboard set for visualization:
   - executive.json   - Executive summary with key metrics
@@ -25,28 +25,28 @@ This creates a multi-page dashboard set for visualization:
   - goals/*.json     - Individual goal deep-dives
 
 Examples:
-  prism dashforge prism.json -o dashboards/
-  prism dashforge prism.json --base-id appsec -o dashboards/
-  prism dashforge prism.json --no-goals -o dashboards/`,
+  prism uiforge prism.json -o dashboards/
+  prism uiforge prism.json --base-id appsec -o dashboards/
+  prism uiforge prism.json --no-goals -o dashboards/`,
 	Args: cobra.ExactArgs(1),
-	RunE: runDashforge,
+	RunE: runUIForge,
 }
 
 var (
-	dashforgeOutput   string
-	dashforgeBaseID   string
-	dashforgeDataPath string
-	dashforgeNoGoals  bool
+	uiforgeOutput   string
+	uiforgeBaseID   string
+	uiforgeDataPath string
+	uiforgeNoGoals  bool
 )
 
 func init() {
-	dashforgeCmd.Flags().StringVarP(&dashforgeOutput, "output", "o", "./dashboards", "Output directory")
-	dashforgeCmd.Flags().StringVar(&dashforgeBaseID, "base-id", "prism", "Base ID for dashboard IDs")
-	dashforgeCmd.Flags().StringVar(&dashforgeDataPath, "data-path", "./data/prism.json", "Path to PRISM data file (for URL data source)")
-	dashforgeCmd.Flags().BoolVar(&dashforgeNoGoals, "no-goals", false, "Skip generating individual goal dashboards")
+	uiforgeCmd.Flags().StringVarP(&uiforgeOutput, "output", "o", "./dashboards", "Output directory")
+	uiforgeCmd.Flags().StringVar(&uiforgeBaseID, "base-id", "prism", "Base ID for dashboard IDs")
+	uiforgeCmd.Flags().StringVar(&uiforgeDataPath, "data-path", "./data/prism.json", "Path to PRISM data file (for URL data source)")
+	uiforgeCmd.Flags().BoolVar(&uiforgeNoGoals, "no-goals", false, "Skip generating individual goal dashboards")
 }
 
-func runDashforge(cmd *cobra.Command, args []string) error {
+func runUIForge(cmd *cobra.Command, args []string) error {
 	filename := args[0]
 
 	// Read and parse document
@@ -61,19 +61,19 @@ func runDashforge(cmd *cobra.Command, args []string) error {
 	}
 
 	// Configure conversion
-	opts := dashforge.DefaultConvertOptions()
-	opts.BaseID = dashforgeBaseID
-	opts.DataSourcePath = dashforgeDataPath
-	opts.GenerateGoalDashboards = !dashforgeNoGoals
+	opts := uiforge.DefaultConvertOptions()
+	opts.BaseID = uiforgeBaseID
+	opts.DataSourcePath = uiforgeDataPath
+	opts.GenerateGoalDashboards = !uiforgeNoGoals
 
 	// Convert to dashboards
-	set, err := dashforge.Convert(&doc, opts)
+	set, err := uiforge.Convert(&doc, opts)
 	if err != nil {
 		return fmt.Errorf("failed to convert: %w", err)
 	}
 
 	// Create output directory
-	if err := os.MkdirAll(dashforgeOutput, 0755); err != nil {
+	if err := os.MkdirAll(uiforgeOutput, 0755); err != nil {
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
@@ -87,15 +87,15 @@ func runDashforge(cmd *cobra.Command, args []string) error {
 	}
 
 	for name, dash := range dashboards {
-		if err := writeDashboard(filepath.Join(dashforgeOutput, name), dash); err != nil {
+		if err := writeDashboard(filepath.Join(uiforgeOutput, name), dash); err != nil {
 			return err
 		}
 		fmt.Printf("  ✓ %s\n", name)
 	}
 
 	// Write goal dashboards
-	if !dashforgeNoGoals && len(set.Goals) > 0 {
-		goalsDir := filepath.Join(dashforgeOutput, "goals")
+	if !uiforgeNoGoals && len(set.Goals) > 0 {
+		goalsDir := filepath.Join(uiforgeOutput, "goals")
 		if err := os.MkdirAll(goalsDir, 0755); err != nil {
 			return fmt.Errorf("failed to create goals directory: %w", err)
 		}
@@ -119,12 +119,12 @@ func runDashforge(cmd *cobra.Command, args []string) error {
 			{"id": set.Gaps.ID, "title": set.Gaps.Title, "file": "gaps.json"},
 		},
 	}
-	if err := writeDashboard(filepath.Join(dashforgeOutput, "index.json"), index); err != nil {
+	if err := writeDashboard(filepath.Join(uiforgeOutput, "index.json"), index); err != nil {
 		return err
 	}
 	fmt.Printf("  ✓ index.json\n")
 
-	fmt.Printf("\nDashboards written to %s/\n", dashforgeOutput)
+	fmt.Printf("\nDashboards written to %s/\n", uiforgeOutput)
 	return nil
 }
 
