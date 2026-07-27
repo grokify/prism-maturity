@@ -249,6 +249,10 @@
          <lastmod>2026-07-27</lastmod>
     </url>
     <url>
+         <loc>https://grokify.github.io/prism-maturity/integrations/mcp/</loc>
+         <lastmod>2026-07-27</lastmod>
+    </url>
+    <url>
          <loc>https://grokify.github.io/prism-maturity/integrations/prism-execution/</loc>
          <lastmod>2026-07-27</lastmod>
     </url>
@@ -309,6 +313,10 @@
          <lastmod>2026-07-27</lastmod>
     </url>
     <url>
+         <loc>https://grokify.github.io/prism-maturity/releases/v0.14.0/</loc>
+         <lastmod>2026-07-27</lastmod>
+    </url>
+    <url>
          <loc>https://grokify.github.io/prism-maturity/releases/v0.2.0/</loc>
          <lastmod>2026-07-27</lastmod>
     </url>
@@ -350,6 +358,10 @@
     </url>
     <url>
          <loc>https://grokify.github.io/prism-maturity/schema/domains/</loc>
+         <lastmod>2026-07-27</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/prism-maturity/schema/goal-categories/</loc>
          <lastmod>2026-07-27</lastmod>
     </url>
     <url>

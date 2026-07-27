@@ -926,6 +926,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -949,10 +960,43 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#validate-with-json-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate with JSON Schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-a-maturity-state-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate a Maturity State File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#validation-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
         Validation Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-schema-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Schema Errors
       
     </span>
   </a>
@@ -1698,6 +1742,34 @@
     
   
     Categories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/goal-categories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Goal Categories
   
 
     
@@ -2601,6 +2673,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../integrations/mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../integrations/marp/" class="md-nav__link">
         
   
@@ -3479,6 +3579,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.14.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.14.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.13.0/" class="md-nav__link">
         
   
@@ -3903,6 +4031,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3926,10 +4065,43 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#validate-with-json-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate with JSON Schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-a-maturity-state-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate a Maturity State File
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#validation-errors" class="md-nav__link">
     <span class="md-ellipsis">
       
         Validation Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-schema-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Schema Errors
       
     </span>
   </a>
@@ -4026,6 +4198,8 @@
 <p>Validate a PRISM document for structural and semantic correctness.</p>
 <h2 id="synopsis">Synopsis</h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>prism<span class="w"> </span>validate<span class="w"> </span>&lt;file&gt;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>&lt;file&gt;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>--type<span class="w"> </span>&lt;schema-type&gt;<span class="w"> </span>&lt;file&gt;
 </code></pre></div>
 <h2 id="description">Description</h2>
 <p>Validates a PRISM document by checking:</p>
@@ -4037,6 +4211,7 @@
 <li>Threshold consistency</li>
 <li>Maturity level ranges (1-5)</li>
 </ul>
+<p>With <code>--schema</code>, also validates the document against the JSON Schema.</p>
 <h2 id="arguments">Arguments</h2>
 <table>
 <thead>
@@ -4052,6 +4227,28 @@
 </tr>
 </tbody>
 </table>
+<h2 id="flags">Flags</h2>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--schema</code></td>
+<td><code>false</code></td>
+<td>Also validate against JSON Schema</td>
+</tr>
+<tr>
+<td><code>--type</code></td>
+<td><code>maturity-plan</code></td>
+<td>Schema type: <code>maturity-plan</code>, <code>maturity-state</code>, <code>maturity-model</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="examples">Examples</h2>
 <h3 id="validate-a-document">Validate a Document</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>prism<span class="w"> </span>validate<span class="w"> </span>prism.json
@@ -4059,11 +4256,27 @@
 <p>Success output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>✓ prism.json is valid
 </code></pre></div>
+<h3 id="validate-with-json-schema">Validate with JSON Schema</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>prism.json
+</code></pre></div>
+<p>Success output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>✓ JSON Schema validation passed (maturity-plan)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>✓ prism.json is valid
+</code></pre></div>
+<h3 id="validate-a-maturity-state-file">Validate a Maturity State File</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>--type<span class="w"> </span>maturity-state<span class="w"> </span>state.json
+</code></pre></div>
 <h3 id="validation-errors">Validation Errors</h3>
 <p>If the document has errors:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>✗ prism.json has 2 validation errors:
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  - metrics[0].domain: invalid domain &quot;sec&quot; (valid: security, operations)
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  - metrics[2].stage: invalid stage &quot;deployment&quot; (valid: design, build, test, runtime, response)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>✗ prism.json has 2 validation errors:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  - metrics[0].domain: invalid domain &quot;sec&quot; (valid: security, operations)
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  - metrics[2].stage: invalid stage &quot;deployment&quot; (valid: design, build, test, runtime, response)
+</code></pre></div>
+<h3 id="json-schema-errors">JSON Schema Errors</h3>
+<p>If JSON Schema validation fails:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>JSON Schema validation errors:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  - /metrics/0/domain: value must be one of: security, operations, quality
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  - /metadata/version: missing required property
 </code></pre></div>
 <h2 id="validation-rules">Validation Rules</h2>
 <h3 id="required-fields">Required Fields</h3>

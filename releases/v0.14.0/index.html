@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/prism-maturity/cli/init/">
+        <link rel="canonical" href="https://grokify.github.io/prism-maturity/releases/v0.14.0/">
       
       
-        <link rel="prev" href="../conventions/">
+        <link rel="prev" href="../changelog/">
       
       
-        <link rel="next" href="../validate/">
+        <link rel="next" href="../v0.13.0/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>prism init - PRISM Maturity</title>
+        <title>v0.14.0 - PRISM Maturity</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prism-init" class="md-skip">
+        <a href="#v0140-release-notes" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              prism init
+              v0.14.0
             
           </span>
         </div>
@@ -262,13 +262,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../cli/" class="md-tabs__link">
           
   
   
@@ -424,11 +422,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../releases/changelog/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../changelog/" class="md-tabs__link">
           
   
   
@@ -689,31 +689,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -731,7 +728,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -749,7 +746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -777,7 +774,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../conventions/" class="md-nav__link">
+      <a href="../../cli/conventions/" class="md-nav__link">
         
   
   
@@ -802,37 +799,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    prism init
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../cli/init/" class="md-nav__link">
         
   
   
@@ -848,142 +818,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#synopsis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synopsis
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Description
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flags
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#create-default-document" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Default Document
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#specify-output-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Specify Output Path
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-only-document" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Security-Only Document
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#operations-only-document" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Operations-Only Document
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#output-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Output Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -996,7 +830,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../validate/" class="md-nav__link">
+      <a href="../../cli/validate/" class="md-nav__link">
         
   
   
@@ -1024,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../score/" class="md-nav__link">
+      <a href="../../cli/score/" class="md-nav__link">
         
   
   
@@ -1052,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../catalog/" class="md-nav__link">
+      <a href="../../cli/catalog/" class="md-nav__link">
         
   
   
@@ -1080,7 +914,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../goal/" class="md-nav__link">
+      <a href="../../cli/goal/" class="md-nav__link">
         
   
   
@@ -1108,7 +942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../phase/" class="md-nav__link">
+      <a href="../../cli/phase/" class="md-nav__link">
         
   
   
@@ -1136,7 +970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../roadmap/" class="md-nav__link">
+      <a href="../../cli/roadmap/" class="md-nav__link">
         
   
   
@@ -1164,7 +998,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../initiative/" class="md-nav__link">
+      <a href="../../cli/initiative/" class="md-nav__link">
         
   
   
@@ -1192,7 +1026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../layer/" class="md-nav__link">
+      <a href="../../cli/layer/" class="md-nav__link">
         
   
   
@@ -1220,7 +1054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../team/" class="md-nav__link">
+      <a href="../../cli/team/" class="md-nav__link">
         
   
   
@@ -1248,7 +1082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../service/" class="md-nav__link">
+      <a href="../../cli/service/" class="md-nav__link">
         
   
   
@@ -1276,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../report/" class="md-nav__link">
+      <a href="../../cli/report/" class="md-nav__link">
         
   
   
@@ -1304,7 +1138,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slo-report/" class="md-nav__link">
+      <a href="../../cli/slo-report/" class="md-nav__link">
         
   
   
@@ -1332,7 +1166,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dashboard/" class="md-nav__link">
+      <a href="../../cli/dashboard/" class="md-nav__link">
         
   
   
@@ -1360,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../analyze/" class="md-nav__link">
+      <a href="../../cli/analyze/" class="md-nav__link">
         
   
   
@@ -1388,7 +1222,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../export/" class="md-nav__link">
+      <a href="../../cli/export/" class="md-nav__link">
         
   
   
@@ -1416,7 +1250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../maturity-report/" class="md-nav__link">
+      <a href="../../cli/maturity-report/" class="md-nav__link">
         
   
   
@@ -1444,7 +1278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../maturity-xlsx/" class="md-nav__link">
+      <a href="../../cli/maturity-xlsx/" class="md-nav__link">
         
   
   
@@ -1472,7 +1306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../site-generate/" class="md-nav__link">
+      <a href="../../cli/site-generate/" class="md-nav__link">
         
   
   
@@ -3433,28 +3267,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
-        
-          
-          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
             
   
   
@@ -3472,7 +3309,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3490,7 +3327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -3515,10 +3352,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../releases/v0.14.0/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.14.0
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3534,6 +3398,131 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Added">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Schema Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3546,7 +3535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.13.0/" class="md-nav__link">
+      <a href="../v0.13.0/" class="md-nav__link">
         
   
   
@@ -3574,7 +3563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.12.0/" class="md-nav__link">
+      <a href="../v0.12.0/" class="md-nav__link">
         
   
   
@@ -3602,7 +3591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.11.0/" class="md-nav__link">
+      <a href="../v0.11.0/" class="md-nav__link">
         
   
   
@@ -3630,7 +3619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.10.0/" class="md-nav__link">
+      <a href="../v0.10.0/" class="md-nav__link">
         
   
   
@@ -3658,7 +3647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.9.0/" class="md-nav__link">
+      <a href="../v0.9.0/" class="md-nav__link">
         
   
   
@@ -3686,7 +3675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.8.0/" class="md-nav__link">
+      <a href="../v0.8.0/" class="md-nav__link">
         
   
   
@@ -3714,7 +3703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.7.0/" class="md-nav__link">
+      <a href="../v0.7.0/" class="md-nav__link">
         
   
   
@@ -3742,7 +3731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.6.0/" class="md-nav__link">
+      <a href="../v0.6.0/" class="md-nav__link">
         
   
   
@@ -3770,7 +3759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.5.0/" class="md-nav__link">
+      <a href="../v0.5.0/" class="md-nav__link">
         
   
   
@@ -3798,7 +3787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.4.0/" class="md-nav__link">
+      <a href="../v0.4.0/" class="md-nav__link">
         
   
   
@@ -3826,7 +3815,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.3.0/" class="md-nav__link">
+      <a href="../v0.3.0/" class="md-nav__link">
         
   
   
@@ -3854,7 +3843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.2.0/" class="md-nav__link">
+      <a href="../v0.2.0/" class="md-nav__link">
         
   
   
@@ -3882,7 +3871,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../releases/v0.1.0/" class="md-nav__link">
+      <a href="../v0.1.0/" class="md-nav__link">
         
   
   
@@ -3937,10 +3926,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#synopsis" class="md-nav__link">
+  <a href="#highlights" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Synopsis
+        Highlights
       
     </span>
   </a>
@@ -3948,44 +3937,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
+  <a href="#added" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Description
+        Added
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flags
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="Added">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#create-default-document" class="md-nav__link">
+  <a href="#goal-categories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create Default Document
+        Goal Categories
       
     </span>
   </a>
@@ -3993,10 +3960,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#specify-output-path" class="md-nav__link">
+  <a href="#json-schema-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Specify Output Path
+        JSON Schema Validation
       
     </span>
   </a>
@@ -4004,21 +3971,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-only-document" class="md-nav__link">
+  <a href="#mcp-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security-Only Document
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#operations-only-document" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Operations-Only Document
+        MCP Server
       
     </span>
   </a>
@@ -4031,10 +3987,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#output-structure" class="md-nav__link">
+  <a href="#dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Output Structure
+        Dependencies
       
     </span>
   </a>
@@ -4042,10 +3998,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Links
       
     </span>
   </a>
@@ -4072,87 +4050,118 @@
   
 
 
-<h1 id="prism-init">prism init</h1>
-<p>Initialize a new PRISM document with scaffold structure.</p>
-<h2 id="synopsis">Synopsis</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>prism<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
-</code></pre></div>
-<h2 id="description">Description</h2>
-<p>Creates a new PRISM document with default structure including:</p>
+<h1 id="v0140-release-notes">v0.14.0 Release Notes</h1>
+<p><strong>Release Date:</strong> 2026-07-27</p>
+<h2 id="highlights">Highlights</h2>
 <ul>
-<li>Metadata section</li>
-<li>Sample metrics for selected domains</li>
-<li>Maturity model with level definitions</li>
-<li>Maturity cells for each domain/stage combination</li>
+<li><strong>Goal Categories</strong> - New <code>category</code> package for organizing goals by business domain with category-specific target types (RevenueTarget, AdoptionTarget)</li>
+<li><strong>JSON Schema Validation</strong> - Programmatic validation of PRISM documents against JSON Schema with <code>--schema</code> flag on validate command</li>
+<li><strong>MCP Server Integration</strong> - Model Context Protocol server for exposing maturity tools to AI assistants like Claude</li>
 </ul>
-<h2 id="flags">Flags</h2>
+<h2 id="added">Added</h2>
+<h3 id="goal-categories">Goal Categories</h3>
+<p>New <code>category</code> package for organizing goals by business domain:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/prism-maturity/category&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">// Revenue goal with ARR target</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">revenueTarget</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">category</span><span class="p">.</span><span class="nx">RevenueTarget</span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">TargetARR</span><span class="p">:</span><span class="w">     </span><span class="mi">10000000000</span><span class="p">,</span><span class="w"> </span><span class="c1">// $100M in cents</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">CurrentARR</span><span class="p">:</span><span class="w">    </span><span class="mi">80000000000</span><span class="p">,</span><span class="w"> </span><span class="c1">// $80M in cents</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nx">GrowthPercent</span><span class="p">:</span><span class="w"> </span><span class="mf">25.0</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nx">Currency</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;USD&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nx">progress</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">revenueTarget</span><span class="p">.</span><span class="nx">ProgressPercent</span><span class="p">()</span><span class="w"> </span><span class="c1">// 80.0</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">// Adoption goal with engagement metrics</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="nx">adoptionTarget</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">category</span><span class="p">.</span><span class="nx">AdoptionTarget</span><span class="p">{</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nx">TargetMAU</span><span class="p">:</span><span class="w">        </span><span class="mi">1000000</span><span class="p">,</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nx">CurrentMAU</span><span class="p">:</span><span class="w">       </span><span class="mi">750000</span><span class="p">,</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nx">TargetRetention</span><span class="p">:</span><span class="w">  </span><span class="mf">0.85</span><span class="p">,</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="nx">CurrentRetention</span><span class="p">:</span><span class="w"> </span><span class="mf">0.78</span><span class="p">,</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nx">TargetNPS</span><span class="p">:</span><span class="w">        </span><span class="mi">50</span><span class="p">,</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nx">CurrentNPS</span><span class="p">:</span><span class="w">       </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">}</span>
+</code></pre></div>
+<p>Available categories: <code>operations</code>, <code>revenue</code>, <code>adoption</code>, <code>growth</code>, <code>quality</code>, <code>security</code>, <code>compliance</code>.</p>
+<p>CLI commands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List all categories</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>prism<span class="w"> </span>category<span class="w"> </span>list
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Create revenue target</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>prism<span class="w"> </span>category<span class="w"> </span>target<span class="w"> </span>revenue<span class="w"> </span>--target-arr<span class="w"> </span><span class="m">10000000000</span><span class="w"> </span>--current-arr<span class="w"> </span><span class="m">8000000000</span><span class="w"> </span>--currency<span class="w"> </span>USD
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Create adoption target</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>prism<span class="w"> </span>category<span class="w"> </span>target<span class="w"> </span>adoption<span class="w"> </span>--target-mau<span class="w"> </span><span class="m">1000000</span><span class="w"> </span>--current-mau<span class="w"> </span><span class="m">750000</span><span class="w"> </span>--target-retention<span class="w"> </span><span class="m">85</span>
+</code></pre></div>
+<h3 id="json-schema-validation">JSON Schema Validation</h3>
+<p>Validate PRISM documents against embedded JSON Schema:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Validate with JSON Schema</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>prism.json
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Validate specific schema type</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>prism<span class="w"> </span>validate<span class="w"> </span>--schema<span class="w"> </span>--type<span class="w"> </span>maturity-state<span class="w"> </span>state.json
+</code></pre></div>
+<p>Schema types: <code>maturity-plan</code> (default), <code>maturity-state</code>, <code>maturity-model</code>.</p>
+<p>Programmatic usage:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/prism-maturity/schema&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nx">result</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">schema</span><span class="p">.</span><span class="nx">ValidateMaturityPlan</span><span class="p">(</span><span class="nx">jsonData</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">result</span><span class="p">.</span><span class="nx">Valid</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">Errors</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">Path</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">Message</span><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="mcp-server">MCP Server</h3>
+<p>Model Context Protocol server for AI assistant integration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/prism-maturity/mcp&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">server</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mcp</span><span class="p">.</span><span class="nx">NewServer</span><span class="p">().</span><span class="nx">WithDataDir</span><span class="p">(</span><span class="s">&quot;./data&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nx">server</span><span class="p">.</span><span class="nx">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</code></pre></div>
+<p>Available tools:</p>
+<ul>
+<li>Category tools: <code>category_list</code>, <code>category_validate</code>, <code>category_revenue_target</code>, <code>category_adoption_target</code></li>
+<li>Goal tools: <code>goal_list</code>, <code>goal_get</code>, <code>goal_create</code>, <code>goal_update</code></li>
+<li>Maturity tools: <code>maturity_score</code>, <code>maturity_gaps</code>, <code>maturity_roadmap</code></li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
 <table>
 <thead>
 <tr>
-<th>Flag</th>
-<th>Short</th>
-<th>Default</th>
-<th>Description</th>
+<th>Dependency</th>
+<th>Version</th>
+<th>Change</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--output</code></td>
-<td><code>-o</code></td>
-<td><code>prism.json</code></td>
-<td>Output file path</td>
+<td><code>github.com/modelcontextprotocol/go-sdk</code></td>
+<td>v1.6.1</td>
+<td>Added</td>
 </tr>
 <tr>
-<td><code>--domain</code></td>
-<td><code>-d</code></td>
-<td>(all)</td>
-<td>Domain filter: <code>security</code>, <code>operations</code>, or both</td>
+<td><code>github.com/santhosh-tekuri/jsonschema/v6</code></td>
+<td>v6.0.2</td>
+<td>Added</td>
 </tr>
 </tbody>
 </table>
-<h2 id="examples">Examples</h2>
-<h3 id="create-default-document">Create Default Document</h3>
-<p>Create a document with both security and operations domains:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>prism<span class="w"> </span>init
-</code></pre></div>
-<p>Output: <code>prism.json</code></p>
-<h3 id="specify-output-path">Specify Output Path</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>prism<span class="w"> </span>init<span class="w"> </span>-o<span class="w"> </span>my-metrics.json
-</code></pre></div>
-<h3 id="security-only-document">Security-Only Document</h3>
-<p>Create a document with only security domain metrics and maturity cells:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>prism<span class="w"> </span>init<span class="w"> </span>-d<span class="w"> </span>security<span class="w"> </span>-o<span class="w"> </span>security.json
-</code></pre></div>
-<h3 id="operations-only-document">Operations-Only Document</h3>
-<p>Create a document with only operations domain metrics and maturity cells:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>prism<span class="w"> </span>init<span class="w"> </span>-d<span class="w"> </span>operations<span class="w"> </span>-o<span class="w"> </span>ops.json
-</code></pre></div>
-<h2 id="output-structure">Output Structure</h2>
-<p>The generated document includes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;$schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/grokify/prism/schema/prism.schema.json&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PRISM Document&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c1">// Sample metrics for selected domains</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="p">],</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="nt">&quot;maturity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">      </span><span class="c1">// 5-level maturity definitions</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="p">],</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="nt">&quot;cells&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">      </span><span class="c1">// Maturity cells for selected domains × all stages</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="p">]</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">}</span>
-</code></pre></div>
-<h2 id="notes">Notes</h2>
+<h2 id="documentation">Documentation</h2>
 <ul>
-<li>If the output file already exists, it will be overwritten</li>
-<li>Use <code>prism validate</code> after editing to check for errors</li>
-<li>Maturity cells are filtered to only include selected domains</li>
+<li>Added <a href="../../schema/goal-categories/">Goal Categories</a> documentation</li>
+<li>Updated <a href="../../cli/validate/">prism validate</a> with <code>--schema</code> and <code>--type</code> flags</li>
+<li>Added <a href="../../integrations/mcp/">MCP Integration</a> guide</li>
+<li>Updated <a href="../../integrations/">Integrations Overview</a> with MCP</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/grokify/prism-maturity@v0.14.0
+</code></pre></div>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/grokify/prism-maturity">GitHub Repository</a></li>
+<li><a href="../../schema/goal-categories/">Goal Categories</a></li>
+<li><a href="../../integrations/mcp/">MCP Integration</a></li>
 </ul>
 
 
