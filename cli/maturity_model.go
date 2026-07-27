@@ -59,7 +59,7 @@ Aggregation methods (--aggregation):
   avg    Use the average value across SLIs/capabilities
 
 Output formats:
-  --format json    JSON data (Dashforge format)
+  --format json    JSON data (UIForge format)
   --format html    Standalone HTML dashboard (default)
 
 Examples:

@@ -11,7 +11,7 @@ import (
 	"github.com/grokify/prism-maturity/maturity"
 )
 
-// Dashboard represents a Dashforge-compatible dashboard.
+// Dashboard represents a UIForge-compatible dashboard.
 type Dashboard struct {
 	Schema      string       `json:"$schema,omitempty"`
 	ID          string       `json:"id"`
@@ -353,7 +353,7 @@ func (g *Generator) Generate() (*Dashboard, error) {
 	g.addSLITables()
 
 	return &Dashboard{
-		Schema:      "https://github.com/plexusone/dashforge/schema/dashboard.schema.json",
+		Schema:      "https://github.com/plexusone/uiforge/schema/dashboard.schema.json",
 		ID:          "prism-maturity-dashboard",
 		Title:       title,
 		Description: description,
