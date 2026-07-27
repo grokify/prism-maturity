@@ -1,3 +1,4 @@
+//nolint:dupl,gosec // test functions have similar structure by design; G306 ok for test fixtures
 package mcp
 
 import (
