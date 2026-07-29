@@ -9,7 +9,7 @@ require (
 	github.com/grokify/prism-core v0.4.0
 	github.com/grokify/prism-roadmap v0.16.1
 	github.com/grokify/structureddocs v0.1.0
-	github.com/modelcontextprotocol/go-sdk v1.6.1
+	github.com/modelcontextprotocol/go-sdk v1.7.0
 	github.com/plexusone/omniframe v0.1.1
 	github.com/plexusone/uiforge v0.4.0
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2
@@ -39,5 +39,7 @@ require (
 	golang.org/x/crypto v0.54.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
+	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/time v0.15.0 // indirect
 )
