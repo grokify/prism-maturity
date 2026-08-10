@@ -3,7 +3,7 @@ module github.com/grokify/prism-maturity
 go 1.26.5
 
 require (
-	github.com/grokify/echartify v0.2.1
+	github.com/grokify/echartify v0.2.3
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/prism-capability v0.7.1
 	github.com/grokify/prism-core v0.4.0
@@ -20,7 +20,7 @@ require (
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
-	github.com/buger/jsonparser v1.2.0 // indirect
+	github.com/buger/jsonparser v1.6.1 // indirect
 	github.com/google/jsonschema-go v0.4.3 // indirect
 	github.com/grokify/priority-frameworks v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
