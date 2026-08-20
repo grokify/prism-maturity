@@ -23,8 +23,8 @@ github.com/grokify/prism-capability v0.7.1 h1:FMp/RS/0b5g7gQ6ucfWndtzv5atOMaNLi/
 github.com/grokify/prism-capability v0.7.1/go.mod h1:RjTeckaYQln2yff8DH8UYGUgPKOujn1o3j33COlxRwo=
 github.com/grokify/prism-core v0.4.0 h1:aJy92m4ls41RqfRt/FETZyDNj6ECzPtTyh8nVEtRJYU=
 github.com/grokify/prism-core v0.4.0/go.mod h1:MGwhaaZdFW8WShYx3lqzGkcx8f07xFDbwd+u+4uBAT0=
-github.com/grokify/prism-roadmap v0.16.1 h1:rzisNa/DBlbICBpjCtyG0Zte04Ut9lDgSXpJM/Ak9fM=
-github.com/grokify/prism-roadmap v0.16.1/go.mod h1:jK86J9QiRZZaMfocnjge4c1si6U0YwDZVLVBLIM1MDA=
+github.com/grokify/prism-roadmap v0.18.0 h1:cAtiS26U8d6Xgs0OPmP8tkqzqstDALvjWefD2cFqgJ4=
+github.com/grokify/prism-roadmap v0.18.0/go.mod h1:B3XMoton1box8nhTk/i9TcG+tPouz2tbbUUi3I7mvzo=
 github.com/grokify/structureddocs v0.1.0 h1:ziCUm7OeJDwKoq8KrmIm44AFDJR7UtWhgHqVEyNiGRY=
 github.com/grokify/structureddocs v0.1.0/go.mod h1:DD6ooCUwmtyLzGs12TAhRmf/PjEDNapcKH8DAnJQvzQ=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
