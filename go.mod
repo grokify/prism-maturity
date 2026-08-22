@@ -7,7 +7,7 @@ require (
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/prism-capability v0.7.1
 	github.com/grokify/prism-core v0.4.0
-	github.com/grokify/prism-roadmap v0.16.1
+	github.com/grokify/prism-roadmap v0.18.0
 	github.com/grokify/structureddocs v0.1.0
 	github.com/modelcontextprotocol/go-sdk v1.7.0
 	github.com/plexusone/omniframe v0.1.1
