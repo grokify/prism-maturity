@@ -6,7 +6,7 @@ require (
 	github.com/grokify/echartify v0.2.3
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/prism-capability v0.7.1
-	github.com/grokify/prism-core v0.4.0
+	github.com/grokify/prism-core v0.5.0
 	github.com/grokify/prism-roadmap v0.18.0
 	github.com/grokify/structureddocs v0.1.0
 	github.com/modelcontextprotocol/go-sdk v1.7.0
@@ -26,7 +26,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/invopop/jsonschema v0.14.0 // indirect
 	github.com/pb33f/ordered-map/v2 v2.3.1 // indirect
-	github.com/richardlehane/mscfb v1.0.7 // indirect
+	github.com/richardlehane/mscfb v1.0.8 // indirect
 	github.com/richardlehane/msoleps v1.0.6 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
 	github.com/segmentio/encoding v0.5.4 // indirect
