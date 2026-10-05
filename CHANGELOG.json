@@ -7,6 +7,39 @@
   "maintainers": ["grokify"],
   "releases": [
     {
+      "version": "v0.15.0",
+      "date": "2026-10-05",
+      "highlights": [
+        {
+          "description": "dashboardir import and dashboard schema URL moved from plexusone/uiforge back to plexusone/dashforge, matching the module path's history (dashforge -> uiforge -> dashforge) and fixing an unresolvable dependency version on the Go proxy"
+        }
+      ],
+      "breaking": [
+        {
+          "description": "uiforge package's dashboardir import changed from github.com/plexusone/uiforge/dashboardir to github.com/plexusone/dashforge/dashboardir; any caller type-asserting on dashboardir.Dashboard or related types must update its import",
+          "commit": "1f8bf19"
+        }
+      ],
+      "dependencies": [
+        {
+          "description": "Replace github.com/plexusone/uiforge v0.5.0 with github.com/plexusone/dashforge v0.7.0 (uiforge v0.5.0 is unresolvable on the Go proxy; dashboardir never lived in the uiforge module path)",
+          "commit": "1f8bf19"
+        },
+        {
+          "description": "Update github.com/grokify/prism-roadmap to v0.21.0",
+          "commit": "feb63f9"
+        },
+        {
+          "description": "Update golang.org/x/text to v0.42.0",
+          "commit": "79980bc"
+        },
+        {
+          "description": "Update github.com/modelcontextprotocol/go-sdk to v1.8.0",
+          "commit": "2e8ee94"
+        }
+      ]
+    },
+    {
       "version": "v0.14.0",
       "date": "2026-07-27",
       "highlights": [

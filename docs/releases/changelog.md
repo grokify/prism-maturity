@@ -4,6 +4,9 @@ For the complete changelog, see [CHANGELOG.md](https://github.com/grokify/prism-
 
 ## Recent Releases
 
+- [v0.15.0](./v0.15.0.md) - 2026-10-05 - dashboardir import moved from uiforge back to dashforge
+- [v0.14.0](./v0.14.0.md) - 2026-07-27 - Goal categories, JSON Schema validation, MCP server
+- [v0.13.0](./v0.13.0.md) - 2026-07-27 - uiforge rename, SCALE aspect tagging
 - [v0.12.0](./v0.12.0.md) - 2026-06-28 - Developer productivity frameworks (SPACE, AI-DORA, AI-SPACE)
 - [v0.11.0](./v0.11.0.md) - 2026-06-07 - Lit HTML rendering with maturity overlay
 - [v0.10.0](./v0.10.0.md) - 2026-05-24 - Module renamed to prism-maturity, CLI extraction
