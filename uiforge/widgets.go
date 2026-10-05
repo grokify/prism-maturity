@@ -3,7 +3,7 @@ package uiforge
 import (
 	"encoding/json"
 
-	"github.com/plexusone/uiforge/dashboardir"
+	"github.com/plexusone/dashforge/dashboardir"
 )
 
 // createMetricWidget creates a single-value metric widget.

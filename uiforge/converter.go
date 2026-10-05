@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/grokify/prism-maturity"
-	"github.com/plexusone/uiforge/dashboardir"
+	"github.com/plexusone/dashforge/dashboardir"
 )
 
 // DashboardSet contains all generated dashboards for a PRISM document.
