@@ -13,8 +13,8 @@ github.com/google/jsonschema-go v0.4.3 h1:/DBOLZTfDow7pe2GmaJNhltueGTtDKICi8V8p+
 github.com/google/jsonschema-go v0.4.3/go.mod h1:r5quNTdLOYEz95Ru18zA0ydNbBuYoo9tgaYcxEYhJVE=
 github.com/grokify/echartify v0.2.3 h1:nblhA66Xp1oUkcqc3jJh/0UhfO06bC7tAa+C/Z8QCXU=
 github.com/grokify/echartify v0.2.3/go.mod h1:bK8sWEmikVe5crKyK2CAv0sAeyrnTLjjVPgmyEsUV9E=
-github.com/grokify/oscompat v0.5.0 h1:qGUym1Jt+yecBmBM7FnimvuUWLs8VVRCxotpHTzaWH0=
-github.com/grokify/oscompat v0.5.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=
+github.com/grokify/oscompat v0.7.0 h1:aD36tcBnPQRvxQGtuclr0qG87zv6yh5e2FSPETBO+2E=
+github.com/grokify/oscompat v0.7.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=
 github.com/grokify/priority-frameworks v0.4.0 h1:Wwl3uLRDjMF/EdoiIWklRQnI6q5ZTvYKXzdbSZ9jKUY=
 github.com/grokify/priority-frameworks v0.4.0/go.mod h1:41SQQzkkb94vCIMO9IYoCITowrNtTgMLwrJqq6Fe5DY=
 github.com/grokify/prism-capability v0.7.1 h1:FMp/RS/0b5g7gQ6ucfWndtzv5atOMaNLi/K/gwDL8FQ=
