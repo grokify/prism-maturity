@@ -8,7 +8,7 @@
   "releases": [
     {
       "version": "v0.15.0",
-      "date": "2026-10-05",
+      "date": "2026-11-01",
       "highlights": [
         {
           "description": "dashboardir import and dashboard schema URL moved from plexusone/uiforge back to plexusone/dashforge, matching the module path's history (dashforge -> uiforge -> dashforge) and fixing an unresolvable dependency version on the Go proxy"
