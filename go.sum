@@ -19,8 +19,8 @@ github.com/grokify/priority-frameworks v0.4.0 h1:Wwl3uLRDjMF/EdoiIWklRQnI6q5ZTvY
 github.com/grokify/priority-frameworks v0.4.0/go.mod h1:41SQQzkkb94vCIMO9IYoCITowrNtTgMLwrJqq6Fe5DY=
 github.com/grokify/prism-capability v0.7.1 h1:FMp/RS/0b5g7gQ6ucfWndtzv5atOMaNLi/K/gwDL8FQ=
 github.com/grokify/prism-capability v0.7.1/go.mod h1:RjTeckaYQln2yff8DH8UYGUgPKOujn1o3j33COlxRwo=
-github.com/grokify/prism-core v0.5.0 h1:pn+qSji72iJCUOuZISKGdxjxouGSEISuYCSo7MZ5SZw=
-github.com/grokify/prism-core v0.5.0/go.mod h1:MGwhaaZdFW8WShYx3lqzGkcx8f07xFDbwd+u+4uBAT0=
+github.com/grokify/prism-core v0.6.0 h1:ea6kVOQxYGzody0uU0vyjLxcSzCymGVrIyda/kVgtXo=
+github.com/grokify/prism-core v0.6.0/go.mod h1:MGwhaaZdFW8WShYx3lqzGkcx8f07xFDbwd+u+4uBAT0=
 github.com/grokify/prism-roadmap v0.21.0 h1:tFX5FCS1upjr79Zx3e25JkNLSOXWhjZ6Rn8KRFxll/I=
 github.com/grokify/prism-roadmap v0.21.0/go.mod h1:mqQUA8bz8QS7Q91NnJLpmBk6P2mzG0tuuAtHnPB2r0U=
 github.com/grokify/structureddocs v0.1.0 h1:ziCUm7OeJDwKoq8KrmIm44AFDJR7UtWhgHqVEyNiGRY=
