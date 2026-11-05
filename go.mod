@@ -6,8 +6,8 @@ require (
 	github.com/grokify/echartify v0.2.3
 	github.com/grokify/oscompat v0.13.0
 	github.com/grokify/prism-capability v0.7.1
-	github.com/grokify/prism-core v0.5.0
-	github.com/grokify/prism-roadmap v0.21.0
+	github.com/grokify/prism-core v0.6.0
+	github.com/grokify/prism-roadmap v0.22.0
 	github.com/grokify/structureddocs v0.1.0
 	github.com/modelcontextprotocol/go-sdk v1.8.0
 	github.com/plexusone/dashforge v0.7.0
